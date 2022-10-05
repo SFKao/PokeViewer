@@ -3,6 +3,7 @@ package com.sfkao.pokeviewer;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +41,11 @@ public class MainActivity extends AppCompatActivity {
     ImageView imagePokemon;
     EditText textoPokemon;
 
+    TextView textError;
+
     ImageView imageTipoIzquierda, imageTipoMedio, imageTipoDerecha;
+
+    HashMap<String, Drawable> diccionarioNombreAID = new HashMap<String, Drawable>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,29 @@ public class MainActivity extends AppCompatActivity {
         imageTipoIzquierda = (ImageView) findViewById(R.id.imageTypeLeft);
         imageTipoMedio = (ImageView) findViewById(R.id.imageTypeMiddle);
         imageTipoDerecha = (ImageView) findViewById(R.id.imageTypeRight);
+
+        textError = (TextView) findViewById(R.id.textError);
+
+
+        diccionarioNombreAID = new HashMap<>();
+        diccionarioNombreAID.put("normal",ResourcesCompat.getDrawable(getResources(),R.drawable.normal,null));
+        diccionarioNombreAID.put("bug",ResourcesCompat.getDrawable(getResources(),R.drawable.bug,null));
+        diccionarioNombreAID.put("dark",ResourcesCompat.getDrawable(getResources(),R.drawable.dark,null));
+        diccionarioNombreAID.put("dragon",ResourcesCompat.getDrawable(getResources(),R.drawable.dragon,null));
+        diccionarioNombreAID.put("electric",ResourcesCompat.getDrawable(getResources(),R.drawable.electric,null));
+        diccionarioNombreAID.put("fairy",ResourcesCompat.getDrawable(getResources(),R.drawable.fairy,null));
+        diccionarioNombreAID.put("fight",ResourcesCompat.getDrawable(getResources(),R.drawable.fight,null));
+        diccionarioNombreAID.put("fire",ResourcesCompat.getDrawable(getResources(),R.drawable.fire,null));
+        diccionarioNombreAID.put("flying",ResourcesCompat.getDrawable(getResources(),R.drawable.flying,null));
+        diccionarioNombreAID.put("ghost",ResourcesCompat.getDrawable(getResources(),R.drawable.ghost,null));
+        diccionarioNombreAID.put("grass",ResourcesCompat.getDrawable(getResources(),R.drawable.grass,null));
+        diccionarioNombreAID.put("ground",ResourcesCompat.getDrawable(getResources(),R.drawable.ground,null));
+        diccionarioNombreAID.put("ice",ResourcesCompat.getDrawable(getResources(),R.drawable.ice,null));
+        diccionarioNombreAID.put("poison",ResourcesCompat.getDrawable(getResources(),R.drawable.poison,null));
+        diccionarioNombreAID.put("psychic",ResourcesCompat.getDrawable(getResources(),R.drawable.psychic,null));
+        diccionarioNombreAID.put("rock",ResourcesCompat.getDrawable(getResources(),R.drawable.rock,null));
+        diccionarioNombreAID.put("steel",ResourcesCompat.getDrawable(getResources(),R.drawable.steel,null));
+        diccionarioNombreAID.put("water",ResourcesCompat.getDrawable(getResources(),R.drawable.water,null));
     }
 
     @Override
@@ -95,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         JsonObject jsonObject = new Gson().fromJson(response.toString(), JsonObject.class);
                         JsonObject sprites = new Gson().fromJson(jsonObject.get("sprites").toString(), JsonObject.class);
                         if (sprites.isJsonNull()) {
-                            textoPokemon.setText(R.string.pokemonNotFound);
+                            textError.setText(R.string.pokemonNotFound);
                             return;
                         }
                         Picasso.get().load(sprites.get("front_default").getAsString()).into(imagePokemon);
@@ -125,15 +154,24 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
-                        if(tipo1!=null){
-                            try {
-                                if(tipo1.getJSONObject("type").getString("name").equals("normal")){
-                                    imageTipoMedio.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.normal,null));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        try{
+                            if(tipo2==null){
+                                imageTipoMedio.setImageDrawable(diccionarioNombreAID.get(tipo1.getJSONObject("type").getString("name")));
+                                imageTipoMedio.setVisibility(View.VISIBLE);
+                                imageTipoIzquierda.setVisibility(View.INVISIBLE);
+                                imageTipoDerecha.setVisibility(View.INVISIBLE);
+                            }else{
+                                imageTipoIzquierda.setImageDrawable(diccionarioNombreAID.get(tipo1.getJSONObject("type").getString("name")));
+                                imageTipoDerecha.setImageDrawable(diccionarioNombreAID.get(tipo2.getJSONObject("type").getString("name")));
+                                imageTipoMedio.setVisibility(View.INVISIBLE);
+                                imageTipoIzquierda.setVisibility(View.VISIBLE);
+                                imageTipoDerecha.setVisibility(View.VISIBLE);
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
+
+                        textError.setText("");
 
 
                     }
@@ -141,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        textoPokemon.setText(getResources().getText(R.string.pokemonNotFound));
+                        textError.setText(getResources().getText(R.string.pokemonNotFound));
 
                     }
                 });
