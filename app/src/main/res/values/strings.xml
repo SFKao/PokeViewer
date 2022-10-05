@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PokeViewer</string>
+    <string name="search">Buscar</string>
+    <string name="pokemonOrNumber">Pokemon or number</string>
+    <string name="error">Error, pokemon no existe</string>
+    <string name="pokemonNotFound">Pokemon no encontrado</string>
+</resources>
