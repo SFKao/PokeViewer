@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         diccionarioNombreAID.put("dragon",ResourcesCompat.getDrawable(getResources(),R.drawable.dragon,null));
         diccionarioNombreAID.put("electric",ResourcesCompat.getDrawable(getResources(),R.drawable.electric,null));
         diccionarioNombreAID.put("fairy",ResourcesCompat.getDrawable(getResources(),R.drawable.fairy,null));
-        diccionarioNombreAID.put("fight",ResourcesCompat.getDrawable(getResources(),R.drawable.fight,null));
+        diccionarioNombreAID.put("fighting",ResourcesCompat.getDrawable(getResources(),R.drawable.fighting,null));
         diccionarioNombreAID.put("fire",ResourcesCompat.getDrawable(getResources(),R.drawable.fire,null));
         diccionarioNombreAID.put("flying",ResourcesCompat.getDrawable(getResources(),R.drawable.flying,null));
         diccionarioNombreAID.put("ghost",ResourcesCompat.getDrawable(getResources(),R.drawable.ghost,null));
@@ -106,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
     private void buscar(){
         String endpointBase = "https://pokeapi.co/api/v2/pokemon/";
         String charset = "UTF-8";
-        String entrada = String.valueOf(textoPokemon.getText());
+        String entrada = String.valueOf(textoPokemon.getText()).toLowerCase();
+
 
 
         String endpoint = endpointBase + entrada;
