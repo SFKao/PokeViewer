@@ -2,6 +2,7 @@ package com.sfkao.pokeviewer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -41,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     TextView textError;
 
     ImageView imageTipoIzquierda, imageTipoMedio, imageTipoDerecha;
-
     HashMap<String, Drawable> diccionarioNombreAID = new HashMap<String, Drawable>();
+
+    RecyclerView recyclerDebilidades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         imageTipoDerecha = (ImageView) findViewById(R.id.imageTypeRight);
 
         textError = (TextView) findViewById(R.id.textError);
+        recyclerDebilidades = (RecyclerView) findViewById(R.id.recyclerDebilidades);
 
 
         diccionarioNombreAID = new HashMap<>();
