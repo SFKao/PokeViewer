@@ -2,6 +2,7 @@ package com.sfkao.pokeviewer;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
@@ -31,6 +32,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
     TextView textError;
 
     ImageView imageTipoIzquierda, imageTipoMedio, imageTipoDerecha;
-    HashMap<String, Drawable> diccionarioNombreAID = new HashMap<String, Drawable>();
+
 
     RecyclerView recyclerDebilidades;
+    RecyclerView.Adapter recyclerDebilidadesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,28 +63,33 @@ public class MainActivity extends AppCompatActivity {
         imageTipoDerecha = (ImageView) findViewById(R.id.imageTypeRight);
 
         textError = (TextView) findViewById(R.id.textError);
+
+        Util.diccionarioNombreAID = new HashMap<>();
+        Util.diccionarioNombreAID.put("normal", ResourcesCompat.getDrawable(getResources(),R.drawable.normal,null));
+        Util.diccionarioNombreAID.put("bug",ResourcesCompat.getDrawable(getResources(),R.drawable.bug,null));
+        Util.diccionarioNombreAID.put("dark",ResourcesCompat.getDrawable(getResources(),R.drawable.dark,null));
+        Util.diccionarioNombreAID.put("dragon",ResourcesCompat.getDrawable(getResources(),R.drawable.dragon,null));
+        Util.diccionarioNombreAID.put("electric",ResourcesCompat.getDrawable(getResources(),R.drawable.electric,null));
+        Util.diccionarioNombreAID.put("fairy",ResourcesCompat.getDrawable(getResources(),R.drawable.fairy,null));
+        Util.diccionarioNombreAID.put("fighting",ResourcesCompat.getDrawable(getResources(),R.drawable.fighting,null));
+        Util.diccionarioNombreAID.put("fire",ResourcesCompat.getDrawable(getResources(),R.drawable.fire,null));
+        Util.diccionarioNombreAID.put("flying",ResourcesCompat.getDrawable(getResources(),R.drawable.flying,null));
+        Util.diccionarioNombreAID.put("ghost",ResourcesCompat.getDrawable(getResources(),R.drawable.ghost,null));
+        Util.diccionarioNombreAID.put("grass",ResourcesCompat.getDrawable(getResources(),R.drawable.grass,null));
+        Util.diccionarioNombreAID.put("ground",ResourcesCompat.getDrawable(getResources(),R.drawable.ground,null));
+        Util.diccionarioNombreAID.put("ice",ResourcesCompat.getDrawable(getResources(),R.drawable.ice,null));
+        Util.diccionarioNombreAID.put("poison",ResourcesCompat.getDrawable(getResources(),R.drawable.poison,null));
+        Util.diccionarioNombreAID.put("psychic",ResourcesCompat.getDrawable(getResources(),R.drawable.psychic,null));
+        Util.diccionarioNombreAID.put("rock",ResourcesCompat.getDrawable(getResources(),R.drawable.rock,null));
+        Util.diccionarioNombreAID.put("steel",ResourcesCompat.getDrawable(getResources(),R.drawable.steel,null));
+        Util.diccionarioNombreAID.put("water",ResourcesCompat.getDrawable(getResources(),R.drawable.water,null));
+
+
         recyclerDebilidades = (RecyclerView) findViewById(R.id.recyclerDebilidades);
-
-
-        diccionarioNombreAID = new HashMap<>();
-        diccionarioNombreAID.put("normal",ResourcesCompat.getDrawable(getResources(),R.drawable.normal,null));
-        diccionarioNombreAID.put("bug",ResourcesCompat.getDrawable(getResources(),R.drawable.bug,null));
-        diccionarioNombreAID.put("dark",ResourcesCompat.getDrawable(getResources(),R.drawable.dark,null));
-        diccionarioNombreAID.put("dragon",ResourcesCompat.getDrawable(getResources(),R.drawable.dragon,null));
-        diccionarioNombreAID.put("electric",ResourcesCompat.getDrawable(getResources(),R.drawable.electric,null));
-        diccionarioNombreAID.put("fairy",ResourcesCompat.getDrawable(getResources(),R.drawable.fairy,null));
-        diccionarioNombreAID.put("fighting",ResourcesCompat.getDrawable(getResources(),R.drawable.fighting,null));
-        diccionarioNombreAID.put("fire",ResourcesCompat.getDrawable(getResources(),R.drawable.fire,null));
-        diccionarioNombreAID.put("flying",ResourcesCompat.getDrawable(getResources(),R.drawable.flying,null));
-        diccionarioNombreAID.put("ghost",ResourcesCompat.getDrawable(getResources(),R.drawable.ghost,null));
-        diccionarioNombreAID.put("grass",ResourcesCompat.getDrawable(getResources(),R.drawable.grass,null));
-        diccionarioNombreAID.put("ground",ResourcesCompat.getDrawable(getResources(),R.drawable.ground,null));
-        diccionarioNombreAID.put("ice",ResourcesCompat.getDrawable(getResources(),R.drawable.ice,null));
-        diccionarioNombreAID.put("poison",ResourcesCompat.getDrawable(getResources(),R.drawable.poison,null));
-        diccionarioNombreAID.put("psychic",ResourcesCompat.getDrawable(getResources(),R.drawable.psychic,null));
-        diccionarioNombreAID.put("rock",ResourcesCompat.getDrawable(getResources(),R.drawable.rock,null));
-        diccionarioNombreAID.put("steel",ResourcesCompat.getDrawable(getResources(),R.drawable.steel,null));
-        diccionarioNombreAID.put("water",ResourcesCompat.getDrawable(getResources(),R.drawable.water,null));
+        recyclerDebilidadesAdapter = new WeaknessAdapter();
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerDebilidades.setLayoutManager(layoutManager);
+        recyclerDebilidades.setAdapter(recyclerDebilidadesAdapter);
     }
 
     @Override
@@ -157,13 +165,13 @@ public class MainActivity extends AppCompatActivity {
 
                         try{
                             if(tipo2==null){
-                                imageTipoMedio.setImageDrawable(diccionarioNombreAID.get(tipo1.getJSONObject("type").getString("name")));
+                                imageTipoMedio.setImageDrawable((Util.getType(tipo1.getJSONObject("type").getString("name"))));
                                 imageTipoMedio.setVisibility(View.VISIBLE);
                                 imageTipoIzquierda.setVisibility(View.INVISIBLE);
                                 imageTipoDerecha.setVisibility(View.INVISIBLE);
                             }else{
-                                imageTipoIzquierda.setImageDrawable(diccionarioNombreAID.get(tipo1.getJSONObject("type").getString("name")));
-                                imageTipoDerecha.setImageDrawable(diccionarioNombreAID.get(tipo2.getJSONObject("type").getString("name")));
+                                imageTipoIzquierda.setImageDrawable(Util.getType(tipo1.getJSONObject("type").getString("name")));
+                                imageTipoDerecha.setImageDrawable(Util.getType(tipo2.getJSONObject("type").getString("name")));
                                 imageTipoMedio.setVisibility(View.INVISIBLE);
                                 imageTipoIzquierda.setVisibility(View.VISIBLE);
                                 imageTipoDerecha.setVisibility(View.VISIBLE);
@@ -171,7 +179,12 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        ArrayList<String> weakness = new ArrayList<>();
+                        weakness.add("fighting");
+                        weakness.add("water");
 
+                        ((WeaknessAdapter)recyclerDebilidadesAdapter).setTipos(weakness);
+                        recyclerDebilidadesAdapter.notifyDataSetChanged();
                         textError.setText("");
 
 
