@@ -1,4 +1,4 @@
-package com.sfkao.pokeviewer;
+package com.sfkao.pokeviewer.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.sfkao.pokeviewer.R;
+import com.sfkao.pokeviewer.utils.Util;
 
 import java.util.ArrayList;
 

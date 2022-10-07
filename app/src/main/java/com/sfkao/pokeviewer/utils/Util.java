@@ -1,4 +1,4 @@
-package com.sfkao.pokeviewer;
+package com.sfkao.pokeviewer.utils;
 
 import android.app.Application;
 import android.content.Context;
@@ -9,7 +9,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import java.util.HashMap;
 
-public class Util extends Application {
+public class Util  {
 
 
     public static HashMap<String, Drawable> diccionarioNombreAID;
