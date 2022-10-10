@@ -141,15 +141,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ((WeaknessAdapter)recyclerDebilidadesAdapter).setTipos(new ArrayList<>(pokemon.getDebilidades()));
-        ((WeaknessAdapter)recyclerDebilidadesAdapter).getTipos().add("x4");
-        ((WeaknessAdapter)recyclerDebilidadesAdapter).getTipos().addAll(pokemon.getDobleDebilidades());
+        if(pokemon.getDobleDebilidades() != null) {
+            ((WeaknessAdapter) recyclerDebilidadesAdapter).getTipos().add("x4");
+            ((WeaknessAdapter) recyclerDebilidadesAdapter).getTipos().addAll(pokemon.getDobleDebilidades());
+        }
         recyclerDebilidadesAdapter.notifyDataSetChanged();
         ((WeaknessAdapter)recyclerInmunidadesAdapter).setTipos(new ArrayList<>(pokemon.getInmunidades()));
         recyclerInmunidadesAdapter.notifyDataSetChanged();
         ((WeaknessAdapter)recyclerResistenciasAdapter).setTipos(new ArrayList<>(pokemon.getResistencias()));
-        ((WeaknessAdapter)recyclerResistenciasAdapter).getTipos().add("x4");
-        ((WeaknessAdapter)recyclerResistenciasAdapter).getTipos().addAll(pokemon.getDobleResistencias());
+        if(pokemon.getDobleResistencias() != null) {
+            ((WeaknessAdapter) recyclerResistenciasAdapter).getTipos().add("x4");
+            ((WeaknessAdapter) recyclerResistenciasAdapter).getTipos().addAll(pokemon.getDobleResistencias());
+        }
         recyclerResistenciasAdapter.notifyDataSetChanged();
+
 
     }
 }
