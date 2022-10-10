@@ -5,4 +5,6 @@
     <string name="error">Error, pokemon no existe</string>
     <string name="pokemonNotFound">Pokemon no encontrado</string>
     <string name="weakness">Debilidades</string>
+    <string name="inmunities">Inmunidades</string>
+    <string name="resistances">Resistencias</string>
 </resources>

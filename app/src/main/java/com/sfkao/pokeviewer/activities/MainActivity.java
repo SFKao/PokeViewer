@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerDebilidades;
     RecyclerView.Adapter recyclerDebilidadesAdapter;
+    RecyclerView recyclerInmunidades;
+    RecyclerView.Adapter recyclerInmunidadesAdapter;
+    RecyclerView recyclerResistencias;
+    RecyclerView.Adapter recyclerResistenciasAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +80,26 @@ public class MainActivity extends AppCompatActivity {
         Util.diccionarioNombreAID.put("rock",ResourcesCompat.getDrawable(getResources(),R.drawable.rock,null));
         Util.diccionarioNombreAID.put("steel",ResourcesCompat.getDrawable(getResources(),R.drawable.steel,null));
         Util.diccionarioNombreAID.put("water",ResourcesCompat.getDrawable(getResources(),R.drawable.water,null));
+        Util.diccionarioNombreAID.put("x4",ResourcesCompat.getDrawable(getResources(),R.drawable.x4,null));
 
 
         recyclerDebilidades = (RecyclerView) findViewById(R.id.recyclerDebilidades);
         recyclerDebilidadesAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerDebilidades.setLayoutManager(layoutManager);
+        RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(this);
+        recyclerDebilidades.setLayoutManager(layoutManagerDebilidades);
         recyclerDebilidades.setAdapter(recyclerDebilidadesAdapter);
+
+        recyclerInmunidades = (RecyclerView) findViewById(R.id.recyclerInmunidades);
+        recyclerInmunidadesAdapter = new WeaknessAdapter();
+        RecyclerView.LayoutManager layoutManagerInmunidades = new LinearLayoutManager(this);
+        recyclerInmunidades.setLayoutManager(layoutManagerInmunidades);
+        recyclerInmunidades.setAdapter(recyclerInmunidadesAdapter);
+
+        recyclerResistencias = (RecyclerView) findViewById(R.id.recyclerResistencias);
+        recyclerResistenciasAdapter = new WeaknessAdapter();
+        RecyclerView.LayoutManager layoutManagerResistencias = new LinearLayoutManager(this);
+        recyclerResistencias.setLayoutManager(layoutManagerResistencias);
+        recyclerResistencias.setAdapter(recyclerResistenciasAdapter);
     }
 
     @Override
@@ -123,9 +141,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ((WeaknessAdapter)recyclerDebilidadesAdapter).setTipos(new ArrayList<>(pokemon.getDebilidades()));
+        ((WeaknessAdapter)recyclerDebilidadesAdapter).getTipos().add("x4");
+        ((WeaknessAdapter)recyclerDebilidadesAdapter).getTipos().addAll(pokemon.getDobleDebilidades());
         recyclerDebilidadesAdapter.notifyDataSetChanged();
-
-        System.out.println("##### " + pokemon);
+        ((WeaknessAdapter)recyclerInmunidadesAdapter).setTipos(new ArrayList<>(pokemon.getInmunidades()));
+        recyclerInmunidadesAdapter.notifyDataSetChanged();
+        ((WeaknessAdapter)recyclerResistenciasAdapter).setTipos(new ArrayList<>(pokemon.getResistencias()));
+        ((WeaknessAdapter)recyclerResistenciasAdapter).getTipos().add("x4");
+        ((WeaknessAdapter)recyclerResistenciasAdapter).getTipos().addAll(pokemon.getDobleResistencias());
+        recyclerResistenciasAdapter.notifyDataSetChanged();
 
     }
 }
