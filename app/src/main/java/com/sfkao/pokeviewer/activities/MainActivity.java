@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sfkao.pokeviewer.R;
+import com.sfkao.pokeviewer.adapters.SearchPokemonPagerAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.modelo.Pokemon;
 import com.sfkao.pokeviewer.utils.Util;
@@ -36,12 +38,16 @@ public class MainActivity extends AppCompatActivity {
 
     ApiConexion apiConexion;
 
-    RecyclerView recyclerDebilidades;
+    //RecyclerView recyclerDebilidades;
     RecyclerView.Adapter recyclerDebilidadesAdapter;
-    RecyclerView recyclerInmunidades;
+    //RecyclerView recyclerInmunidades;
     RecyclerView.Adapter recyclerInmunidadesAdapter;
-    RecyclerView recyclerResistencias;
+    //RecyclerView recyclerResistencias;
     RecyclerView.Adapter recyclerResistenciasAdapter;
+
+
+    ViewPager2 buscadorDatos;
+    SearchPokemonPagerAdapter buscadorDatosAdapter;
 
 
     @Override
@@ -82,7 +88,12 @@ public class MainActivity extends AppCompatActivity {
         Util.diccionarioNombreAID.put("water",ResourcesCompat.getDrawable(getResources(),R.drawable.water,null));
         Util.diccionarioNombreAID.put("x4",ResourcesCompat.getDrawable(getResources(),R.drawable.x4,null));
 
+        buscadorDatos = findViewById(R.id.datosPokemonPager);
+        buscadorDatosAdapter = new SearchPokemonPagerAdapter(this);
+        buscadorDatos.setAdapter(buscadorDatosAdapter);
 
+
+        /*
         recyclerDebilidades = (RecyclerView) findViewById(R.id.recyclerDebilidades);
         recyclerDebilidadesAdapter = new WeaknessAdapter();
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(this);
@@ -100,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManagerResistencias = new LinearLayoutManager(this);
         recyclerResistencias.setLayoutManager(layoutManagerResistencias);
         recyclerResistencias.setAdapter(recyclerResistenciasAdapter);
+        */
+
     }
 
     @Override
@@ -125,7 +138,32 @@ public class MainActivity extends AppCompatActivity {
         apiConexion.buscarPokemonYMostrar(String.valueOf(textoPokemon.getText()));
     }
 
+    public RecyclerView.Adapter getRecyclerDebilidadesAdapter() {
+        return recyclerDebilidadesAdapter;
+    }
+
+    public void setRecyclerDebilidadesAdapter(RecyclerView.Adapter recyclerDebilidadesAdapter) {
+        this.recyclerDebilidadesAdapter = recyclerDebilidadesAdapter;
+    }
+
+    public RecyclerView.Adapter getRecyclerInmunidadesAdapter() {
+        return recyclerInmunidadesAdapter;
+    }
+
+    public void setRecyclerInmunidadesAdapter(RecyclerView.Adapter recyclerInmunidadesAdapter) {
+        this.recyclerInmunidadesAdapter = recyclerInmunidadesAdapter;
+    }
+
+    public RecyclerView.Adapter getRecyclerResistenciasAdapter() {
+        return recyclerResistenciasAdapter;
+    }
+
+    public void setRecyclerResistenciasAdapter(RecyclerView.Adapter recyclerResistenciasAdapter) {
+        this.recyclerResistenciasAdapter = recyclerResistenciasAdapter;
+    }
+
     public void imprimirPokemon(Pokemon pokemon){
+
         Picasso.get().load(pokemon.getUrlFoto()).into(imagePokemon);
         if(pokemon.getTipo2()==null){
             imageTipoMedio.setImageDrawable(Util.getType(pokemon.getTipo1()));
@@ -139,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             imageTipoIzquierda.setVisibility(View.VISIBLE);
             imageTipoMedio.setVisibility(View.INVISIBLE);
         }
+
 
         ((WeaknessAdapter)recyclerDebilidadesAdapter).setTipos(new ArrayList<>(pokemon.getDebilidades()));
         if(pokemon.getDobleDebilidades() != null) {
@@ -157,4 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 }

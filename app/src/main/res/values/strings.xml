@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">PokeViewer</string>
     <string name="search">Buscar</string>
-    <string name="pokemonOrNumber">Pokemon or number</string>
+    <string name="pokemonOrNumber">Pokemon o numero</string>
     <string name="error">Error, pokemon no existe</string>
     <string name="pokemonNotFound">Pokemon no encontrado</string>
     <string name="weakness">Debilidades</string>
     <string name="inmunities">Inmunidades</string>
     <string name="resistances">Resistencias</string>
+    <string name="aboutme">Creado por SFKao</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
