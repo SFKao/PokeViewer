@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.adapters.SearchPokemonPagerAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPager2 buscadorDatos;
     SearchPokemonPagerAdapter buscadorDatosAdapter;
+    TabLayout tabBuscadorDatos;
 
     TextView habilidad1, habilidad2,habilidadOculta;
     TextView psText, ataqueText, defensaText, sAtaqueText, sDefensaText, velocidadText;
@@ -74,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         textError = (TextView) findViewById(R.id.textError);
 
+        tabBuscadorDatos = findViewById(R.id.tabMainActivity);
+
         Util.diccionarioNombreAID = new HashMap<>();
         Util.diccionarioNombreAID.put("normal", ResourcesCompat.getDrawable(getResources(),R.drawable.normal,null));
         Util.diccionarioNombreAID.put("bug",ResourcesCompat.getDrawable(getResources(),R.drawable.bug,null));
@@ -98,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         buscadorDatos = findViewById(R.id.datosPokemonPager);
         buscadorDatosAdapter = new SearchPokemonPagerAdapter(this);
         buscadorDatos.setAdapter(buscadorDatosAdapter);
+        new TabLayoutMediator(tabBuscadorDatos,buscadorDatos,true,true,(tab, position) -> tab.setText(null)).attach();
 
     }
 

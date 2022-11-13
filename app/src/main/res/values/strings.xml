@@ -18,4 +18,6 @@
     <string name="spAtk">Esp. Atk</string>
     <string name="espDef">Esp. Def</string>
     <string name="velocidad">Velocidad</string>
+    <string name="debilidades">Debilidades</string>
+    <string name="stats">Stats</string>
 </resources>

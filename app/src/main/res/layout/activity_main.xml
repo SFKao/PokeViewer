@@ -84,10 +84,23 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/datosPokemonPager"
         android:layout_width="407dp"
-        android:layout_height="322dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSearchPokemon" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabMainActivity"
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        android:background="@color/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/datosPokemonPager"
+        app:tabBackground="@drawable/main_activity_tab_selector"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
