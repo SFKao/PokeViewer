@@ -10,4 +10,12 @@
     <string name="aboutme">Creado por SFKao</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="habilidades">Habilidades</string>
+    <string name="oculta">Oculta</string>
+    <string name="ps">PS</string>
+    <string name="ataque">Ataque</string>
+    <string name="defence">Defensa</string>
+    <string name="spAtk">Esp. Atk</string>
+    <string name="espDef">Esp. Def</string>
+    <string name="velocidad">Velocidad</string>
 </resources>

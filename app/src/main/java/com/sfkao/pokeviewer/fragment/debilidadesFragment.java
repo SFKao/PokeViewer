@@ -35,8 +35,6 @@ public class debilidadesFragment extends Fragment {
     RecyclerView.Adapter recyclerResistenciasAdapter;
 
     private MainActivity context;
-    private Pokemon pokemon;
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -47,10 +45,6 @@ public class debilidadesFragment extends Fragment {
 
     public debilidadesFragment() {
 
-    }
-
-    public debilidadesFragment(Pokemon p){
-        pokemon = p;
     }
 
     /**
@@ -105,33 +99,4 @@ public class debilidadesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_debilidades, container, false);
     }
 
-    public Pokemon getPokemon() {
-        return pokemon;
-    }
-/*
-    public void setPokemon(Pokemon pokemon) {
-        this.pokemon = pokemon;
-        if(pokemon==null)
-            return;
-
-        recyclerDebilidades = (RecyclerView) this.context.findViewById(R.id.recyclerDebilidades);
-        recyclerDebilidadesAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(context);
-        recyclerDebilidades.setLayoutManager(layoutManagerDebilidades);
-        recyclerDebilidades.setAdapter(recyclerDebilidadesAdapter);
-
-        recyclerInmunidades = (RecyclerView) this.context.findViewById(R.id.recyclerInmunidades);
-        recyclerInmunidadesAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManagerInmunidades = new LinearLayoutManager(context);
-        recyclerInmunidades.setLayoutManager(layoutManagerInmunidades);
-        recyclerInmunidades.setAdapter(recyclerInmunidadesAdapter);
-
-        recyclerResistencias = (RecyclerView) this.context.findViewById(R.id.recyclerResistencias);
-        recyclerResistenciasAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManagerResistencias = new LinearLayoutManager(context);
-        recyclerResistencias.setLayoutManager(layoutManagerResistencias);
-        recyclerResistencias.setAdapter(recyclerResistenciasAdapter);
-    }
-
- */
 }

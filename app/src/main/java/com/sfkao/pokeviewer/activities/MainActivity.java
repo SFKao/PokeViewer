@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sfkao.pokeviewer.R;
@@ -48,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
     ViewPager2 buscadorDatos;
     SearchPokemonPagerAdapter buscadorDatosAdapter;
+
+    TextView habilidad1, habilidad2,habilidadOculta;
+    TextView psText, ataqueText, defensaText, sAtaqueText, sDefensaText, velocidadText;
+    ProgressBar psBar, ataqueBar, defensaBar, sAtaqueBar, sDefensaBar, velocidadBar;
+
+    Pokemon pokemonMostrado;
 
 
     @Override
@@ -92,27 +99,6 @@ public class MainActivity extends AppCompatActivity {
         buscadorDatosAdapter = new SearchPokemonPagerAdapter(this);
         buscadorDatos.setAdapter(buscadorDatosAdapter);
 
-
-        /*
-        recyclerDebilidades = (RecyclerView) findViewById(R.id.recyclerDebilidades);
-        recyclerDebilidadesAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(this);
-        recyclerDebilidades.setLayoutManager(layoutManagerDebilidades);
-        recyclerDebilidades.setAdapter(recyclerDebilidadesAdapter);
-
-        recyclerInmunidades = (RecyclerView) findViewById(R.id.recyclerInmunidades);
-        recyclerInmunidadesAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManagerInmunidades = new LinearLayoutManager(this);
-        recyclerInmunidades.setLayoutManager(layoutManagerInmunidades);
-        recyclerInmunidades.setAdapter(recyclerInmunidadesAdapter);
-
-        recyclerResistencias = (RecyclerView) findViewById(R.id.recyclerResistencias);
-        recyclerResistenciasAdapter = new WeaknessAdapter();
-        RecyclerView.LayoutManager layoutManagerResistencias = new LinearLayoutManager(this);
-        recyclerResistencias.setLayoutManager(layoutManagerResistencias);
-        recyclerResistencias.setAdapter(recyclerResistenciasAdapter);
-        */
-
     }
 
     @Override
@@ -138,31 +124,11 @@ public class MainActivity extends AppCompatActivity {
         apiConexion.buscarPokemonYMostrar(String.valueOf(textoPokemon.getText()));
     }
 
-    public RecyclerView.Adapter getRecyclerDebilidadesAdapter() {
-        return recyclerDebilidadesAdapter;
-    }
-
-    public void setRecyclerDebilidadesAdapter(RecyclerView.Adapter recyclerDebilidadesAdapter) {
-        this.recyclerDebilidadesAdapter = recyclerDebilidadesAdapter;
-    }
-
-    public RecyclerView.Adapter getRecyclerInmunidadesAdapter() {
-        return recyclerInmunidadesAdapter;
-    }
-
-    public void setRecyclerInmunidadesAdapter(RecyclerView.Adapter recyclerInmunidadesAdapter) {
-        this.recyclerInmunidadesAdapter = recyclerInmunidadesAdapter;
-    }
-
-    public RecyclerView.Adapter getRecyclerResistenciasAdapter() {
-        return recyclerResistenciasAdapter;
-    }
-
-    public void setRecyclerResistenciasAdapter(RecyclerView.Adapter recyclerResistenciasAdapter) {
-        this.recyclerResistenciasAdapter = recyclerResistenciasAdapter;
-    }
-
     public void imprimirPokemon(Pokemon pokemon){
+
+        //GuardarImagen en local y llamar a que se imprima al crear el fragment. Dividir esto en metodos
+
+        pokemonMostrado = pokemon;
 
         Picasso.get().load(pokemon.getUrlFoto()).into(imagePokemon);
         if(pokemon.getTipo2()==null){
@@ -194,8 +160,116 @@ public class MainActivity extends AppCompatActivity {
         }
         recyclerResistenciasAdapter.notifyDataSetChanged();
 
+        imprimirCaracteristicas(pokemon);
 
     }
 
+    public void imprimirCaracteristicas(Pokemon pokemon){
+        if(pokemon == null)
+            return;
+        if(psText==null)
+            return;
+        psText.setText(String.valueOf(pokemon.getPs()));
+        psBar.setProgress(pokemon.getPs());
+        ataqueText.setText(String.valueOf(pokemon.getAtk()));
+        ataqueBar.setProgress(pokemon.getAtk());
+        defensaText.setText(String.valueOf(pokemon.getDef()));
+        defensaBar.setProgress(pokemon.getDef());
+        sAtaqueText.setText(String.valueOf(pokemon.getsAtk()));
+        sAtaqueBar.setProgress(pokemon.getsAtk());
+        sDefensaText.setText(String.valueOf(pokemon.getsDef()));
+        sDefensaBar.setProgress(pokemon.getsDef());
+        velocidadText.setText(String.valueOf(pokemon.getSpe()));
+        velocidadBar.setProgress(pokemon.getSpe());
 
+        habilidad1.setText(pokemon.getHabilidad1());
+        if(pokemon.getHabilidad2()==null)
+            habilidad2.setText("");
+        else
+            habilidad2.setText(pokemon.getHabilidad2());
+        if(pokemon.getHabilidadOculta()==null)
+            habilidadOculta.setText("");
+        else
+            habilidadOculta.setText(pokemon.getHabilidadOculta());
+
+
+    }
+
+    public void cargadasCaracteristicas(){
+        if(pokemonMostrado != null)
+            imprimirCaracteristicas(pokemonMostrado);
+    }
+
+
+    public void setRecyclerDebilidadesAdapter(RecyclerView.Adapter recyclerDebilidadesAdapter) {
+        this.recyclerDebilidadesAdapter = recyclerDebilidadesAdapter;
+    }
+
+    public void setRecyclerInmunidadesAdapter(RecyclerView.Adapter recyclerInmunidadesAdapter) {
+        this.recyclerInmunidadesAdapter = recyclerInmunidadesAdapter;
+    }
+
+    public void setRecyclerResistenciasAdapter(RecyclerView.Adapter recyclerResistenciasAdapter) {
+        this.recyclerResistenciasAdapter = recyclerResistenciasAdapter;
+    }
+
+    public void setHabilidad1(TextView habilidad1) {
+        this.habilidad1 = habilidad1;
+    }
+
+    public void setHabilidad2(TextView habilidad2) {
+        this.habilidad2 = habilidad2;
+    }
+
+    public void setHabilidadOculta(TextView habilidadOculta) {
+        this.habilidadOculta = habilidadOculta;
+    }
+
+    public void setPsText(TextView psText) {
+        this.psText = psText;
+    }
+
+    public void setAtaqueText(TextView ataqueText) {
+        this.ataqueText = ataqueText;
+    }
+
+    public void setDefensaText(TextView defensaText) {
+        this.defensaText = defensaText;
+    }
+
+    public void setsAtaqueText(TextView sAtaqueText) {
+        this.sAtaqueText = sAtaqueText;
+    }
+
+    public void setsDefensaText(TextView sDefensaText) {
+        this.sDefensaText = sDefensaText;
+    }
+
+    public void setVelocidadText(TextView velocidadText) {
+        this.velocidadText = velocidadText;
+    }
+
+    public void setPsBar(ProgressBar psBar) {
+        this.psBar = psBar;
+    }
+
+    public void setAtaqueBar(ProgressBar ataqueBar) {
+        this.ataqueBar = ataqueBar;
+    }
+
+    public void setDefensaBar(ProgressBar defensaBar) {
+        this.defensaBar = defensaBar;
+    }
+
+    public void setsAtaqueBar(ProgressBar sAtaqueBar) {
+        this.sAtaqueBar = sAtaqueBar;
+    }
+
+    public void setsDefensaBar(ProgressBar sDefensaBar) {
+        this.sDefensaBar = sDefensaBar;
+    }
+
+    public void setVelocidadBar(ProgressBar velocidadBar) {
+        this.velocidadBar = velocidadBar;
+    }
 }

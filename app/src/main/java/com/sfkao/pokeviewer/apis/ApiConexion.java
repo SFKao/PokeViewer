@@ -9,6 +9,7 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.modelo.Pokemon;
@@ -45,7 +46,7 @@ public class ApiConexion {
                     @Override
                     public void onResponse(JSONObject response) {
                         JsonObject jsonObject = new Gson().fromJson(response.toString(), JsonObject.class);
-                        JsonObject sprites = new Gson().fromJson(jsonObject.get("sprites").toString(), JsonObject.class);
+                        JsonObject sprites = jsonObject.getAsJsonObject("sprites");
                         if (sprites.isJsonNull()) {
                             pokemon[0] = null;
                             return;
@@ -57,37 +58,41 @@ public class ApiConexion {
 
 
                         //JSONArray tipos = new Gson().fromJson(jsonObject.get("types").toString(),JSONArray.class);
-                        JSONArray tipos = null;
-                        try {
-                            tipos = new JSONArray(jsonObject.get("types").toString());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        JsonArray tipos = jsonObject.getAsJsonArray("types");
+
+                        JsonObject tipo1 = tipos.get(0).getAsJsonObject();
+
+                        JsonObject tipo2 = null;
+
+
+
+                        if(tipos.size()==2){
+                            tipo2 = tipos.get(1).getAsJsonObject();
                         }
 
-                        JSONObject tipo1 = null;
-                        JSONObject tipo2 = null;
 
-                        try {
-                            tipo1 = tipos.getJSONObject(0);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        pokemon[0].setTipo1(tipo1.getAsJsonObject("type").get("name").getAsString());
+                        if(tipo2!=null){
+                            pokemon[0].setTipo2(tipo2.getAsJsonObject("type").get("name").getAsString());
                         }
+                        JsonArray stats = jsonObject.getAsJsonArray("stats");
+                        pokemon[0].setPs((stats.get(0).getAsJsonObject().get("base_stat").getAsInt()));
+                        pokemon[0].setAtk((stats.get(1).getAsJsonObject().get("base_stat").getAsInt()));
+                        pokemon[0].setDef((stats.get(2).getAsJsonObject().get("base_stat").getAsInt()));
+                        pokemon[0].setsAtk((stats.get(3).getAsJsonObject().get("base_stat").getAsInt()));
+                        pokemon[0].setsDef((stats.get(4).getAsJsonObject().get("base_stat").getAsInt()));
+                        pokemon[0].setSpe((stats.get(5).getAsJsonObject().get("base_stat").getAsInt()));
 
-                        if(tipos.length()==2){
-                            try {
-                                tipo2 = tipos.getJSONObject(1);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        JsonArray habilidades = jsonObject.getAsJsonArray("abilities");
+                        for(int i = 0; i < habilidades.size(); i++){
+                            if(habilidades.get(i).getAsJsonObject().get("is_hidden").getAsBoolean())
+                                pokemon[0].setHabilidadOculta(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
+                            else{
+                                if(pokemon[0].getHabilidad1()==null)
+                                    pokemon[0].setHabilidad1(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
+                                else
+                                    pokemon[0].setHabilidad2(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
                             }
-                        }
-
-                        try{
-                            pokemon[0].setTipo1(tipo1.getJSONObject("type").getString("name"));
-                            if(tipo2!=null){
-                                pokemon[0].setTipo2(tipo2.getJSONObject("type").getString("name"));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
 
                         //mainActivity.imprimirPokemon(pokemon[0]);
@@ -224,6 +229,8 @@ public class ApiConexion {
                         p.setInmunidades(inmune);
                         p.setResistencias(halfed);
                         p.setDobleResistencias(dobleHalfed);
+
+
 
                         mainActivity.imprimirPokemon(p);
 

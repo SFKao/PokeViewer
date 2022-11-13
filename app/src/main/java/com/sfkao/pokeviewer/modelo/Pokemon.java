@@ -20,6 +20,9 @@ public class Pokemon {
     private HashSet<String> dobleResistencias;
     private HashSet<String> inmunidades;
 
+    private int ps, atk, def, sAtk, sDef, spe;
+    private String habilidad1, habilidad2, habilidadOculta;
+
     public Pokemon() {
         tipos = new String[2];
     }
@@ -122,6 +125,77 @@ public class Pokemon {
         return tipos[1];
     }
 
+    public int getPs() {
+        return ps;
+    }
+
+    public void setPs(int ps) {
+        this.ps = ps;
+    }
+
+    public int getAtk() {
+        return atk;
+    }
+
+    public void setAtk(int atk) {
+        this.atk = atk;
+    }
+
+    public int getDef() {
+        return def;
+    }
+
+    public void setDef(int def) {
+        this.def = def;
+    }
+
+    public int getsAtk() {
+        return sAtk;
+    }
+
+    public void setsAtk(int sAtk) {
+        this.sAtk = sAtk;
+    }
+
+    public int getsDef() {
+        return sDef;
+    }
+
+    public void setsDef(int sDef) {
+        this.sDef = sDef;
+    }
+
+    public int getSpe() {
+        return spe;
+    }
+
+    public void setSpe(int spe) {
+        this.spe = spe;
+    }
+
+    public String getHabilidad1() {
+        return habilidad1;
+    }
+
+    public void setHabilidad1(String habilidad1) {
+        this.habilidad1 = habilidad1;
+    }
+
+    public String getHabilidad2() {
+        return habilidad2;
+    }
+
+    public void setHabilidad2(String habilidad2) {
+        this.habilidad2 = habilidad2;
+    }
+
+    public String getHabilidadOculta() {
+        return habilidadOculta;
+    }
+
+    public void setHabilidadOculta(String habilidadOculta) {
+        this.habilidadOculta = habilidadOculta;
+    }
 
     @NonNull
     @Override

@@ -4,11 +4,324 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.statsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/habilidades"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/habilidad1"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/habilidad2"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/oculta"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="2"
+                android:gravity="center_horizontal"
+                android:textColor="@color/gray"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/habilidadOculta"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ps"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/psText"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <ProgressBar
+                android:id="@+id/psProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="7"
+                android:max="255"
+                android:progressDrawable="@drawable/stat_progress_bar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/ataque"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/attackText"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <ProgressBar
+                android:id="@+id/attackProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="7"
+                android:max="255"
+                android:progressDrawable="@drawable/stat_progress_bar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/defence"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/defenceText"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <ProgressBar
+                android:id="@+id/defenceProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="7"
+                android:max="255"
+                android:progressDrawable="@drawable/stat_progress_bar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/spAtk"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sAtkText"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <ProgressBar
+                android:id="@+id/sAtkProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="7"
+                android:max="255"
+                android:progressDrawable="@drawable/stat_progress_bar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/espDef"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/sDefText"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <ProgressBar
+                android:id="@+id/sDefProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="7"
+                android:max="255"
+                android:progressDrawable="@drawable/stat_progress_bar" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/velocidad"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/speText"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="@color/black"
+                />
+
+            <ProgressBar
+                android:id="@+id/speProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="7"
+                android:max="255"
+                android:progressDrawable="@drawable/stat_progress_bar" />
+
+        </LinearLayout>
+    </LinearLayout> <!-- Cerrar vertical-->
+
 
 </FrameLayout>
