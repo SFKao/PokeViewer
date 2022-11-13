@@ -13,9 +13,7 @@
     <color name="dark_gray">#FF333333</color>
     <color name="gray">#FF777777</color>
 
-    <color name="background">@color/white</color>
-    <color name="text">@color/black</color>
+    <color name="background">@color/dark_gray</color>
+    <color name="text">@color/white</color>
     <color name="textDisabled">@color/gray</color>
-
-
 </resources>

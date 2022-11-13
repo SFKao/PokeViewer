@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.statsFragment">
+    tools:context=".fragment.statsFragment"
+    android:background="@color/background"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +24,7 @@
                 android:textSize="16sp"
                 android:layout_weight="2"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -31,7 +33,7 @@
                 android:id="@+id/habilidad1"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"/>
+                android:textColor="@color/text"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -39,7 +41,7 @@
                 android:id="@+id/habilidad2"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"/>
+                android:textColor="@color/text"/>
 
         </LinearLayout>
 
@@ -56,7 +58,7 @@
                 android:textSize="16sp"
                 android:layout_weight="2"
                 android:gravity="center_horizontal"
-                android:textColor="@color/gray"
+                android:textColor="@color/textDisabled"
                 />
 
             <TextView
@@ -65,7 +67,7 @@
                 android:id="@+id/habilidadOculta"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <View
@@ -91,7 +93,7 @@
                 android:textSize="16sp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -102,7 +104,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <ProgressBar
@@ -131,7 +133,7 @@
                 android:textSize="16sp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -142,7 +144,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <ProgressBar
@@ -172,7 +174,7 @@
                 android:textSize="16sp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -183,7 +185,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <ProgressBar
@@ -213,7 +215,7 @@
                 android:textSize="16sp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -224,7 +226,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <ProgressBar
@@ -254,7 +256,7 @@
                 android:textSize="16sp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -265,7 +267,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <ProgressBar
@@ -295,7 +297,7 @@
                 android:textSize="16sp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <TextView
@@ -306,7 +308,7 @@
                 android:textSize="16sp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 />
 
             <ProgressBar
