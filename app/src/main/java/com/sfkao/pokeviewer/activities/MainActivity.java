@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ((WeaknessAdapter)recyclerDebilidadesAdapter).setTipos(new ArrayList<>(pokemon.getDebilidades()));
-        if(pokemon.getDobleDebilidades() != null) {
+        if(pokemon.getDobleDebilidades() != null && pokemon.getDobleDebilidades().size()!=0) {
             ((WeaknessAdapter) recyclerDebilidadesAdapter).getTipos().add("x4");
             ((WeaknessAdapter) recyclerDebilidadesAdapter).getTipos().addAll(pokemon.getDobleDebilidades());
         }
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         ((WeaknessAdapter)recyclerInmunidadesAdapter).setTipos(new ArrayList<>(pokemon.getInmunidades()));
         recyclerInmunidadesAdapter.notifyDataSetChanged();
         ((WeaknessAdapter)recyclerResistenciasAdapter).setTipos(new ArrayList<>(pokemon.getResistencias()));
-        if(pokemon.getDobleResistencias() != null) {
+        if(pokemon.getDobleResistencias() != null && pokemon.getDobleResistencias().size()!=0) {
             ((WeaknessAdapter) recyclerResistenciasAdapter).getTipos().add("x4");
             ((WeaknessAdapter) recyclerResistenciasAdapter).getTipos().addAll(pokemon.getDobleResistencias());
         }
