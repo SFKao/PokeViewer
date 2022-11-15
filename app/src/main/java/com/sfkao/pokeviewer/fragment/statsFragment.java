@@ -62,7 +62,7 @@ public class statsFragment extends Fragment {
         this.context.setsDefensaBar(this.context.findViewById(R.id.sDefProgress));
         this.context.setVelocidadText(this.context.findViewById(R.id.speText));
         this.context.setVelocidadBar(this.context.findViewById(R.id.speProgress));
-
+    //ACTION BAR
 
         this.context.cargadasCaracteristicas();
 

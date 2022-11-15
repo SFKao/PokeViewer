@@ -1,8 +1,12 @@
 package com.sfkao.pokeviewer.adapters;
 
+import android.app.Activity;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.sfkao.pokeviewer.fragment.debilidadesFragment;
@@ -16,6 +20,9 @@ public class SearchPokemonPagerAdapter extends FragmentStateAdapter {
         super(fragmentActivity);
     }
 
+    public SearchPokemonPagerAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
+    }
 
     @NonNull
     @Override
