@@ -24,16 +24,14 @@ public class ApiConexion {
 
     private MainActivity mainActivity;
 
-    public ApiConexion(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    private static final ApiConexion api = new ApiConexion();
+
+    public static ApiConexion getInstance(){
+        return api;
     }
 
-    public MainActivity getMainActivity() {
-        return mainActivity;
-    }
-
-    public void setMainActivity(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public static void setMainActivity(MainActivity a){
+        api.setMainActivity(a);
     }
 
     public void buscarPokemonYMostrar(String nombre){
@@ -94,8 +92,6 @@ public class ApiConexion {
                                     pokemon[0].setHabilidad2(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
                             }
                         }
-
-                        //mainActivity.imprimirPokemon(pokemon[0]);
                         buscarDebilidades(pokemon[0]);
 
                     }
@@ -112,6 +108,8 @@ public class ApiConexion {
         requestQueue.start();
 
         requestQueue.add(jsonObjectRequest);
+
+
     }
 
     public void buscarPokemonYMostrar(int id){
