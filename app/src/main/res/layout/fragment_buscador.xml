@@ -33,18 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagePokemon" />
 
-    <EditText
-        android:id="@+id/textfieldPokemonNameOrNumber"
-        android:layout_width="315dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="52dp"
-        android:capitalize="none"
-        android:ems="10"
-        android:hint="@string/pokemonOrNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagePokemon" />
 
     <ImageView
         android:id="@+id/imagePokemon"
@@ -102,5 +90,18 @@
         app:tabBackground="@drawable/main_activity_tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/textfieldPokemonNameOrNumber"
+        android:layout_width="315dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="52dp"
+        android:inputType="textCapSentences"
+        android:ems="10"
+        android:hint="@string/pokemonOrNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagePokemon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

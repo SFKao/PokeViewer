@@ -6,6 +6,7 @@ import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
 import com.sfkao.pokeviewer.modelo.pojo_tipos.Tipo;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -27,7 +28,7 @@ public class ApiConexion {
 
         ApiUtils service = retrofit.create(ApiUtils.class);
 
-        Call<Pokemon> callSync = service.getPokemon(nombre);
+        Call<Pokemon> callSync = service.getPokemon(nombre.toLowerCase(Locale.ROOT));
 
         try{
             retrofit2.Response<Pokemon> response = callSync.execute();

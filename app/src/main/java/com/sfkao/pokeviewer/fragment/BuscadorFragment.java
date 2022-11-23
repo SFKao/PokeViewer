@@ -8,8 +8,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class BuscadorFragment extends Fragment {
 
     Button botonBuscar;
     ImageView imagePokemon;
-    EditText textoPokemon;
+    AutoCompleteTextView textoPokemon;
 
     TextView textError;
 
@@ -140,7 +141,11 @@ public class BuscadorFragment extends Fragment {
 
         botonBuscar = (Button) requireView().findViewById(R.id.buttonSearchPokemon);
         imagePokemon = (ImageView) requireView().findViewById(R.id.imagePokemon);
-        textoPokemon = (EditText) requireView().findViewById(R.id.textfieldPokemonNameOrNumber);
+
+        textoPokemon = (AutoCompleteTextView) requireView().findViewById(R.id.textfieldPokemonNameOrNumber);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,Util.POKEMONS);
+        textoPokemon.setAdapter(adapter);
+
 
         imageTipoIzquierda = (ImageView) requireView().findViewById(R.id.imageTypeLeft);
         imageTipoMedio = (ImageView) requireView().findViewById(R.id.imageTypeMiddle);
