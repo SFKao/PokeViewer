@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.navigation.NavigationView;
+import com.sfkao.pokeviewer.fragment.MisEquipos;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
+
+    NavigationView barraLateral;
 
 
 
@@ -72,6 +76,23 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        barraLateral = findViewById(R.id.barra_lateral);
+        barraLateral.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.nav_buscador:
+                        changeFragment(new BuscadorFragment());
+                        break;
+                    case R.id.nav_mis_equipos:
+                        changeFragment(new MisEquipos());
+                        break;
+                }
+                drawerLayout.close();
+                return true;
+            }
+        });
+
     }
 
     @Override
@@ -98,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.fragment_container_main, f);
         ft.commit();
     }
+
+
 
 
 

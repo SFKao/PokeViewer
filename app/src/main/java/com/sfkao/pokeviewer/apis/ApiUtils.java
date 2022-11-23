@@ -9,9 +9,6 @@ import retrofit2.http.Path;
 
 public interface ApiUtils {
 
-    String endpointPokemon = "https://pokeapi.co/api/v2/pokemon/";
-    String endpointTipos = "https://pokeapi.co/api/v2/type/";
-
     String BASE_URL = "https://pokeapi.co/api/v2/";
 
     @GET("pokemon/{nombre}")

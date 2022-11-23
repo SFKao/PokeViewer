@@ -16,6 +16,6 @@
     <color name="background">@color/white</color>
     <color name="text">@color/black</color>
     <color name="textDisabled">@color/gray</color>
-
+    <color name="yellow">#FFEB3B</color>
 
 </resources>
