@@ -1,28 +1,17 @@
 package com.sfkao.pokeviewer.apis;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.sfkao.pokeviewer.activities.MainActivity;
-import com.sfkao.pokeviewer.modelo.Pokemon;
+import com.google.gson.GsonBuilder;
+import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
+import com.sfkao.pokeviewer.modelo.pojo_tipos.Tipo;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.IOException;
 
-import java.util.HashSet;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiConexion {
-
-    private MainActivity mainActivity;
 
     private static final ApiConexion api = new ApiConexion();
 
@@ -30,92 +19,47 @@ public class ApiConexion {
         return api;
     }
 
-    public static void setMainActivity(MainActivity a){
-        api.setMainActivity(a);
+    public Pokemon getPokemon(String nombre){
+
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiUtils.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+
+        ApiUtils service = retrofit.create(ApiUtils.class);
+
+        Call<Pokemon> callSync = service.getPokemon(nombre);
+
+        try{
+            retrofit2.Response<Pokemon> response = callSync.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public void buscarPokemonYMostrar(String nombre){
-        final Pokemon[] pokemon = {new Pokemon()};
+    public Tipo getTipo(String nombre){
 
-        String endpoint = ApiUtils.endpointPokemon + nombre;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, endpoint, null, new Response.Listener<JSONObject>() {
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiUtils.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
 
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JsonObject jsonObject = new Gson().fromJson(response.toString(), JsonObject.class);
-                        JsonObject sprites = jsonObject.getAsJsonObject("sprites");
-                        if (sprites.isJsonNull()) {
-                            pokemon[0] = null;
-                            return;
-                        }
+        ApiUtils service = retrofit.create(ApiUtils.class);
 
-                        pokemon[0].setUrlFoto(sprites.get("front_default").getAsString());
-                        pokemon[0].setId(jsonObject.get("id").getAsInt());
-                        pokemon[0].setNombre(jsonObject.get("name").getAsString());
+        Call<Tipo> callSync = service.getTipo(nombre);
 
-
-                        //JSONArray tipos = new Gson().fromJson(jsonObject.get("types").toString(),JSONArray.class);
-                        JsonArray tipos = jsonObject.getAsJsonArray("types");
-
-                        JsonObject tipo1 = tipos.get(0).getAsJsonObject();
-
-                        JsonObject tipo2 = null;
-
-
-
-                        if(tipos.size()==2){
-                            tipo2 = tipos.get(1).getAsJsonObject();
-                        }
-
-
-                        pokemon[0].setTipo1(tipo1.getAsJsonObject("type").get("name").getAsString());
-                        if(tipo2!=null){
-                            pokemon[0].setTipo2(tipo2.getAsJsonObject("type").get("name").getAsString());
-                        }
-                        JsonArray stats = jsonObject.getAsJsonArray("stats");
-                        pokemon[0].setPs((stats.get(0).getAsJsonObject().get("base_stat").getAsInt()));
-                        pokemon[0].setAtk((stats.get(1).getAsJsonObject().get("base_stat").getAsInt()));
-                        pokemon[0].setDef((stats.get(2).getAsJsonObject().get("base_stat").getAsInt()));
-                        pokemon[0].setsAtk((stats.get(3).getAsJsonObject().get("base_stat").getAsInt()));
-                        pokemon[0].setsDef((stats.get(4).getAsJsonObject().get("base_stat").getAsInt()));
-                        pokemon[0].setSpe((stats.get(5).getAsJsonObject().get("base_stat").getAsInt()));
-
-                        JsonArray habilidades = jsonObject.getAsJsonArray("abilities");
-                        for(int i = 0; i < habilidades.size(); i++){
-                            if(habilidades.get(i).getAsJsonObject().get("is_hidden").getAsBoolean())
-                                pokemon[0].setHabilidadOculta(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
-                            else{
-                                if(pokemon[0].getHabilidad1()==null)
-                                    pokemon[0].setHabilidad1(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
-                                else
-                                    pokemon[0].setHabilidad2(habilidades.get(i).getAsJsonObject().get("ability").getAsJsonObject().get("name").getAsString());
-                            }
-                        }
-                        buscarDebilidades(pokemon[0]);
-
-                    }
-
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                });
-
-        RequestQueue requestQueue = new RequestQueue(new DiskBasedCache(mainActivity.getCacheDir(),1024*1024*20),new BasicNetwork(new HurlStack()));
-
-        requestQueue.start();
-
-        requestQueue.add(jsonObjectRequest);
-
-
+        try{
+            retrofit2.Response<Tipo> response = callSync.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public void buscarPokemonYMostrar(int id){
-        buscarPokemonYMostrar(String.valueOf(id));
-    }
 
+
+    /*
     public void buscarDebilidades(Pokemon p){
 
         RequestQueue requestQueue = new RequestQueue(new DiskBasedCache(mainActivity.getCacheDir(),1024*1024*20),new BasicNetwork(new HurlStack()));
@@ -167,6 +111,8 @@ public class ApiConexion {
         requestQueue.add(jsonObjectRequest);
 
     }
+
+
 
     private void debilidadesSegundoTipo(Pokemon p){
         JsonObjectRequest jsonObjectRequest2 = null;
@@ -244,6 +190,9 @@ public class ApiConexion {
         requestQueue.add(jsonObjectRequest2);
 
     }
+
+
+     */
 
 
 }

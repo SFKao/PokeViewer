@@ -1,41 +1,25 @@
 package com.sfkao.pokeviewer.activities;
 
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.sfkao.pokeviewer.R;
-import com.sfkao.pokeviewer.adapters.SearchPokemonPagerAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
-import com.sfkao.pokeviewer.modelo.Pokemon;
+import com.sfkao.pokeviewer.fragment.BuscadorFragment;
 import com.sfkao.pokeviewer.utils.Util;
-import com.sfkao.pokeviewer.adapters.WeaknessAdapter;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-        apiConexion = new ApiConexion(this);
+        StrictMode.setThreadPolicy( new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -90,98 +72,33 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
-
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.mostrarDrawerBarButton) {
             return true;
-        } else if(actionBarDrawerToggle.onOptionsItemSelected(item))
+        } else if(actionBarDrawerToggle.onOptionsItemSelected(item)){
             return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
+        changeFragment(new BuscadorFragment());
+    }
 
+    private void changeFragment(Fragment f){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_container_main, f);
+        ft.commit();
     }
 
 
 
-
-    public void setRecyclerDebilidadesAdapter(RecyclerView.Adapter recyclerDebilidadesAdapter) {
-        this.recyclerDebilidadesAdapter = recyclerDebilidadesAdapter;
-    }
-
-    public void setRecyclerInmunidadesAdapter(RecyclerView.Adapter recyclerInmunidadesAdapter) {
-        this.recyclerInmunidadesAdapter = recyclerInmunidadesAdapter;
-    }
-
-    public void setRecyclerResistenciasAdapter(RecyclerView.Adapter recyclerResistenciasAdapter) {
-        this.recyclerResistenciasAdapter = recyclerResistenciasAdapter;
-    }
-
-    public void setHabilidad1(TextView habilidad1) {
-        this.habilidad1 = habilidad1;
-    }
-
-    public void setHabilidad2(TextView habilidad2) {
-        this.habilidad2 = habilidad2;
-    }
-
-    public void setHabilidadOculta(TextView habilidadOculta) {
-        this.habilidadOculta = habilidadOculta;
-    }
-
-    public void setPsText(TextView psText) {
-        this.psText = psText;
-    }
-
-    public void setAtaqueText(TextView ataqueText) {
-        this.ataqueText = ataqueText;
-    }
-
-    public void setDefensaText(TextView defensaText) {
-        this.defensaText = defensaText;
-    }
-
-    public void setsAtaqueText(TextView sAtaqueText) {
-        this.sAtaqueText = sAtaqueText;
-    }
-
-    public void setsDefensaText(TextView sDefensaText) {
-        this.sDefensaText = sDefensaText;
-    }
-
-    public void setVelocidadText(TextView velocidadText) {
-        this.velocidadText = velocidadText;
-    }
-
-    public void setPsBar(ProgressBar psBar) {
-        this.psBar = psBar;
-    }
-
-    public void setAtaqueBar(ProgressBar ataqueBar) {
-        this.ataqueBar = ataqueBar;
-    }
-
-    public void setDefensaBar(ProgressBar defensaBar) {
-        this.defensaBar = defensaBar;
-    }
-
-    public void setsAtaqueBar(ProgressBar sAtaqueBar) {
-        this.sAtaqueBar = sAtaqueBar;
-    }
-
-    public void setsDefensaBar(ProgressBar sDefensaBar) {
-        this.sDefensaBar = sDefensaBar;
-    }
-
-    public void setVelocidadBar(ProgressBar velocidadBar) {
-        this.velocidadBar = velocidadBar;
-    }
 }

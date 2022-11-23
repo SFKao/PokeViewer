@@ -1,10 +1,9 @@
 package com.sfkao.pokeviewer.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
-
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +13,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.SearchPokemonPagerAdapter;
-import com.sfkao.pokeviewer.adapters.WeaknessAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
-import com.sfkao.pokeviewer.modelo.Pokemon;
+import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
+import com.sfkao.pokeviewer.utils.PokemonSingleton;
 import com.sfkao.pokeviewer.utils.Util;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 
 public class BuscadorFragment extends Fragment {
@@ -44,7 +46,8 @@ public class BuscadorFragment extends Fragment {
     SearchPokemonPagerAdapter buscadorDatosAdapter;
     TabLayout tabBuscadorDatos;
 
-    Pokemon pokemonMostrado;
+
+
 
     public BuscadorFragment() {
         // Required empty public constructor
@@ -67,22 +70,6 @@ public class BuscadorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        botonBuscar = (Button) context.findViewById(R.id.buttonSearchPokemon);
-        imagePokemon = (ImageView) context.findViewById(R.id.imagePokemon);
-        textoPokemon = (EditText) context.findViewById(R.id.textfieldPokemonNameOrNumber);
-
-        imageTipoIzquierda = (ImageView) context.findViewById(R.id.imageTypeLeft);
-        imageTipoMedio = (ImageView) context.findViewById(R.id.imageTypeMiddle);
-        imageTipoDerecha = (ImageView) context.findViewById(R.id.imageTypeRight);
-
-        textError = (TextView) context.findViewById(R.id.textError);
-
-        tabBuscadorDatos = context.findViewById(R.id.tabMainActivity);
-
-        buscadorDatos = context.findViewById(R.id.datosPokemonPager);
-        buscadorDatosAdapter = new SearchPokemonPagerAdapter(context);
-        buscadorDatos.setAdapter(buscadorDatosAdapter);
-        new TabLayoutMediator(tabBuscadorDatos,buscadorDatos,true,true,(tab, position) -> tab.setText(null)).attach();
 
     }
 
@@ -90,6 +77,85 @@ public class BuscadorFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+
+        
+
+        return inflater.inflate(R.layout.fragment_buscador, container, false);
+    }
+
+
+    private void buscar(){
+        Pokemon pokemon2 = ApiConexion.getInstance().getPokemon(String.valueOf(textoPokemon.getText()));
+        if(pokemon2 == null) {
+            textError.setText(R.string.pokemonNotFound);
+            return;
+        }
+        imprimirPokemon(pokemon2);
+        textError.setText("");
+
+    }
+
+    public void imprimirPokemon(Pokemon pokemon){
+
+        Picasso.get().load(pokemon.getSprites().getFrontDefault()).into(imagePokemon);
+        if(pokemon.getTypes().size()!=2){
+            imageTipoMedio.setImageDrawable(Util.getType(pokemon.getTypes().get(0).getType().getName()));
+            imageTipoDerecha.setVisibility(View.INVISIBLE);
+            imageTipoIzquierda.setVisibility(View.INVISIBLE);
+            imageTipoMedio.setVisibility(View.VISIBLE);
+        }else{
+            imageTipoIzquierda.setImageDrawable(Util.getType(pokemon.getTypes().get(0).getType().getName()));
+            imageTipoDerecha.setImageDrawable(Util.getType(pokemon.getTypes().get(1).getType().getName()));
+            imageTipoDerecha.setVisibility(View.VISIBLE);
+            imageTipoIzquierda.setVisibility(View.VISIBLE);
+            imageTipoMedio.setVisibility(View.INVISIBLE);
+        }
+        PokemonSingleton.setPokemon(pokemon);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = (MainActivity) context;
+    }
+
+
+    @Override
+    public void onInflate(@NonNull Context context, @NonNull AttributeSet attrs, @Nullable Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        botonBuscar = (Button) requireView().findViewById(R.id.buttonSearchPokemon);
+        imagePokemon = (ImageView) requireView().findViewById(R.id.imagePokemon);
+        textoPokemon = (EditText) requireView().findViewById(R.id.textfieldPokemonNameOrNumber);
+
+        imageTipoIzquierda = (ImageView) requireView().findViewById(R.id.imageTypeLeft);
+        imageTipoMedio = (ImageView) requireView().findViewById(R.id.imageTypeMiddle);
+        imageTipoDerecha = (ImageView) requireView().findViewById(R.id.imageTypeRight);
+
+        textError = (TextView) requireView().findViewById(R.id.textError);
+
+        tabBuscadorDatos = requireView().findViewById(R.id.tabMainActivity);
+
+        buscadorDatos = requireView().findViewById(R.id.datosPokemonPager);
+        Log.println(Log.ERROR,"DEBUG",buscadorDatos.toString());
+        buscadorDatosAdapter = new SearchPokemonPagerAdapter(context);
+        buscadorDatos.setAdapter(buscadorDatosAdapter);
+        new TabLayoutMediator(tabBuscadorDatos,buscadorDatos,true,true,(tab, position) -> tab.setText(null)).attach();
+
         botonBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,41 +170,6 @@ public class BuscadorFragment extends Fragment {
                 return false;
             }
         });
+        
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_buscador, container, false);
-    }
-
-
-    private void buscar(){
-        ApiConexion.getInstance().buscarPokemonYMostrar(String.valueOf(textoPokemon.getText()));
-    }
-
-    public void imprimirPokemon(Pokemon pokemon){
-
-        //GuardarImagen en local y llamar a que se imprima al crear el fragment. Dividir esto en metodos
-
-        pokemonMostrado = pokemon;
-
-        Picasso.get().load(pokemon.getUrlFoto()).into(imagePokemon);
-        if(pokemon.getTipo2()==null){
-            imageTipoMedio.setImageDrawable(Util.getType(pokemon.getTipo1()));
-            imageTipoDerecha.setVisibility(View.INVISIBLE);
-            imageTipoIzquierda.setVisibility(View.INVISIBLE);
-            imageTipoMedio.setVisibility(View.VISIBLE);
-        }else{
-            imageTipoIzquierda.setImageDrawable(Util.getType(pokemon.getTipo1()));
-            imageTipoDerecha.setImageDrawable(Util.getType(pokemon.getTipo2()));
-            imageTipoDerecha.setVisibility(View.VISIBLE);
-            imageTipoIzquierda.setVisibility(View.VISIBLE);
-            imageTipoMedio.setVisibility(View.INVISIBLE);
-        }
-    }
-
-
-
 }

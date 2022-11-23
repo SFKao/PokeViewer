@@ -2,19 +2,21 @@ package com.sfkao.pokeviewer.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
-import com.sfkao.pokeviewer.modelo.Pokemon;
+import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
+import com.sfkao.pokeviewer.utils.PokemonSingleton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,8 +37,6 @@ public class StatsFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = (MainActivity) context;
-
-
     }
 
     @Override
@@ -54,50 +54,72 @@ public class StatsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        habilidad1 = this.context.findViewById(R.id.habilidad1);
-        habilidad2 = this.context.findViewById(R.id.habilidad2);
-        habilidadOculta = this.context.findViewById(R.id.habilidadOculta);
-        psText = this.context.findViewById(R.id.psText);
-        psBar = (this.context.findViewById(R.id.psProgress));
-        ataqueText = (this.context.findViewById(R.id.attackText));
-        ataqueBar = (this.context.findViewById(R.id.attackProgress));
-        defensaText = (this.context.findViewById(R.id.defenceText));
-        defensaBar = (this.context.findViewById(R.id.defenceProgress));
-        sAtaqueText = (this.context.findViewById(R.id.sAtkText));
-        sAtaqueBar = (this.context.findViewById(R.id.sAtkProgress));
-        sDefensaText = (this.context.findViewById(R.id.sDefText));
-        sDefensaBar = (this.context.findViewById(R.id.sDefProgress));
-        velocidadText = (this.context.findViewById(R.id.speText));
-        velocidadBar = (this.context.findViewById(R.id.speProgress));
+        
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        habilidad1 = requireView().findViewById(R.id.habilidad1);
+        habilidad2 = requireView().findViewById(R.id.habilidad2);
+        habilidadOculta = requireView().findViewById(R.id.habilidadOculta);
+        psText = requireView().findViewById(R.id.psText);
+        psBar = (requireView().findViewById(R.id.psProgress));
+        ataqueText = (requireView().findViewById(R.id.attackText));
+        ataqueBar = (requireView().findViewById(R.id.attackProgress));
+        defensaText = (requireView().findViewById(R.id.defenceText));
+        defensaBar = (requireView().findViewById(R.id.defenceProgress));
+        sAtaqueText = (requireView().findViewById(R.id.sAtkText));
+        sAtaqueBar = (requireView().findViewById(R.id.sAtkProgress));
+        sDefensaText = (requireView().findViewById(R.id.sDefText));
+        sDefensaBar = (requireView().findViewById(R.id.sDefProgress));
+        velocidadText = (requireView().findViewById(R.id.speText));
+        velocidadBar = (requireView().findViewById(R.id.speProgress));
+
+        PokemonSingleton.getPokemon2LiveData().observe(getViewLifecycleOwner(), new Observer<Pokemon>() {
+            @Override
+            public void onChanged(Pokemon pokemon2) {
+                imprimirCaracteristicas(pokemon2);
+            }
+        });
+
+        if(PokemonSingleton.getPokemon()!=null)
+            imprimirCaracteristicas(PokemonSingleton.getPokemon());
+
+    }
 
     public void imprimirCaracteristicas(Pokemon pokemon){
         if(pokemon == null)
             return;
         if(psText==null)
             return;
-        psText.setText(String.valueOf(pokemon.getPs()));
-        psBar.setProgress(pokemon.getPs());
-        ataqueText.setText(String.valueOf(pokemon.getAtk()));
-        ataqueBar.setProgress(pokemon.getAtk());
-        defensaText.setText(String.valueOf(pokemon.getDef()));
-        defensaBar.setProgress(pokemon.getDef());
-        sAtaqueText.setText(String.valueOf(pokemon.getsAtk()));
-        sAtaqueBar.setProgress(pokemon.getsAtk());
-        sDefensaText.setText(String.valueOf(pokemon.getsDef()));
-        sDefensaBar.setProgress(pokemon.getsDef());
-        velocidadText.setText(String.valueOf(pokemon.getSpe()));
-        velocidadBar.setProgress(pokemon.getSpe());
+        psText.setText(String.valueOf(pokemon.getStats().get(0).getBaseStat()));
+        psBar.setProgress(pokemon.getStats().get(0).getBaseStat());
+        ataqueText.setText(String.valueOf(pokemon.getStats().get(1).getBaseStat()));
+        ataqueBar.setProgress(pokemon.getStats().get(1).getBaseStat());
+        defensaText.setText(String.valueOf(pokemon.getStats().get(2).getBaseStat()));
+        defensaBar.setProgress(pokemon.getStats().get(2).getBaseStat());
+        sAtaqueText.setText(String.valueOf(pokemon.getStats().get(3).getBaseStat()));
+        sAtaqueBar.setProgress(pokemon.getStats().get(3).getBaseStat());
+        sDefensaText.setText(String.valueOf(pokemon.getStats().get(4).getBaseStat()));
+        sDefensaBar.setProgress(pokemon.getStats().get(4).getBaseStat());
+        velocidadText.setText(String.valueOf(pokemon.getStats().get(5).getBaseStat()));
+        velocidadBar.setProgress(pokemon.getStats().get(5).getBaseStat());
 
-        habilidad1.setText(pokemon.getHabilidad1());
-        if(pokemon.getHabilidad2()==null)
-            habilidad2.setText("");
-        else
-            habilidad2.setText(pokemon.getHabilidad2());
-        if(pokemon.getHabilidadOculta()==null)
+        habilidad1.setText(pokemon.getAbilities().get(0).getAbility().getName());
+        if(pokemon.getAbilities().size()==1) {
             habilidadOculta.setText("");
-        else
-            habilidadOculta.setText(pokemon.getHabilidadOculta());
+            habilidad2.setText("");
+            return;
+        }
+        if(!pokemon.getAbilities().get(1).getIsHidden()){
+            //Si la siguiente habilidad no es oculta es que tiene una 2a
+            habilidad2.setText(pokemon.getAbilities().get(1).getAbility().getName());
+            habilidadOculta.setText(pokemon.getAbilities().get(2).getAbility().getName());
+        }else{
+            habilidad2.setText("");
+            habilidadOculta.setText(pokemon.getAbilities().get(1).getAbility().getName());
+        }
     }
+
 }
