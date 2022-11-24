@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +36,17 @@ public class new_equipo_fragment extends DialogFragment {
     Button aceptarButton, cancelarButton;
 
     Pokemon[] pokemons;
-
     MainActivity context;
 
+    Equipo equipo;
+    int pos;
+
+    public new_equipo_fragment(Equipo equipo,int pos) {
+        this.equipo = equipo;
+        this.pos = pos;
+    }
 
     public new_equipo_fragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -96,14 +100,25 @@ public class new_equipo_fragment extends DialogFragment {
         aceptarButton = rootView.findViewById(R.id.aceptarButton);
         cancelarButton = rootView.findViewById(R.id.cancelarButton);
 
-        pokemons = new Pokemon[6];
 
-        Log.d("FUCK",pokemonSearch[0].toString());
+
+        if(equipo!=null){
+            nombreEquipo.setText(equipo.getNombre());
+            pokemons = equipo.getPokemons();
+            for (int i = 0; i < 6; i++) {
+                Picasso.get().load(pokemons[i].getSprites().getFrontDefault()).into(pokemonImages[i]);
+                pokemon[i].setText(pokemons[i].getName());
+            }
+
+        }else {
+            pokemons = new Pokemon[6];
+        }
+
+
 
         for (int i = 0; i < pokemonSearch.length; i++) {
             int finalI = i;
             pokemonSearch[i].setOnClickListener(view -> {
-                Log.d("FUCK",String.valueOf(pokemon[finalI].getText()));
                 Pokemon buscado = ApiConexion.getInstance().getPokemon(String.valueOf(pokemon[finalI].getText()));
                 if(buscado == null){
                     pokemon[finalI].setHint(R.string.pokemonNotFound);
@@ -121,7 +136,12 @@ public class new_equipo_fragment extends DialogFragment {
         cancelarButton.setOnClickListener(view -> dismiss());
 
         aceptarButton.setOnClickListener(view -> {
-            Equipo e = new Equipo();
+
+            Equipo e;
+            if(equipo == null)
+                e = new Equipo();
+            else
+                e = equipo;
             e.setNombre(String.valueOf(nombreEquipo.getText()));
             if(e.getNombre().equals("")){
                 Toast.makeText(getContext(),R.string.stringRequired,Toast.LENGTH_SHORT).show();
@@ -130,8 +150,10 @@ public class new_equipo_fragment extends DialogFragment {
             e.setAutor(getResources().getString(R.string.invitado));
             e.setIdentificador("Local");
             e.setPokemons(pokemons);
-
-            EquipoSingleton.getEquipos().add(e);
+            if(equipo==null)
+                EquipoSingleton.getEquipos().add(e);
+            else
+                EquipoSingleton.getEquipos().set(pos,e);
             ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemChanged(EquipoSingleton.getEquipos().indexOf(e));
             EquipoSingleton.guardarEquipos(context);
             dismiss();

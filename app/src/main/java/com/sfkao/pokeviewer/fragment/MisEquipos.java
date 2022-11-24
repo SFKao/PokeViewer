@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,8 +57,31 @@ public class MisEquipos extends Fragment {
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
         recyclerEquipos.setAdapter(adapterEquipos);
 
-        floatingActionButton= view.findViewById(R.id.floatingActionButton);
 
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if(direction == ItemTouchHelper.LEFT){
+                    EquipoSingleton.getEquipos().remove(viewHolder.getAdapterPosition());
+                    EquipoSingleton.guardarEquipos(context);
+                }else if(direction == ItemTouchHelper.RIGHT){
+                    DialogFragment anyadirEquipo = new new_equipo_fragment(EquipoSingleton.getEquipos().get(viewHolder.getAdapterPosition()),viewHolder.getAdapterPosition());
+                    FragmentManager fm = context.getSupportFragmentManager();
+                    anyadirEquipo.show(fm, "Añadir equipo");
+                }
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerEquipos);
+
+
+        floatingActionButton= view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
