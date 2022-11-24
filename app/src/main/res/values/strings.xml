@@ -28,4 +28,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nuevo_equipo">Nuevo equipo</string>
+    <string name="nombre">Nombre:</string>
+    <string name="nombreHint">Nombre</string>
+    <string name="pokemonDoubleDot">Pokemon:</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>
