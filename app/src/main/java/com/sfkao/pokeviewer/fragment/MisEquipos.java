@@ -70,15 +70,16 @@ public class MisEquipos extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getBindingAdapterPosition();
                 if(direction == ItemTouchHelper.LEFT){
-                    int pos = viewHolder.getBindingAdapterPosition();
                     EquipoSingleton.getEquipos().remove(pos);
                     adapterEquipos.notifyItemRemoved(pos);
                     EquipoSingleton.guardarEquipos(context);
                 }else if(direction == ItemTouchHelper.RIGHT){
-                    DialogFragment anyadirEquipo = new new_equipo_fragment(EquipoSingleton.getEquipos().get(viewHolder.getAdapterPosition()),viewHolder.getAdapterPosition());
+                    DialogFragment anyadirEquipo = new new_equipo_fragment(EquipoSingleton.getEquipos().get(pos),pos);
                     FragmentManager fm = context.getSupportFragmentManager();
                     anyadirEquipo.show(fm, "Añadir equipo");
+                    adapterEquipos.notifyItemChanged(pos);
                 }
             }
 

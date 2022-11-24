@@ -150,11 +150,12 @@ public class new_equipo_fragment extends DialogFragment {
             e.setAutor(getResources().getString(R.string.invitado));
             e.setIdentificador("Local");
             e.setPokemons(pokemons);
-            if(equipo==null)
+            if(equipo==null) {
                 EquipoSingleton.getEquipos().add(e);
-            else
+                ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemInserted(EquipoSingleton.getEquipos().indexOf(e));
+            }else
                 EquipoSingleton.getEquipos().set(pos,e);
-            ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemChanged(EquipoSingleton.getEquipos().indexOf(e));
+
             EquipoSingleton.guardarEquipos(context);
             dismiss();
         });

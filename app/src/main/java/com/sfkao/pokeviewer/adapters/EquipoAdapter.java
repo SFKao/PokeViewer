@@ -13,6 +13,7 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.modelo.Equipo;
 import com.squareup.picasso.Picasso;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 public class EquipoAdapter extends RecyclerView.Adapter {
@@ -38,8 +39,8 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Equipo e = equipos.get(position);
         ((ViewHolder)holder).nombre.setText(e.getNombre());
-        ((ViewHolder)holder).autor.setText(e.getAutor());
-        ((ViewHolder)holder).codigo.setText(e.getIdentificador());
+        ((ViewHolder)holder).autor.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.autor), e.getAutor()));
+        ((ViewHolder)holder).codigo.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.id), e.getIdentificador()));
         ((ViewHolder)holder).likes.setText(String.valueOf(e.getLikes()));
         ((ViewHolder)holder).favoritos.setText(String.valueOf(e.getFavoritos()));
 

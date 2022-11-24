@@ -34,4 +34,6 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="stringRequired">Se requiere el nombre</string>
+    <string name="id">"ID: "</string>
+    <string name="autor">"Autor: "</string>
 </resources>
