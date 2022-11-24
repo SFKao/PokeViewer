@@ -94,19 +94,21 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_mis_equipos:
                         changeFragment(new MisEquipos());
                         break;
-                    case R.id.iniciar_sesion:
+                    case R.id.iniciar_sesion_bar:
                         irALogin();
                         if(!Login.isInvited()) {
                             barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(true);
-                            barraLateral.getMenu().findItem(R.id.iniciar_sesion).setVisible(false);
-
+                            barraLateral.getMenu().findItem(R.id.iniciar_sesion_bar).setVisible(false);
                         }
                         nombreDeUsuario.setText(Login.getUsername());
                         break;
                     case R.id.cerrar_sesion:
                         Login.logout();
+                        barraLateral.getMenu().clear();
+                        barraLateral.inflateMenu(R.menu.menu_tab_main);
                         barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
-                        barraLateral.getMenu().findItem(R.id.iniciar_sesion).setVisible(true);
+                        barraLateral.getMenu().findItem(R.id.iniciar_sesion_bar).setVisible(true);
+
                         nombreDeUsuario.setText(Login.getUsername());
                         break;
                 }
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         if(Login.isInvited())
             barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
         else
-            barraLateral.getMenu().findItem(R.id.iniciar_sesion).setVisible(false);
+            barraLateral.getMenu().findItem(R.id.iniciar_sesion_bar).setVisible(false);
         nombreDeUsuario.setText(Login.getUsername());
 
     }
