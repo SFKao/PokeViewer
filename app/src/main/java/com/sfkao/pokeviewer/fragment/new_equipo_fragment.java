@@ -24,6 +24,7 @@ import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
+import com.sfkao.pokeviewer.utils.Login;
 import com.squareup.picasso.Picasso;
 
 public class new_equipo_fragment extends DialogFragment {
@@ -147,7 +148,7 @@ public class new_equipo_fragment extends DialogFragment {
                 Toast.makeText(getContext(),R.string.stringRequired,Toast.LENGTH_SHORT).show();
                 return;
             }
-            e.setAutor(getResources().getString(R.string.invitado));
+            e.setAutor(Login.getUsername());
             e.setIdentificador("Local");
             e.setPokemons(pokemons);
             if(equipo==null) {

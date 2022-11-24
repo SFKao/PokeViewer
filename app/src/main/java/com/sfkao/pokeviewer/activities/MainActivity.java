@@ -1,8 +1,10 @@
 package com.sfkao.pokeviewer.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -15,10 +17,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
-import com.sfkao.pokeviewer.fragment.MisEquipos;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
+import com.sfkao.pokeviewer.fragment.MisEquipos;
+import com.sfkao.pokeviewer.utils.Login;
 import com.sfkao.pokeviewer.utils.Util;
 
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle actionBarDrawerToggle;
 
     NavigationView barraLateral;
+
+    TextView nombreDeUsuario;
 
 
 
@@ -76,6 +81,8 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        nombreDeUsuario = findViewById(R.id.nombreDeUsuarioText);
+
         barraLateral = findViewById(R.id.barra_lateral);
         barraLateral.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -87,12 +94,37 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_mis_equipos:
                         changeFragment(new MisEquipos());
                         break;
+                    case R.id.iniciar_sesion:
+                        irALogin();
+                        if(!Login.isInvited()) {
+                            barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(true);
+                            barraLateral.getMenu().findItem(R.id.iniciar_sesion).setVisible(false);
+
+                        }
+                        nombreDeUsuario.setText(Login.getUsername());
+                        break;
+                    case R.id.cerrar_sesion:
+                        Login.logout();
+                        barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
+                        barraLateral.getMenu().findItem(R.id.iniciar_sesion).setVisible(true);
+                        nombreDeUsuario.setText(Login.getUsername());
+                        break;
                 }
                 drawerLayout.close();
                 return true;
             }
         });
+        if(Login.isInvited())
+            barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
+        else
+            barraLateral.getMenu().findItem(R.id.iniciar_sesion).setVisible(false);
+        nombreDeUsuario.setText(Login.getUsername());
 
+    }
+
+    private void irALogin(){
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override

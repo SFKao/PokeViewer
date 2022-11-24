@@ -46,12 +46,12 @@
             android:text="@string/conectado_como"
             android:textColor="@color/white"
             android:textSize="10sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView3"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintEnd_toEndOf="@+id/nombreDeUsuarioText"
+            app:layout_constraintStart_toStartOf="@+id/nombreDeUsuarioText"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/nombreDeUsuarioText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="32dp"
