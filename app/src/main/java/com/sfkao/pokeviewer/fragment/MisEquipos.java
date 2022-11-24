@@ -1,6 +1,7 @@
 package com.sfkao.pokeviewer.fragment;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +22,8 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MisEquipos extends Fragment {
 
@@ -67,13 +71,28 @@ public class MisEquipos extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if(direction == ItemTouchHelper.LEFT){
-                    EquipoSingleton.getEquipos().remove(viewHolder.getAdapterPosition());
+                    int pos = viewHolder.getBindingAdapterPosition();
+                    EquipoSingleton.getEquipos().remove(pos);
+                    adapterEquipos.notifyItemRemoved(pos);
                     EquipoSingleton.guardarEquipos(context);
                 }else if(direction == ItemTouchHelper.RIGHT){
                     DialogFragment anyadirEquipo = new new_equipo_fragment(EquipoSingleton.getEquipos().get(viewHolder.getAdapterPosition()),viewHolder.getAdapterPosition());
                     FragmentManager fm = context.getSupportFragmentManager();
                     anyadirEquipo.show(fm, "Añadir equipo");
                 }
+            }
+
+            @Override
+            public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,float dX, float dY,int actionState, boolean isCurrentlyActive){
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(context, R.color.dark_red))
+                        .addSwipeLeftActionIcon(R.drawable.delete)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(context, R.color.lime))
+                        .addSwipeRightActionIcon(R.drawable.edit)
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
 
@@ -92,6 +111,8 @@ public class MisEquipos extends Fragment {
         });
         ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.cargarEquipos(context));
     }
+
+
 
     @Override
     public void onAttach(@NonNull Context context) {
