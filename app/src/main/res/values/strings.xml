@@ -33,4 +33,5 @@
     <string name="pokemonDoubleDot">Pokemon:</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="stringRequired">Se requiere el nombre</string>
 </resources>

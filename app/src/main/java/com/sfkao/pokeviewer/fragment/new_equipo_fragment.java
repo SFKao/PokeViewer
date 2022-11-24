@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -122,6 +123,10 @@ public class new_equipo_fragment extends DialogFragment {
         aceptarButton.setOnClickListener(view -> {
             Equipo e = new Equipo();
             e.setNombre(String.valueOf(nombreEquipo.getText()));
+            if(e.getNombre().equals("")){
+                Toast.makeText(getContext(),R.string.stringRequired,Toast.LENGTH_SHORT).show();
+                return;
+            }
             e.setAutor(getResources().getString(R.string.invitado));
             e.setIdentificador("Local");
             e.setPokemons(pokemons);
