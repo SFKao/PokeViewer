@@ -133,6 +133,7 @@ public class new_equipo_fragment extends DialogFragment {
 
             EquipoSingleton.getEquipos().add(e);
             ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemChanged(EquipoSingleton.getEquipos().indexOf(e));
+            EquipoSingleton.guardarEquipos(context);
             dismiss();
         });
 

@@ -19,7 +19,6 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
-import com.sfkao.pokeviewer.utils.TestingUtils;
 
 public class MisEquipos extends Fragment {
 
@@ -67,10 +66,7 @@ public class MisEquipos extends Fragment {
                 anyadirEquipo.show(fm, "Añadir equipo");
             }
         });
-        EquipoSingleton.getEquipos().addAll(TestingUtils.getEquipos());
-        EquipoSingleton.getEquipos().addAll(TestingUtils.getEquipos());
-        EquipoSingleton.getEquipos().addAll(TestingUtils.getEquipos());
-        ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.getEquipos());
+        ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.cargarEquipos(context));
     }
 
     @Override
