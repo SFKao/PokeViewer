@@ -144,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.mostrarDrawerBarButton) {
+            return true;
+        } else if(actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

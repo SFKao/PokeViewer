@@ -69,7 +69,6 @@ public class Login {
             usuario = gson.fromJson(isr, new TypeToken<User>() {
             }.getType());
             fis.close();
-            usuario.invitado = false;
         } catch (IOException e) {
             logout(context);
         }
@@ -78,8 +77,7 @@ public class Login {
 
     //Cambia a invitado
     public static User logout (Context context) {
-        usuario = new User("Invitado", "", "");
-        usuario.invitado = true;
+        usuario = new User();
         saveUser(context);
         return usuario;
     }
@@ -95,7 +93,7 @@ public class Login {
             this.username = username;
             this.mail = mail;
             this.api_key = api_key;
-            invitado = true;
+            invitado = false;
         }
 
         public User(String username) {
@@ -104,6 +102,7 @@ public class Login {
         }
 
         public User() {
+            this.username = "Invitado";
             invitado = true;
         }
 
