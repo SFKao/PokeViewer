@@ -23,6 +23,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
+        Login.autoLogin(this);
+
         nombreDeUsuario = findViewById(R.id.usernameTextInput);
         contrasenya = findViewById(R.id.passwordTextInput);
         iniciarSesion = findViewById(R.id.iniciarSesionButton);
@@ -31,19 +33,21 @@ public class LoginActivity extends AppCompatActivity {
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(nombreDeUsuario.getText().toString().equals("")){
+                if(nombreDeUsuario.getText().toString().equals("")){ //Hay que poner tambien la contraseña, pero como el login no funciona aun no.
                     Toast.makeText(view.getContext(),R.string.se_requiere_nombre_de_usuario,Toast.LENGTH_LONG).show();
                     return;
                 }
-                Login.setUsuario(new Login.User(nombreDeUsuario.getText().toString()));
-                irAMain();
+                if(Login.tryLogin(nombreDeUsuario.getText().toString(), contrasenya.getText().toString(), LoginActivity.this ))
+                    irAMain();
+                else
+                    Toast.makeText(view.getContext(),R.string.usuario_o_contra_incorrectos,Toast.LENGTH_LONG).show();
             }
         });
 
         sinIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Login.logout();
+                Login.logout(LoginActivity.this);
                 irAMain();
             }
         });
@@ -54,4 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
     }
+
+
 }

@@ -1,8 +1,22 @@
 package com.sfkao.pokeviewer.utils;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
 public class Login {
 
-    private static User usuario = autoLogin();
+    private static final String FILENAME = "user.json";
+
+
+    private static User usuario;
 
     public static User getUsuario() {
         return usuario;
@@ -12,25 +26,57 @@ public class Login {
         Login.usuario = usuario;
     }
 
-    public static String getUsername(){
+    public static boolean tryLogin(String username, String password,Context context) {
+        //Aqui tendriamos que checkear la bbdd
+        usuario = new User(username);
+        saveUser(context);
+        return true;
+    }
+
+    private static void saveUser(Context context) {
+        try {
+            FileOutputStream fos = context.openFileOutput(FILENAME, 0);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(usuario, osw);
+            osw.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getUsername () {
         return usuario.username;
     }
 
-    public static boolean isInvited(){
+    public static boolean isInvited () {
         return usuario.invitado;
     }
 
-    public static User autoLogin(){
-        usuario = logout(); //TODO: cambiar para que pueda loguearme
+    public static User autoLogin (Context context) {
+        if(usuario!=null)
+            return usuario;
+        try {
+            FileInputStream fis = context.openFileInput(FILENAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            Gson gson = new Gson();
+            usuario = gson.fromJson(isr, new TypeToken<User>() {
+            }.getType());
+            fis.close();
+        } catch (IOException e) {
+            logout(context);
+        }
         return usuario;
     }
 
-    public static User logout(){
-        usuario = new User("Invitado","","");
+    public static User logout (Context context) {
+        usuario = new User("Invitado", "", "");
+        saveUser(context);
         return usuario;
     }
 
-    public static class User{
+    public static class User {
         private String username;
         private String mail;
         private String api_key;
@@ -96,3 +142,4 @@ public class Login {
     }
 
 }
+

@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         StrictMode.setThreadPolicy( new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
+        Login.autoLogin(this);
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         Util.diccionarioNombreAID = new HashMap<>();
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         nombreDeUsuario.setText(Login.getUsername());
                         break;
                     case R.id.cerrar_sesion:
-                        Login.logout();
+                        Login.logout(MainActivity.this);
                         barraLateral.getMenu().clear();
                         barraLateral.inflateMenu(R.menu.menu_tab_main);
                         barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);

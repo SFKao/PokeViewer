@@ -54,4 +54,5 @@
     <string name="registrarse">Registrarse</string>
     <string name="seguir_sin_iniciar_sesi_n">Seguir sin iniciar sesión</string>
     <string name="se_requiere_nombre_de_usuario">Se requiere nombre de usuario</string>
+    <string name="usuario_o_contra_incorrectos">Usuario o contraseña incorrectos</string>
 </resources>
