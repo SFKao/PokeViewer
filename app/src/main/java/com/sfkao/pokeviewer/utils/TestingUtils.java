@@ -7,6 +7,9 @@ import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Clase para pruebas, sin uso actual
+ */
 public class TestingUtils {
 
     public static ArrayList<Equipo> getEquipos(){

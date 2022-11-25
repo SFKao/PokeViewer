@@ -47,12 +47,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Retrofit2 lo pide, no termino de entender que es pero aqui se queda.
         StrictMode.setThreadPolicy( new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
+        //Mira si ya existe un usuario
         Login.autoLogin(this);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        //Almacena las distitnas imagenes de los tipos junto a sus nombres para poder buscarlos facilmente
         Util.diccionarioNombreAID = new HashMap<>();
         Util.diccionarioNombreAID.put("normal", ResourcesCompat.getDrawable(getResources(),R.drawable.normal,null));
         Util.diccionarioNombreAID.put("bug",ResourcesCompat.getDrawable(getResources(),R.drawable.bug,null));
@@ -74,9 +77,11 @@ public class MainActivity extends AppCompatActivity {
         Util.diccionarioNombreAID.put("water",ResourcesCompat.getDrawable(getResources(),R.drawable.water,null));
         Util.diccionarioNombreAID.put("x4",ResourcesCompat.getDrawable(getResources(),R.drawable.x4,null));
 
+        //Coloca la barra superior
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
 
+        //Prepara el drawer de la activity
         drawerLayout = findViewById(R.id.buscador_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -86,18 +91,22 @@ public class MainActivity extends AppCompatActivity {
         nombreDeUsuario = findViewById(R.id.nombreDeUsuarioText);
 
         barraLateral = findViewById(R.id.barra_lateral);
+        //Pongo un listener a la barra lateral
         barraLateral.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    //Si se selecciona un fragment, cambia a este
                     case R.id.nav_buscador:
                         changeFragment(new BuscadorFragment());
                         break;
                     case R.id.nav_mis_equipos:
                         changeFragment(new MisEquipos());
                         break;
+                        //Al darle a iniciar sesion quiero cambiar a la activity
                     case R.id.iniciar_sesion_bar:
                         irALogin();
+                        //Si esta ha iniciado sesion o no quiero se muestre cerrar o iniciar sesion
                         if(!Login.isInvited()) {
                             barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(true);
                             barraLateral.getMenu().findItem(R.id.iniciar_sesion_bar).setVisible(false);
@@ -105,19 +114,21 @@ public class MainActivity extends AppCompatActivity {
                         nombreDeUsuario.setText(Login.getUsername());
                         break;
                     case R.id.cerrar_sesion:
+                        //Cambia a invitado y coloca de nuevo el boton de iniciar sesion
                         Login.logout(MainActivity.this);
                         barraLateral.getMenu().clear();
                         barraLateral.inflateMenu(R.menu.menu_tab_main);
                         barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
                         barraLateral.getMenu().findItem(R.id.iniciar_sesion_bar).setVisible(true);
-
                         nombreDeUsuario.setText(Login.getUsername());
                         break;
                 }
+                //Cierra el drawer
                 drawerLayout.close();
                 return true;
             }
         });
+        //Al iniciar la activity, quita el boton de iniciar sesion o de cerrar sesion dependiendo si esta o no logueado
         if(Login.isInvited())
             barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
         else
@@ -133,11 +144,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.mostrarDrawerBarButton) {
-            return true;
-        } else if(actionBarDrawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,9 +152,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        //Al iniciar cambia al fragmento de buscar, tal vez innecesario
         changeFragment(new BuscadorFragment());
     }
 
+
+    //Metodo para cambiar de fragmento
     private void changeFragment(Fragment f){
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

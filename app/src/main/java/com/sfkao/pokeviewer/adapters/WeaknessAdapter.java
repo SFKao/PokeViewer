@@ -13,8 +13,12 @@ import com.sfkao.pokeviewer.utils.Util;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter para los recyclerView que muestran los tipos
+ */
 public class WeaknessAdapter extends RecyclerView.Adapter {
 
+    //Almaceno los tipos a mostrar en un string
     private ArrayList<String> tipos;
 
     public WeaknessAdapter(ArrayList<String> tipos) {
@@ -29,16 +33,15 @@ public class WeaknessAdapter extends RecyclerView.Adapter {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_weakness, parent, false);
-
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ImageView image = ((ViewHolder) holder).image;
+        //Coloco la imagen a partir de la string
         image.setImageDrawable(Util.getType(tipos.get(position)));
     }
-
 
     @Override
     public int getItemCount() {
@@ -49,10 +52,14 @@ public class WeaknessAdapter extends RecyclerView.Adapter {
         return tipos;
     }
 
+
     public void setTipos(ArrayList<String> tipos) {
         this.tipos = tipos;
     }
 
+    /**
+     * Clase interna que almacena la imagen del tipo
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View view;
         public final ImageView image;

@@ -1,12 +1,15 @@
 
 package com.sfkao.pokeviewer.modelo.pojo_tipos;
 
-import java.util.List;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
 
+/**
+ * Clase POJO para almacenar un tipo al buscarlo en la api
+ * Creado con https://www.jsonschema2pojo.org
+ */
 public class Tipo {
 
     @SerializedName("damage_relations")

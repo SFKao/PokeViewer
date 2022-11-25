@@ -1,16 +1,19 @@
 
 package com.sfkao.pokeviewer.modelo.pojo_pokemon;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Clase POJO para almacenar un pokemon al buscarlo en la api
+ * Creado con https://www.jsonschema2pojo.org
+ */
 public class Pokemon implements Serializable, Parcelable
 {
 

@@ -10,6 +10,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.sfkao.pokeviewer.fragment.DebilidadesFragment;
 import com.sfkao.pokeviewer.fragment.StatsFragment;
 
+/**
+ * Adapter del pager para deslizar entre los fragmentos de relacion de tipos y stats
+ */
 public class SearchPokemonPagerAdapter extends FragmentStateAdapter {
 
 
@@ -21,6 +24,7 @@ public class SearchPokemonPagerAdapter extends FragmentStateAdapter {
         super(fragmentManager, lifecycle);
     }
 
+    //Metodo que se encarga de cambiar los fragments, posibilidad de en un futuro expandir
     @NonNull
     @Override
     public Fragment createFragment(int position) {

@@ -25,6 +25,9 @@ import com.sfkao.pokeviewer.utils.EquipoSingleton;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
+/**
+ * Fragmento que almacena mis equipos, se invoca desde el menu lateral
+ */
 public class MisEquipos extends Fragment {
 
     RecyclerView recyclerEquipos;
@@ -55,34 +58,40 @@ public class MisEquipos extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Obtengo sus views
         recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_mis_equipos);
         adapterEquipos = new EquipoAdapter();
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
         recyclerEquipos.setAdapter(adapterEquipos);
 
-
+        //Permite arrastrar los elementos del recycler para que este haga acciones.
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
+            //Al deslizarse izquierda o derecha
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getBindingAdapterPosition();
+                //Izquierda borra
                 if(direction == ItemTouchHelper.LEFT){
                     EquipoSingleton.getEquipos().remove(pos);
                     adapterEquipos.notifyItemRemoved(pos);
                     EquipoSingleton.guardarEquipos(context);
+                //Derecha edita
                 }else if(direction == ItemTouchHelper.RIGHT){
-                    DialogFragment anyadirEquipo = new new_equipo_fragment(EquipoSingleton.getEquipos().get(pos),pos);
+                    DialogFragment anyadirEquipo = new NuevoEquipoFragment(EquipoSingleton.getEquipos().get(pos),pos);
                     FragmentManager fm = context.getSupportFragmentManager();
                     anyadirEquipo.show(fm, "Añadir equipo");
                     adapterEquipos.notifyItemChanged(pos);
                 }
             }
 
+            //Parte de una libreria de terceros llamada RecyclerViewSwipeDecorator.
+            //Añade el fondo verde y rojo al desilizar junto a sus iconos
             @Override
             public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,float dX, float dY,int actionState, boolean isCurrentlyActive){
 
@@ -97,23 +106,23 @@ public class MisEquipos extends Fragment {
             }
         };
 
+        //Se lo acoplo al recycler
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerEquipos);
 
-
+        //Hago que el boton llame a un dialog fragment al ser pulsado
         floatingActionButton= view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment anyadirEquipo = new new_equipo_fragment();
+                DialogFragment anyadirEquipo = new NuevoEquipoFragment();
                 FragmentManager fm = context.getSupportFragmentManager();
                 anyadirEquipo.show(fm, "Añadir equipo");
             }
         });
+        //Coloco los equipos del singleton
         ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.cargarEquipos(context));
     }
-
-
 
     @Override
     public void onAttach(@NonNull Context context) {

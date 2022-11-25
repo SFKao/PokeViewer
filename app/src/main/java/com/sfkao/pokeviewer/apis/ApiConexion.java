@@ -12,6 +12,9 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Singleton para la conexion a la API
+ */
 public class ApiConexion {
 
     private static final ApiConexion api = new ApiConexion();
@@ -20,8 +23,10 @@ public class ApiConexion {
         return api;
     }
 
+    //Obtener pokemon a partir del nombre
     public Pokemon getPokemon(String nombre){
 
+        //Uso gson para insertar los datos en mi POJO
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiUtils.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
@@ -29,7 +34,7 @@ public class ApiConexion {
         ApiUtils service = retrofit.create(ApiUtils.class);
 
         Call<Pokemon> callSync = service.getPokemon(nombre.toLowerCase(Locale.ROOT));
-
+        //Hago la llamada
         try{
             retrofit2.Response<Pokemon> response = callSync.execute();
             return response.body();
@@ -38,9 +43,10 @@ public class ApiConexion {
         }
         return null;
     }
-
+    //Obtener el tipo a partir de su nombre
     public Tipo getTipo(String nombre){
 
+        //Uso gson para insertar los datos en mi POJO
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiUtils.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
@@ -48,7 +54,7 @@ public class ApiConexion {
         ApiUtils service = retrofit.create(ApiUtils.class);
 
         Call<Tipo> callSync = service.getTipo(nombre);
-
+        //Hago la llamada
         try{
             retrofit2.Response<Tipo> response = callSync.execute();
             return response.body();
@@ -61,6 +67,7 @@ public class ApiConexion {
 
 
     /*
+    //Ruinas de un pasado lejano. Un fosil de codigo.
     public void buscarDebilidades(Pokemon p){
 
         RequestQueue requestQueue = new RequestQueue(new DiskBasedCache(mainActivity.getCacheDir(),1024*1024*20),new BasicNetwork(new HurlStack()));

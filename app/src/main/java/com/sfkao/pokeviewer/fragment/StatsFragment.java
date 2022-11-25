@@ -19,7 +19,7 @@ import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
 import com.sfkao.pokeviewer.utils.PokemonSingleton;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragmento que muestra las stats de un pokemon
  */
 public class StatsFragment extends Fragment {
 
@@ -76,6 +76,8 @@ public class StatsFragment extends Fragment {
         velocidadText = (requireView().findViewById(R.id.speText));
         velocidadBar = (requireView().findViewById(R.id.speProgress));
 
+        //La clase MutableLiveData permite almacenar un dato y que esta notifique cada vez que este cambia a todos sus
+        //observadores. De esta manera no tengo que ver si un fragmento esta vivo para enviarle datos etc.
         PokemonSingleton.getPokemon2LiveData().observe(getViewLifecycleOwner(), new Observer<Pokemon>() {
             @Override
             public void onChanged(Pokemon pokemon2) {
@@ -83,16 +85,17 @@ public class StatsFragment extends Fragment {
             }
         });
 
+        //Al iniciar si ya hay un pokemon buscado muestro sus datos
         if(PokemonSingleton.getPokemon()!=null)
             imprimirCaracteristicas(PokemonSingleton.getPokemon());
 
     }
 
     public void imprimirCaracteristicas(Pokemon pokemon){
+        //Si el pokemon es nulo paro
         if(pokemon == null)
             return;
-        if(psText==null)
-            return;
+        //Coloco sus datos
         psText.setText(String.valueOf(pokemon.getStats().get(0).getBaseStat()));
         psBar.setProgress(pokemon.getStats().get(0).getBaseStat());
         ataqueText.setText(String.valueOf(pokemon.getStats().get(1).getBaseStat()));
@@ -106,6 +109,7 @@ public class StatsFragment extends Fragment {
         velocidadText.setText(String.valueOf(pokemon.getStats().get(5).getBaseStat()));
         velocidadBar.setProgress(pokemon.getStats().get(5).getBaseStat());
 
+        //Coloco sus habilidades
         habilidad1.setText(pokemon.getAbilities().get(0).getAbility().getName());
         if(pokemon.getAbilities().size()==1) {
             habilidadOculta.setText("");

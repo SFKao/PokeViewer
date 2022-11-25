@@ -12,8 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.utils.Login;
 
+/**
+ * Activity que se lanza para loguearse.
+ */
 public class LoginActivity extends AppCompatActivity {
-
+    /**
+     * Contiene los siguientes campos y botones
+     */
     EditText nombreDeUsuario, contrasenya;
     Button olvidadaContrasenya, iniciarSesion, registrarse,sinIniciar;
 
@@ -23,20 +28,26 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
-        Login.autoLogin(this);
 
+        //Login.autoLogin(this);        //Necesario si se decide que esta sea la activity que se lanza con la app
+
+        //Recojo los campos, faltan por recoger algunos que un no funcionan
         nombreDeUsuario = findViewById(R.id.usernameTextInput);
         contrasenya = findViewById(R.id.passwordTextInput);
         iniciarSesion = findViewById(R.id.iniciarSesionButton);
         sinIniciar = findViewById(R.id.inivitadoButton);
 
+        //Si se selecciona iniciar sesion
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Miro que los campos no esten vacios
                 if(nombreDeUsuario.getText().toString().equals("")){ //Hay que poner tambien la contraseña, pero como el login no funciona aun no.
+                    //Si esta vacia muestro un Toast
                     Toast.makeText(view.getContext(),R.string.se_requiere_nombre_de_usuario,Toast.LENGTH_LONG).show();
                     return;
                 }
+                //Si se loguea, ve al main, si no, muestra que algun campo es incorrecto
                 if(Login.tryLogin(nombreDeUsuario.getText().toString(), contrasenya.getText().toString(), LoginActivity.this ))
                     irAMain();
                 else
@@ -47,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         sinIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Logout coloca como cuenta de invitado
                 Login.logout(LoginActivity.this);
                 irAMain();
             }

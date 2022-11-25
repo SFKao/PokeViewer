@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+/**
+ * Singleton que almacena y trabaja con el usuario logueado de la aplicacion
+ */
 public class Login {
 
     private static final String FILENAME = "user.json";
@@ -33,6 +36,7 @@ public class Login {
         return true;
     }
 
+    //Cuando inicio sesion guardo el usuario.
     private static void saveUser(Context context) {
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, 0);
@@ -54,6 +58,7 @@ public class Login {
         return usuario.invitado;
     }
 
+    //Cuando inicio la aplicacion llamo a este metodo para ver si existe un usuario almacenado
     public static User autoLogin (Context context) {
         if(usuario!=null)
             return usuario;
@@ -64,18 +69,22 @@ public class Login {
             usuario = gson.fromJson(isr, new TypeToken<User>() {
             }.getType());
             fis.close();
+            usuario.invitado = false;
         } catch (IOException e) {
             logout(context);
         }
         return usuario;
     }
 
+    //Cambia a invitado
     public static User logout (Context context) {
         usuario = new User("Invitado", "", "");
+        usuario.invitado = true;
         saveUser(context);
         return usuario;
     }
 
+    //Clase del usuario
     public static class User {
         private String username;
         private String mail;

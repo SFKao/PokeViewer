@@ -11,15 +11,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Clase que añade funciones desde el lugar que se necesiten.
+ * Alacena un diccionario con los tipos y sus correspondientes imagenes.
+ */
 public class Util  {
-
 
     public static HashMap<String, Drawable> diccionarioNombreAID;
 
+    /**
+     * Devuelve la imagen a partir del tipo
+     * @param type nombre del tipo en ingles (como lo devuelve la api)
+     * @return imagen del tipo
+     */
     public static Drawable getType(String type){
         return diccionarioNombreAID.get(type);
     }
 
+    /**
+     * Metodo que calcula la relacion de tipos a partir de dos tipos, tendrá mas utilidad en un futuro
+     * @param tipo1 tipo 1 del pokemon
+     * @param tipo2 tipo 2 del pokemon
+     * @return Map con sus distintas relaciones
+     */
     public static Map<String,ArrayList<String>> calcularRelacionDeTipos(Tipo tipo1, Tipo tipo2){
         ArrayList<String> debilidades = new ArrayList<>();
         ArrayList<String> debilidadesX4 = new ArrayList<>();
@@ -86,7 +100,10 @@ public class Util  {
         return map;
     }
 
-
+    /**
+     * Lista con todos los nombre de los pokemons hasta gen 8 (se actualizara cuando añadan la 9 en la pokeapi)
+     * Se utiliza en el autocompletar del buscador
+     */
     public static final String[] POKEMONS = new String[]{
             "Bulbasaur",
             "Ivysaur",

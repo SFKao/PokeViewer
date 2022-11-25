@@ -25,6 +25,9 @@ import com.sfkao.pokeviewer.utils.Util;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Fragmento almacenado en el pager2, muestra la relacion del pokemon con los tipos
+ */
 public class DebilidadesFragment extends Fragment {
 
     RecyclerView recyclerDebilidades;
@@ -66,15 +69,21 @@ public class DebilidadesFragment extends Fragment {
     }
 
 
-
+    /**
+     * Metodo que muestra la relacion de tipos a partir del pokemon
+     * @param pokemon pokemon del que obtener y mostrar su relacion de tipos
+     */
     public void mostrarDebilidadesPokemon(Pokemon pokemon){
+        //Un pokemon tiene hasta 2 tipos, obligado a tener 1
         Tipo tipo1 = ApiConexion.getInstance().getTipo(pokemon.getTypes().get(0).getType().getName());
         Tipo tipo2 = null;
         if(pokemon.getTypes().size()!=1)
             tipo2 = ApiConexion.getInstance().getTipo(pokemon.getTypes().get(1).getType().getName());
 
+        //Requiero obtener varios datos que se interconectan entre si, asi que los recojo en un Map
         Map<String, ArrayList<String>> relaciones = Util.calcularRelacionDeTipos(tipo1, tipo2);
 
+        //Muestro las debilidades
         ((WeaknessAdapter)recyclerDebilidadesAdapter).setTipos(relaciones.get("debilidades"));
         if(relaciones.get("debilidadesX4") != null && relaciones.get("debilidadesX4").size()!=0) {
             ((WeaknessAdapter) recyclerDebilidadesAdapter).getTipos().add("x4");
@@ -82,6 +91,7 @@ public class DebilidadesFragment extends Fragment {
         }
         recyclerDebilidadesAdapter.notifyDataSetChanged();
 
+        //muestro las resistencias
         ((WeaknessAdapter)recyclerResistenciasAdapter).setTipos(relaciones.get("resistencias"));
         if(relaciones.get("resistenciasX4") != null && relaciones.get("resistenciasX4").size()!=0) {
             ((WeaknessAdapter) recyclerResistenciasAdapter).getTipos().add("x4");
@@ -89,6 +99,7 @@ public class DebilidadesFragment extends Fragment {
         }
         recyclerResistenciasAdapter.notifyDataSetChanged();
 
+        //Muestro las inmunidades, no tengo que preocuparme de inmunidades x4
         ((WeaknessAdapter)recyclerInmunidadesAdapter).setTipos(relaciones.get("inmunidades"));
         recyclerInmunidadesAdapter.notifyDataSetChanged();
 
@@ -98,6 +109,7 @@ public class DebilidadesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //Recojo los recyclers y les coloco sus recyclers
         recyclerDebilidades = (RecyclerView) requireView().findViewById(R.id.recyclerDebilidades);
         recyclerDebilidadesAdapter = new WeaknessAdapter();
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(context);
@@ -116,6 +128,8 @@ public class DebilidadesFragment extends Fragment {
         recyclerResistencias.setLayoutManager(layoutManagerResistencias);
         recyclerResistencias.setAdapter(recyclerResistenciasAdapter);
 
+        //La clase MutableLiveData permite almacenar un dato y que esta notifique cada vez que este cambia a todos sus
+        //observadores. De esta manera no tengo que ver si un fragmento esta vivo para enviarle datos etc.
         PokemonSingleton.getPokemon2LiveData().observe(getViewLifecycleOwner(), new Observer<Pokemon>() {
             @Override
             public void onChanged(Pokemon pokemon2) {
@@ -123,6 +137,7 @@ public class DebilidadesFragment extends Fragment {
             }
         });
 
+        //Si al crearse el fragmento hay un pokemon almacenado, muestralo
         if(PokemonSingleton.getPokemon()!=null)
             mostrarDebilidadesPokemon(PokemonSingleton.getPokemon());
     }

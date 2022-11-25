@@ -5,6 +5,9 @@ import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * Clase que almacena informacion de un equipo pokemon
+ */
 public class Equipo {
 
     private String nombre;

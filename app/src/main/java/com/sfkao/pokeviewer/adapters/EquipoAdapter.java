@@ -16,6 +16,9 @@ import com.squareup.picasso.Picasso;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+/**
+ * Adaptador que se encarga de mostrar los equipos en un recycler view
+ */
 public class EquipoAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Equipo> equipos;
@@ -35,15 +38,17 @@ public class EquipoAdapter extends RecyclerView.Adapter {
         return new ViewHolder(v);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        //Coloco los datos del equipo en el holder.
         Equipo e = equipos.get(position);
         ((ViewHolder)holder).nombre.setText(e.getNombre());
         ((ViewHolder)holder).autor.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.autor), e.getAutor()));
         ((ViewHolder)holder).codigo.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.id), e.getIdentificador()));
         ((ViewHolder)holder).likes.setText(String.valueOf(e.getLikes()));
         ((ViewHolder)holder).favoritos.setText(String.valueOf(e.getFavoritos()));
-
+        //Coloco las 6 imagenes de los pokemon
         for(int i = 0 ;i<((ViewHolder)holder).pokemons.length;i++ ){
             if(e.getPokemon(i)!=null){
                 Picasso.get().load(e.getPokemon(i).getSprites().getFrontDefault()).into(((ViewHolder)holder).pokemons[i]);
@@ -61,11 +66,16 @@ public class EquipoAdapter extends RecyclerView.Adapter {
         return equipos;
     }
 
+
     public void setEquipos(ArrayList<Equipo> equipos) {
         this.equipos = equipos;
+        //Si cambio los equipos desde fuera, notifico de que se han cambiado y se ha de redibujar
         notifyDataSetChanged();
     }
 
+    /**
+     * Clase que muestra los datos del equipo
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View view;
         public final ImageView[] pokemons;

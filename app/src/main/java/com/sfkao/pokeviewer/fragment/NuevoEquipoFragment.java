@@ -27,7 +27,10 @@ import com.sfkao.pokeviewer.utils.EquipoSingleton;
 import com.sfkao.pokeviewer.utils.Login;
 import com.squareup.picasso.Picasso;
 
-public class new_equipo_fragment extends DialogFragment {
+/**
+ * Fragmento de dialogo que permite crear y editar un equipo dependiendo del constructor utilizado
+ */
+public class NuevoEquipoFragment extends DialogFragment {
 
     EditText nombreEquipo;
     EditText[] pokemon;
@@ -42,12 +45,14 @@ public class new_equipo_fragment extends DialogFragment {
     Equipo equipo;
     int pos;
 
-    public new_equipo_fragment(Equipo equipo,int pos) {
+    //Si se envia un equipo lo almacenara y lo usara para editarlo.
+    public NuevoEquipoFragment(Equipo equipo, int pos) {
         this.equipo = equipo;
         this.pos = pos;
     }
 
-    public new_equipo_fragment() {
+    //Si se envia sin equipo se inicia en modo insercion
+    public NuevoEquipoFragment() {
     }
 
     @Override
@@ -71,6 +76,7 @@ public class new_equipo_fragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        //Obtengo todos los elementos
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View rootView = inflater.inflate(R.layout.fragment_new_equipo_fragment,null);
         nombreEquipo = rootView.findViewById(R.id.nombreEquipoInput);
@@ -101,8 +107,7 @@ public class new_equipo_fragment extends DialogFragment {
         aceptarButton = rootView.findViewById(R.id.aceptarButton);
         cancelarButton = rootView.findViewById(R.id.cancelarButton);
 
-
-
+        //Si se envio un equipo por el constructor lo cargo
         if(equipo!=null){
             nombreEquipo.setText(equipo.getNombre());
             pokemons = equipo.getPokemons();
@@ -110,17 +115,17 @@ public class new_equipo_fragment extends DialogFragment {
                 Picasso.get().load(pokemons[i].getSprites().getFrontDefault()).into(pokemonImages[i]);
                 pokemon[i].setText(pokemons[i].getName());
             }
-
+        //En caso de que no, creo mi propio array de pokemons
         }else {
             pokemons = new Pokemon[6];
         }
 
-
-
+        //Añado un listener a cada boton de pokemon, estan colocados en fila
         for (int i = 0; i < pokemonSearch.length; i++) {
             int finalI = i;
             pokemonSearch[i].setOnClickListener(view -> {
                 Pokemon buscado = ApiConexion.getInstance().getPokemon(String.valueOf(pokemon[finalI].getText()));
+                //Si el pokemon no existe
                 if(buscado == null){
                     pokemon[finalI].setHint(R.string.pokemonNotFound);
                     pokemon[finalI].setHintTextColor(getResources().getColor(R.color.dark_red,null));
@@ -128,39 +133,49 @@ public class new_equipo_fragment extends DialogFragment {
                     pokemons[finalI] = null;
                     pokemonImages[finalI].setImageResource(R.drawable.pokeball);
                 }else{
+                    pokemon[finalI].setHint(R.string.pokemonOrNumber);
+                    pokemon[finalI].setHintTextColor(getResources().getColor(R.color.gray,null));
                     Picasso.get().load(buscado.getSprites().getFrontDefault()).into(pokemonImages[finalI]);
                     pokemons[finalI] = buscado;
                 }
             });
         }
 
+        //El boton de cancelar no almacenara nada
         cancelarButton.setOnClickListener(view -> dismiss());
 
         aceptarButton.setOnClickListener(view -> {
 
+            //Si no hay un equipo para editar, croe uno nuevo, si no pongo el de editar
             Equipo e;
             if(equipo == null)
                 e = new Equipo();
             else
                 e = equipo;
-            e.setNombre(String.valueOf(nombreEquipo.getText()));
+            //El nombre es obligatorio
             if(e.getNombre().equals("")){
                 Toast.makeText(getContext(),R.string.stringRequired,Toast.LENGTH_SHORT).show();
                 return;
             }
+            //Coloco el nuevo nombre, autor a partir del usuario y local ya que este no se ha subido
+            e.setNombre(String.valueOf(nombreEquipo.getText()));
             e.setAutor(Login.getUsername());
             e.setIdentificador("Local");
+            //Coloco los pokemons
             e.setPokemons(pokemons);
+            //Si estoy en modo añadir
             if(equipo==null) {
                 EquipoSingleton.getEquipos().add(e);
                 ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemInserted(EquipoSingleton.getEquipos().indexOf(e));
+            //Si estoy en modo editar
             }else
                 EquipoSingleton.getEquipos().set(pos,e);
-
+            //Guardo los cambios y salgo
             EquipoSingleton.guardarEquipos(context);
             dismiss();
         });
 
+        //Creo el dialog fragment
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setView(rootView);
         return alertDialogBuilder.create();

@@ -3,7 +3,6 @@ package com.sfkao.pokeviewer.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,9 @@ import com.sfkao.pokeviewer.utils.PokemonSingleton;
 import com.sfkao.pokeviewer.utils.Util;
 import com.squareup.picasso.Picasso;
 
-
+/**
+ * El fragment que contiene tanto el buscador como el pager que contiene los datos del pokemon
+ */
 public class BuscadorFragment extends Fragment {
 
     public MainActivity context;
@@ -47,21 +48,10 @@ public class BuscadorFragment extends Fragment {
     SearchPokemonPagerAdapter buscadorDatosAdapter;
     TabLayout tabBuscadorDatos;
 
-
-
-
     public BuscadorFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BuscadorFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static BuscadorFragment newInstance(String param1, String param2) {
         return new BuscadorFragment();
@@ -70,30 +60,22 @@ public class BuscadorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
 
     @Override
     public void onStart() {
         super.onStart();
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-        
-
         return inflater.inflate(R.layout.fragment_buscador, container, false);
     }
 
-
+    //Busca al pokemon y imprimelo
     private void buscar(){
         Pokemon pokemon2 = ApiConexion.getInstance().getPokemon(String.valueOf(textoPokemon.getText()));
         if(pokemon2 == null) {
@@ -106,8 +88,10 @@ public class BuscadorFragment extends Fragment {
     }
 
     public void imprimirPokemon(Pokemon pokemon){
-
+        //Coloca la imagen a partir de la url en la imageView
         Picasso.get().load(pokemon.getSprites().getFrontDefault()).into(imagePokemon);
+
+        //Hay 3 imageView, uno lo escondemos para que quede centrado el tipo si hay 1
         if(pokemon.getTypes().size()!=2){
             imageTipoMedio.setImageDrawable(Util.getType(pokemon.getTypes().get(0).getType().getName()));
             imageTipoDerecha.setVisibility(View.INVISIBLE);
@@ -120,6 +104,7 @@ public class BuscadorFragment extends Fragment {
             imageTipoIzquierda.setVisibility(View.VISIBLE);
             imageTipoMedio.setVisibility(View.INVISIBLE);
         }
+        //Coloca el pokemon en su singleton, mas explicacion en su clase.
         PokemonSingleton.setPokemon(pokemon);
     }
 
@@ -138,7 +123,7 @@ public class BuscadorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        //Recojo los views
         botonBuscar = (Button) requireView().findViewById(R.id.buttonSearchPokemon);
         imagePokemon = (ImageView) requireView().findViewById(R.id.imagePokemon);
 
@@ -155,12 +140,14 @@ public class BuscadorFragment extends Fragment {
 
         tabBuscadorDatos = requireView().findViewById(R.id.tabMainActivity);
 
+        //Guardo el pager y coloco su adaptador
         buscadorDatos = requireView().findViewById(R.id.datosPokemonPager);
-        Log.println(Log.ERROR,"DEBUG",buscadorDatos.toString());
         buscadorDatosAdapter = new SearchPokemonPagerAdapter(context);
         buscadorDatos.setAdapter(buscadorDatosAdapter);
+        //Para los 2 puntitos que hacen de tab layout del pager.
         new TabLayoutMediator(tabBuscadorDatos,buscadorDatos,true,true,(tab, position) -> tab.setText(null)).attach();
 
+        //El boton de buscar
         botonBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,6 +155,7 @@ public class BuscadorFragment extends Fragment {
             }
         });
 
+        //Que el enter funcione
         textoPokemon.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {

@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+/**
+ * Singleton que almacena un pokemon para el fragmento de mis equipos
+ */
 public class EquipoSingleton {
 
     private static ArrayList<Equipo> equipos;
@@ -22,6 +25,7 @@ public class EquipoSingleton {
         return equipos;
     }
 
+    //Almacena los equipos en json en el dispositivo
     public static void guardarEquipos(Context context){
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, 0);
@@ -35,6 +39,7 @@ public class EquipoSingleton {
         }
     }
 
+    //Carga los equipos de el archivo json si este existe
     public static ArrayList<Equipo> cargarEquipos(Context context) {
 
         try {
@@ -48,6 +53,5 @@ public class EquipoSingleton {
         }
         return equipos;
     }
-
 
 }
