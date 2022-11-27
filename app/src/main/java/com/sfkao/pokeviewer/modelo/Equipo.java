@@ -13,7 +13,7 @@ public class Equipo {
     private String nombre;
     private String autor;
     private String identificador;
-    private Pokemon pokemons[];
+    private Pokemon[] pokemons;
     private int likes;
     private int favoritos;
 

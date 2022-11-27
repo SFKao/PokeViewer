@@ -15,7 +15,7 @@ public class TestingUtils {
     public static ArrayList<Equipo> getEquipos(){
 
         ArrayList<Equipo> equipos = new ArrayList<>();
-        Pokemon pokemons[] = new Pokemon[6];
+        Pokemon[] pokemons = new Pokemon[6];
         Equipo e = new Equipo();
         for(int i = 0; i < 6; i++){
             pokemons[i] = ApiConexion.getInstance().getPokemon(String.valueOf(new Random().nextInt(900)));

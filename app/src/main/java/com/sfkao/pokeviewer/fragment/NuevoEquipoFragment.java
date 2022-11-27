@@ -152,8 +152,9 @@ public class NuevoEquipoFragment extends DialogFragment {
                 e = new Equipo();
             else
                 e = equipo;
+
             //El nombre es obligatorio
-            if(e.getNombre().equals("")){
+            if(nombreEquipo.getText().toString().equals("")){
                 Toast.makeText(getContext(),R.string.stringRequired,Toast.LENGTH_SHORT).show();
                 return;
             }
