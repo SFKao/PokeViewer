@@ -112,8 +112,10 @@ public class NuevoEquipoFragment extends DialogFragment {
             nombreEquipo.setText(equipo.getNombre());
             pokemons = equipo.getPokemons();
             for (int i = 0; i < 6; i++) {
-                Picasso.get().load(pokemons[i].getSprites().getFrontDefault()).into(pokemonImages[i]);
-                pokemon[i].setText(pokemons[i].getName());
+                if(pokemons[i]!=null) {
+                    Picasso.get().load(pokemons[i].getSprites().getFrontDefault()).into(pokemonImages[i]);
+                    pokemon[i].setText(pokemons[i].getName());
+                }
             }
         //En caso de que no, creo mi propio array de pokemons
         }else {
@@ -124,6 +126,8 @@ public class NuevoEquipoFragment extends DialogFragment {
         for (int i = 0; i < pokemonSearch.length; i++) {
             int finalI = i;
             pokemonSearch[i].setOnClickListener(view -> {
+                if(pokemon[finalI].getText().toString().equals(""))
+                    return;
                 Pokemon buscado = ApiConexion.getInstance().getPokemon(String.valueOf(pokemon[finalI].getText()));
                 //Si el pokemon no existe
                 if(buscado == null){
@@ -169,8 +173,10 @@ public class NuevoEquipoFragment extends DialogFragment {
                 EquipoSingleton.getEquipos().add(e);
                 ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemInserted(EquipoSingleton.getEquipos().indexOf(e));
             //Si estoy en modo editar
-            }else
-                EquipoSingleton.getEquipos().set(pos,e);
+            }else {
+                EquipoSingleton.getEquipos().set(pos, e);
+                ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemChanged(pos);
+            }
             //Guardo los cambios y salgo
             EquipoSingleton.guardarEquipos(context);
             dismiss();

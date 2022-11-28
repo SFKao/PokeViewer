@@ -79,8 +79,8 @@ public class MisEquipos extends Fragment {
                 //Izquierda borra
                 if(direction == ItemTouchHelper.LEFT){
                     EquipoSingleton.getEquipos().remove(pos);
-                    adapterEquipos.notifyItemRemoved(pos);
                     EquipoSingleton.guardarEquipos(context);
+                    adapterEquipos.notifyItemRemoved(pos);
                 //Derecha edita
                 }else if(direction == ItemTouchHelper.RIGHT){
                     DialogFragment anyadirEquipo = new NuevoEquipoFragment(EquipoSingleton.getEquipos().get(pos),pos);
@@ -88,6 +88,7 @@ public class MisEquipos extends Fragment {
                     anyadirEquipo.show(fm, "Añadir equipo");
                     adapterEquipos.notifyItemChanged(pos);
                 }
+
             }
 
             //Parte de una libreria de terceros llamada RecyclerViewSwipeDecorator.
