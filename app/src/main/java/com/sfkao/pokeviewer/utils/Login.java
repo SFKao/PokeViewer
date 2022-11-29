@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,7 +32,12 @@ public class Login {
 
     public static boolean tryLogin(String username, String password,Context context) {
         //Aqui tendriamos que checkear la bbdd
-        usuario = new User(username);
+        try {
+            usuario = PokeviewerConexion.getInstance().login(username,password,context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         saveUser(context);
         return true;
     }
@@ -72,6 +78,8 @@ public class Login {
         } catch (IOException e) {
             logout(context);
         }
+        if(usuario==null)
+            return logout(context);
         return usuario;
     }
 
