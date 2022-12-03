@@ -55,4 +55,11 @@
     <string name="seguir_sin_iniciar_sesi_n">Seguir sin iniciar sesión</string>
     <string name="se_requiere_nombre_de_usuario">Se requiere nombre de usuario</string>
     <string name="usuario_o_contra_incorrectos">Usuario o contraseña incorrectos</string>
+    <string name="repetir_contrase_a">Repetir contraseña</string>
+    <string name="usuario_obligatorio">El nombre de usuario es obligatorio</string>
+    <string name="email_obligatorio">El email es obligatorio</string>
+    <string name="pass_obligatorio">La contraseña es obligatoria</string>
+    <string name="repeatPass_obligatorio">Se ha de repetir la contraseña</string>
+    <string name="contrase_a_no_concuerdan">Las contraseñas no concuerdan</string>
+    <string name="no_se_pudo_encriptar">No se pudo encriptar la contraseña, esto es un error de la aplicación</string>
 </resources>

@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_login.LoginResponse;
 import com.sfkao.pokeviewer.utils.Login;
 
@@ -19,6 +20,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
+import javax.security.auth.login.LoginException;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -32,31 +34,55 @@ public class PokeviewerConexion {
         return api;
     }
 
-    //Obtener pokemon a partir del nombre
-    public Login.User login(String nombre, String pass, Context loginActivity) throws Exception {
+    //Obtener login
+    public Login.User login(String nombre, String pass, Context loginActivity) throws LoginException, SecurityException {
 
         //Uso gson para insertar los datos en mi POJO
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        byte[] codigicada = encode(pass,loginActivity);
+        byte[] codigicada;
+        try {
+            codigicada = encode(pass,loginActivity);
+        } catch (Exception e) {
+            throw new SecurityException(loginActivity.getString(R.string.no_se_pudo_encriptar));
+        }
         PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
         Call<LoginResponse> callSync = service.login(nombre, codigicada);
         //Hago la llamada
         try{
             retrofit2.Response<LoginResponse> response = callSync.execute();
             LoginResponse loginResponse = response.body();
-            Log.d("PROBANDO",loginResponse.getResponse());
-            Log.d("PROBANDO", String.valueOf(loginResponse.getCode()));
-            Log.d("PROBANDO",loginResponse.getUsuario().toString());
-
             if(loginResponse.getUsuario()!=null){
                 return (loginResponse.getUsuario().toUser());
             }
+            throw new LoginException(loginResponse.getResponse());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new SecurityException(loginActivity.getString(R.string.no_se_pudo_encriptar));
         }
-        return null;
+    }
+
+    public Login.User register(String nombre, String pass, String email, Context registerActivity) throws LoginException, SecurityException {
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        byte[] codigicada;
+        try {
+            codigicada = encode(pass,registerActivity);
+        } catch (Exception e) {
+            throw new SecurityException(registerActivity.getString(R.string.no_se_pudo_encriptar));
+        }
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<LoginResponse> callSync = service.register(nombre, codigicada,email);
+        try{
+            retrofit2.Response<LoginResponse> responde = callSync.execute();
+            LoginResponse loginResponse = responde.body();
+            if(loginResponse.getUsuario()!=null)
+                return loginResponse.getUsuario().toUser();
+            throw new LoginException(loginResponse.getResponse());
+        }catch(IOException e){
+            throw new SecurityException(registerActivity.getString(R.string.no_se_pudo_encriptar));
+        }
     }
 
     private PublicKey loadPublicKey(Context loginActivity) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
@@ -73,19 +99,6 @@ public class PokeviewerConexion {
         KeyFactory kf = KeyFactory.getInstance("RSA");
         return kf.generatePublic(spec);
     }
-
-    /*
-    private String encode(String toEncode,Context loginActivity) throws Exception {
-        PublicKey publicKey = loadPublicKey(loginActivity);
-        Cipher cipher = Cipher.getInstance("RSA");
-        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-        byte[] bytes = cipher.doFinal(toEncode.getBytes(StandardCharsets.UTF_8));
-        String encode = new String(Base64.getEncoder().encode(bytes));
-        Log.d("PROBANDO",encode);
-        return (encode);
-    }
-
-     */
 
     private byte[] encode(String toEncode,Context loginActivity) throws Exception {
         PublicKey publicKey = loadPublicKey(loginActivity);

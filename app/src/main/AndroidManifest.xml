@@ -13,18 +13,22 @@
         android:roundIcon="@drawable/pokeball"
         android:supportsRtl="true"
         android:theme="@style/Theme.PokeViewer"
-        tools:targetApi="31"
         android:usesCleartextTraffic="true"
-        >
+        tools:targetApi="31">
         <activity
-            android:name=".activities.LoginActivity"
-            android:exported="true">
-
+            android:name=".activities.RegisterActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
+        <activity
+            android:name=".activities.LoginActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".fragment.MisEquipos"
             android:exported="false">

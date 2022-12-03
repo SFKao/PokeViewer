@@ -36,6 +36,14 @@ public class LoginActivity extends AppCompatActivity {
         contrasenya = findViewById(R.id.passwordTextInput);
         iniciarSesion = findViewById(R.id.iniciarSesionButton);
         sinIniciar = findViewById(R.id.inivitadoButton);
+        registrarse = findViewById(R.id.registrarseButton);
+
+        registrarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                irARegister();
+            }
+        });
 
         //Si se selecciona iniciar sesion
         iniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -48,10 +56,14 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 //Si se loguea, ve al main, si no, muestra que algun campo es incorrecto
-                if(Login.tryLogin(nombreDeUsuario.getText().toString(), contrasenya.getText().toString(), LoginActivity.this ))
-                    irAMain();
-                else
-                    Toast.makeText(view.getContext(),R.string.usuario_o_contra_incorrectos,Toast.LENGTH_LONG).show();
+                try {
+                    if(Login.tryLogin(nombreDeUsuario.getText().toString(), contrasenya.getText().toString(), LoginActivity.this ))
+                        irAMain();
+                    else
+                        Toast.makeText(view.getContext(),R.string.usuario_o_contra_incorrectos,Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(view.getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -68,6 +80,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void irAMain(){
         Intent intent = new Intent(this,MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void irARegister(){
+        Intent intent = new Intent(this,RegisterActivity.class);
         startActivity(intent);
     }
 

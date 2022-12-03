@@ -14,10 +14,17 @@ public interface PokeviewerConnexionInterface {
     //Obtener pokemon a partir del nombre (o numero)
     //?usuario={username}&pass={pass}
     @GET("login")
-    Call<LoginResponse> login(@Query("usuario") String username, @Query("pass") String pass);
+    Call<LoginResponse> login(@Query("usuario") String username,
+                              @Query("pass") String pass);
 
     @GET("login")
-    Call<LoginResponse> login(@Query("usuario") String username, @Query("pass") byte[] pass);
+    Call<LoginResponse> login(@Query("usuario") String username,
+                              @Query("pass") byte[] pass);
+
+    @GET("register")
+    Call<LoginResponse> register(@Query("usuario")String username,
+                                 @Query("pass")byte[] pass,
+                                 @Query("email")String email);
 
 
 }

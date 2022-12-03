@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import javax.security.auth.login.LoginException;
+
 /**
  * Singleton que almacena y trabaja con el usuario logueado de la aplicacion
  */
@@ -30,16 +32,24 @@ public class Login {
         Login.usuario = usuario;
     }
 
-    public static boolean tryLogin(String username, String password,Context context) {
-        //Aqui tendriamos que checkear la bbdd
-        try {
-            usuario = PokeviewerConexion.getInstance().login(username,password,context);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    public static boolean tryLogin(String username, String password,Context context) throws LoginException {
+        User login = PokeviewerConexion.getInstance().login(username,password,context);
+        if(login!=null){
+            usuario = login;
+            saveUser(context);
+            return true;
         }
-        saveUser(context);
-        return true;
+        return false;
+    }
+
+    public static boolean tryRegister(String username, String pass, String email, Context context) throws LoginException {
+        User login = PokeviewerConexion.getInstance().register(username,pass,email,context);
+        if(login!=null){
+            usuario = login;
+            saveUser(context);
+            return true;
+        }
+        return false;
     }
 
     //Cuando inicio sesion guardo el usuario.
