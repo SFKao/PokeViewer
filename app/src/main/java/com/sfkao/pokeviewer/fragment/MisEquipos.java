@@ -3,6 +3,7 @@ package com.sfkao.pokeviewer.fragment;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,7 +123,10 @@ public class MisEquipos extends Fragment {
             }
         });
         //Coloco los equipos del singleton
-        ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.cargarEquipos(context));
+        Handler handler = new Handler();
+        ((EquipoAdapter) adapterEquipos).addLoading();
+        handler.postDelayed(() -> ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.cargarEquipos(context)),1000);
+
     }
 
     @Override
