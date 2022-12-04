@@ -22,7 +22,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
+import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
+
+import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -124,9 +127,18 @@ public class MisEquipos extends Fragment {
         });
         //Coloco los equipos del singleton
         Handler handler = new Handler();
-        ((EquipoAdapter) adapterEquipos).addLoading();
-        handler.postDelayed(() -> ((EquipoAdapter)adapterEquipos).setEquipos(EquipoSingleton.cargarEquipos(context)),1000);
-
+        new Thread(){
+            @Override
+            public void run() {
+                ArrayList<Equipo> es = EquipoSingleton.cargarEquipos(context);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((EquipoAdapter)adapterEquipos).setEquipos(es);
+                    }
+                });
+            }
+        }.start();
     }
 
     @Override

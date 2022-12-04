@@ -18,6 +18,7 @@ public class Equipo {
     private int favoritos;
 
     public Equipo() {
+        pokemons = new Pokemon[6];
     }
 
     public Equipo(String nombre, String autor, String identificador, Pokemon[] pokemons, int likes, int favoritos) {

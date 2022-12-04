@@ -9,6 +9,9 @@
         android:title="@string/mis_equipos"
         android:icon="@drawable/equipos"
         />
+    <item android:id="@+id/nav_equipos_online"
+        android:title="@string/equipos_online"
+        android:icon="@drawable/ic_baseline_travel_explore_24"/>
     <group android:menuCategory="container">
         <item android:id="@+id/iniciar_sesion_bar"
             android:title="@string/iniciar_sesion"

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sfkao.pokeviewer.R;
+import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_login.LoginResponse;
 import com.sfkao.pokeviewer.utils.Login;
 
@@ -18,6 +19,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.security.auth.login.LoginException;
@@ -84,6 +86,23 @@ public class PokeviewerConexion {
             throw new SecurityException(registerActivity.getString(R.string.no_se_pudo_encriptar));
         }
     }
+
+    public List<EquipoApi> getEquipos(int cantidad, int posInicial){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<List<EquipoApi>> call = service.getEquipos(cantidad,posInicial);
+        try{
+            retrofit2.Response<List<EquipoApi>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+
+
 
     private PublicKey loadPublicKey(Context loginActivity) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         //byte[] keyBytes = Files.readAllBytes(Paths.get("/public_key.der"));

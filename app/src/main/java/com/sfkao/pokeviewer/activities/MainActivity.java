@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
+import com.sfkao.pokeviewer.fragment.EquiposOnlineFragment;
 import com.sfkao.pokeviewer.fragment.MisEquipos;
 import com.sfkao.pokeviewer.utils.Login;
 import com.sfkao.pokeviewer.utils.Util;
@@ -121,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
                         barraLateral.getMenu().findItem(R.id.cerrar_sesion).setVisible(false);
                         barraLateral.getMenu().findItem(R.id.iniciar_sesion_bar).setVisible(true);
                         nombreDeUsuario.setText(Login.getUsername());
+                        break;
+                    case R.id.nav_equipos_online:
+                        changeFragment(new EquiposOnlineFragment());
                         break;
                 }
                 //Cierra el drawer

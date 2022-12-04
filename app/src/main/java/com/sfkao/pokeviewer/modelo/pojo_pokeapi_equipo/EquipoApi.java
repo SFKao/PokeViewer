@@ -2,6 +2,8 @@ package com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.sfkao.pokeviewer.apis.ApiConexion;
+import com.sfkao.pokeviewer.modelo.Equipo;
 
 public class EquipoApi {
 
@@ -40,5 +42,19 @@ public class EquipoApi {
         @Expose
         @SerializedName("username")
         public String username;
+    }
+
+    public Equipo load(){
+        Equipo e = new Equipo();
+        e.setNombre(nombre);
+        e.setAutor(usuario.username);
+        e.setIdentificador(id);
+        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon1),0);
+        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon2),1);
+        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon3),2);
+        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon4),3);
+        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon5),4);
+        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon6),5);
+        return e;
     }
 }

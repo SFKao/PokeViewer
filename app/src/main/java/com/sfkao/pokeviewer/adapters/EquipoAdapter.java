@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Adaptador que se encarga de mostrar los equipos en un recycler view
@@ -32,6 +33,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
 
     public EquipoAdapter() {
         equipos = new ArrayList<>();
+        equipos.add(null);
     }
 
     @NonNull
@@ -85,9 +87,13 @@ public class EquipoAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void addLoading() {
+    public void finnishedLoading(List<Equipo> toAdd){
+
+        int size = equipos.size();
+        equipos.remove(size -1);
+        equipos.addAll(toAdd);
         equipos.add(null);
-        notifyItemInserted(equipos.size()-1);
+        notifyItemRangeChanged(size-1, toAdd.size()+1);
     }
 
     @Override

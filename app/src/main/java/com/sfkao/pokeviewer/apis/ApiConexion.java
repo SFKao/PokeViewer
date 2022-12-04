@@ -43,6 +43,29 @@ public class ApiConexion {
         }
         return null;
     }
+
+    public Pokemon getPokemon(int num){
+        if(num == 0)
+            return null;
+        //Uso gson para insertar los datos en mi POJO
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiUtils.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+
+        ApiUtils service = retrofit.create(ApiUtils.class);
+
+        Call<Pokemon> callSync = service.getPokemon(String.valueOf(num));
+        //Hago la llamada
+        try{
+            retrofit2.Response<Pokemon> response = callSync.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     //Obtener el tipo a partir de su nombre
     public Tipo getTipo(String nombre){
 
