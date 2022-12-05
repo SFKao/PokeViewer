@@ -46,15 +46,47 @@ public class EquipoApi {
 
     public Equipo load(){
         Equipo e = new Equipo();
+
+        Thread[] t = new Thread[6];
+        int[] pokemons = new int[6];
+        pokemons[0] = pokemon1;
+        pokemons[1] = pokemon2;
+        pokemons[2] = pokemon3;
+        pokemons[3] = pokemon4;
+        pokemons[4] = pokemon5;
+        pokemons[5] = pokemon6;
         e.setNombre(nombre);
         e.setAutor(usuario.username);
         e.setIdentificador(id);
+
+        for(int i = 0; i < 6; i++){
+            int finalI = i;
+            t[i] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    e.setPokemon(ApiConexion.getInstance().getPokemon(pokemons[finalI]), finalI);
+                }
+            });
+            t[i].start();
+        }
+
+        try{
+            for (Thread tr:t) {
+                tr.join();
+            }
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+        /*
         e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon1),0);
         e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon2),1);
         e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon3),2);
         e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon4),3);
         e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon5),4);
         e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon6),5);
+
+         */
         return e;
     }
 }

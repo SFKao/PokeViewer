@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,8 +23,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
+import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
+import com.sfkao.pokeviewer.utils.Login;
 
 import java.util.ArrayList;
 
@@ -32,7 +35,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 /**
  * Fragmento que almacena mis equipos, se invoca desde el menu lateral
  */
-public class MisEquipos extends Fragment {
+public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClickListener {
 
     RecyclerView recyclerEquipos;
     RecyclerView.Adapter adapterEquipos;
@@ -115,6 +118,8 @@ public class MisEquipos extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerEquipos);
 
+        ((EquipoAdapter)adapterEquipos).setOnItemLongClickListener(this);
+
         //Hago que el boton llame a un dialog fragment al ser pulsado
         floatingActionButton= view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +144,19 @@ public class MisEquipos extends Fragment {
                 });
             }
         }.start();
+    }
+
+    @Override
+    public boolean onItemLongClicked(Equipo e) {
+        if(Login.isInvited()){
+            Toast.makeText(context, getString(R.string.necesitas_estar_logueado), Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        Equipo devuelto = PokeviewerConexion.getInstance().subirEquipo(e);
+        int pos = ((EquipoAdapter)adapterEquipos).getEquipos().indexOf(e);
+        ((EquipoAdapter)adapterEquipos).getEquipos().set(pos,devuelto);
+        adapterEquipos.notifyItemChanged(pos);
+        return true;
     }
 
     @Override

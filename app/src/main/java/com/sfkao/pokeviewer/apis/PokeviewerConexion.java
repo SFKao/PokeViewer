@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sfkao.pokeviewer.R;
+import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_login.LoginResponse;
 import com.sfkao.pokeviewer.utils.Login;
@@ -97,6 +98,33 @@ public class PokeviewerConexion {
             retrofit2.Response<List<EquipoApi>> response = call.execute();
             return response.body();
         } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Equipo subirEquipo(Equipo e){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<EquipoApi> call = service.saveEquipo(
+                e.getNombre(),
+                Login.getUsuario().getApi_key(),
+                e.getPokemon(0).getId(),
+                e.getPokemon(1).getId(),
+                e.getPokemon(2).getId(),
+                e.getPokemon(3).getId(),
+                e.getPokemon(4).getId(),
+                e.getPokemon(5).getId()
+        );
+        try{
+            retrofit2.Response<EquipoApi> response = call.execute();
+            EquipoApi equipoApi = response.body();
+            e.setIdentificador(equipoApi.id);
+            return e;
+        } catch (IOException ex) {
+            ex.printStackTrace();
             return null;
         }
     }

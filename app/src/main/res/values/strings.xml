@@ -63,4 +63,5 @@
     <string name="contrase_a_no_concuerdan">Las contraseñas no concuerdan</string>
     <string name="no_se_pudo_encriptar">No se pudo encriptar la contraseña, esto es un error de la aplicación</string>
     <string name="equipos_online">Equipos online</string>
+    <string name="necesitas_estar_logueado">Necesitas estar logueado para ello</string>
 </resources>

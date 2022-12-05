@@ -27,6 +27,9 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     private static final int VIEW_LOADING = 2;
     private ArrayList<Equipo> equipos;
 
+    OnItemLongClickListener onItemLongClickListener;
+
+
     public EquipoAdapter(ArrayList<Equipo> equipos) {
         this.equipos = equipos;
     }
@@ -34,6 +37,14 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     public EquipoAdapter() {
         equipos = new ArrayList<>();
         equipos.add(null);
+    }
+
+    public OnItemLongClickListener getOnItemLongClickListener() {
+        return onItemLongClickListener;
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.onItemLongClickListener = onItemLongClickListener;
     }
 
     @NonNull
@@ -65,6 +76,15 @@ public class EquipoAdapter extends RecyclerView.Adapter {
                     Picasso.get().load(e.getPokemon(i).getSprites().getFrontDefault()).into(((ViewHolder) holder).pokemons[i]);
                 }
             }
+            ((ViewHolder) holder).view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (onItemLongClickListener != null)
+                        onItemLongClickListener.onItemLongClicked(e);
+                    return true;
+                }
+            });
+
         }else if (holder instanceof ViewHolderLoading){
 
         }
@@ -99,6 +119,10 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         return equipos.get(position) != null ? VIEW_ITEM : VIEW_LOADING;
+    }
+
+    public interface OnItemLongClickListener{
+        public boolean onItemLongClicked(Equipo e);
     }
 
     /**

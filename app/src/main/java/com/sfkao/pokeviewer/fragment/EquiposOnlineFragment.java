@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,7 +59,7 @@ public class EquiposOnlineFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 if(!cargandoElementos) {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    if(linearLayoutManager != null && linearLayoutManager.findLastVisibleItemPosition() >= adapterEquipos.getItemCount()-5){
+                    if(linearLayoutManager != null && linearLayoutManager.findLastVisibleItemPosition() >= cargados-aCargar/2){
                         cargandoElementos = true;
                         cargarMas();
                     }
@@ -67,6 +68,7 @@ public class EquiposOnlineFragment extends Fragment {
         });
         cargandoElementos = true;
         cargarMas();
+        aCargar = 20;
     }
 
     private void cargarMas() {
@@ -75,6 +77,15 @@ public class EquiposOnlineFragment extends Fragment {
             @Override
             public void run() {
                 List<EquipoApi> equipoApis = PokeviewerConexion.getInstance().getEquipos(aCargar, cargados);
+                if(equipoApis == null){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Equipo null", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    return;
+                }
                 cargados+=aCargar;
                 List<Equipo> toAdd = new ArrayList<>();
                 equipoApis.forEach((equipoApi -> toAdd.add(equipoApi.load())));
