@@ -12,6 +12,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -77,6 +78,10 @@ public class BuscadorFragment extends Fragment {
 
     //Busca al pokemon y imprimelo
     private void buscar(){
+        if(textoPokemon.getText().toString().equals("")){
+            Toast.makeText(context, R.string.pokemonOrNumber, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Pokemon pokemon2 = ApiConexion.getInstance().getPokemon(String.valueOf(textoPokemon.getText()));
         if(pokemon2 == null) {
             textError.setText(R.string.pokemonNotFound);
