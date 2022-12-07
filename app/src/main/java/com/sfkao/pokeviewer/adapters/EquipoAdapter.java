@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sfkao.pokeviewer.R;
-import com.sfkao.pokeviewer.modelo.Equipo;
+import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 import com.squareup.picasso.Picasso;
 
 import java.text.MessageFormat;
@@ -25,12 +25,12 @@ public class EquipoAdapter extends RecyclerView.Adapter {
 
     private static final int VIEW_ITEM = 1;
     private static final int VIEW_LOADING = 2;
-    private ArrayList<Equipo> equipos;
+    private ArrayList<EquipoForAdapterInterface> equipos;
 
     OnItemLongClickListener onItemLongClickListener;
 
 
-    public EquipoAdapter(ArrayList<Equipo> equipos) {
+    public EquipoAdapter(ArrayList<EquipoForAdapterInterface> equipos) {
         this.equipos = equipos;
     }
 
@@ -64,16 +64,16 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         //Coloco los datos del equipo en el holder.
         if(holder instanceof ViewHolder) {
-            Equipo e = equipos.get(position);
-            ((ViewHolder) holder).nombre.setText(e.getNombre());
-            ((ViewHolder) holder).autor.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.autor), e.getAutor()));
-            ((ViewHolder) holder).codigo.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.id), e.getIdentificador()));
+            EquipoForAdapterInterface e = equipos.get(position);
+            ((ViewHolder) holder).nombre.setText(e.getName());
+            ((ViewHolder) holder).autor.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.autor), e.getUser()));
+            ((ViewHolder) holder).codigo.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.id), e.getId()));
             ((ViewHolder) holder).likes.setText(String.valueOf(e.getLikes()));
-            ((ViewHolder) holder).favoritos.setText(String.valueOf(e.getFavoritos()));
+            ((ViewHolder) holder).favoritos.setText(String.valueOf(e.getFavs()));
             //Coloco las 6 imagenes de los pokemon
             for (int i = 0; i < ((ViewHolder) holder).pokemons.length; i++) {
-                if (e.getPokemon(i) != null) {
-                    Picasso.get().load(e.getPokemon(i).getSprites().getFrontDefault()).into(((ViewHolder) holder).pokemons[i]);
+                if (e.isPokemon(i)) {
+                    Picasso.get().load(e.getPokImg(i)).into(((ViewHolder) holder).pokemons[i]);
                 }
             }
             ((ViewHolder) holder).view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -85,9 +85,9 @@ public class EquipoAdapter extends RecyclerView.Adapter {
                 }
             });
 
-        }else if (holder instanceof ViewHolderLoading){
+        }//else if (holder instanceof ViewHolderLoading){
 
-        }
+        //}
     }
 
 
@@ -96,18 +96,18 @@ public class EquipoAdapter extends RecyclerView.Adapter {
         return equipos.size();
     }
 
-    public ArrayList<Equipo> getEquipos() {
+    public ArrayList<EquipoForAdapterInterface> getEquipos() {
         return equipos;
     }
 
 
-    public void setEquipos(ArrayList<Equipo> equipos) {
+    public void setEquipos(ArrayList<EquipoForAdapterInterface> equipos) {
         this.equipos = equipos;
         //Si cambio los equipos desde fuera, notifico de que se han cambiado y se ha de redibujar
         notifyDataSetChanged();
     }
 
-    public void finnishedLoading(List<Equipo> toAdd){
+    public void finnishedLoading(List<EquipoForAdapterInterface> toAdd){
 
         int size = equipos.size();
         equipos.remove(size -1);
@@ -122,7 +122,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnItemLongClickListener{
-        public boolean onItemLongClicked(Equipo e);
+        public boolean onItemLongClicked(EquipoForAdapterInterface e);
     }
 
     /**

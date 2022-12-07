@@ -18,7 +18,7 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.PokeviewerConexion;
-import com.sfkao.pokeviewer.modelo.Equipo;
+import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class EquiposOnlineFragment extends Fragment {
     MainActivity context;
 
     int cargados = 0;
-    int aCargar = 10;
+    int aCargar = 20;
 
     boolean cargandoElementos;
 
@@ -68,7 +68,6 @@ public class EquiposOnlineFragment extends Fragment {
         });
         cargandoElementos = true;
         cargarMas();
-        aCargar = 20;
     }
 
     private void cargarMas() {
@@ -87,8 +86,7 @@ public class EquiposOnlineFragment extends Fragment {
                     return;
                 }
                 cargados+=aCargar;
-                List<Equipo> toAdd = new ArrayList<>();
-                equipoApis.forEach((equipoApi -> toAdd.add(equipoApi.load())));
+                List<EquipoForAdapterInterface> toAdd = new ArrayList<>(equipoApis);
                 handler.post(() -> {
                     adapterEquipos.finnishedLoading(toAdd);
                     cargandoElementos = false;

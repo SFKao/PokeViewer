@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Clase que almacena informacion de un equipo pokemon
  */
-public class Equipo {
+public class Equipo implements EquipoForAdapterInterface{
 
     private String nombre;
     private String autor;
@@ -111,5 +111,50 @@ public class Equipo {
                 ", likes=" + likes +
                 ", favoritos=" + favoritos +
                 '}';
+    }
+
+    @Override
+    public String getName() {
+        return nombre;
+    }
+
+    @Override
+    public String getUser() {
+        return autor;
+    }
+
+    @Override
+    public String getId() {
+        return identificador;
+    }
+
+    @Override
+    public String getPokImg(int pok) {
+        return pokemons[pok].getSprites().getFrontDefault();
+    }
+
+    @Override
+    public String getPokSImg(int pok) {
+        return pokemons[pok].getSprites().getFrontShiny();
+    }
+
+    @Override
+    public String getPokName(int pok) {
+        return pokemons[pok].getName();
+    }
+
+    @Override
+    public int getPokId(int pok) {
+        return pokemons[pok].getId();
+    }
+
+    @Override
+    public int getFavs() {
+        return favoritos;
+    }
+
+    @Override
+    public boolean isPokemon(int pok) {
+        return pokemons[pok] != null;
     }
 }

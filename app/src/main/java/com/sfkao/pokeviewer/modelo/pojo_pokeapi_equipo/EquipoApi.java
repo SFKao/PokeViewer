@@ -2,91 +2,110 @@ package com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.sfkao.pokeviewer.apis.ApiConexion;
-import com.sfkao.pokeviewer.modelo.Equipo;
+import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 
-public class EquipoApi {
+import java.util.List;
+
+public class EquipoApi implements EquipoForAdapterInterface {
+
 
     @Expose
-    @SerializedName("pokemon6")
-    public int pokemon6;
-    @Expose
-    @SerializedName("pokemon5")
-    public int pokemon5;
-    @Expose
-    @SerializedName("pokemon4")
-    public int pokemon4;
-    @Expose
-    @SerializedName("pokemon3")
-    public int pokemon3;
-    @Expose
-    @SerializedName("pokemon2")
-    public int pokemon2;
-    @Expose
-    @SerializedName("pokemon1")
-    public int pokemon1;
-    @Expose
-    @SerializedName("fecha")
-    public String fecha;
+    @SerializedName("pokemons")
+    private List<PokemonsMinimal> pokemons;
     @Expose
     @SerializedName("usuario")
-    public Usuario usuario;
+    private String usuario;
     @Expose
-    @SerializedName("nombre")
-    public String nombre;
+    @SerializedName("name")
+    private String name;
     @Expose
     @SerializedName("id")
-    public String id;
+    private String id;
 
-    public static class Usuario {
+    public static class PokemonsMinimal {
         @Expose
-        @SerializedName("username")
-        public String username;
+        @SerializedName("imgS")
+        private String imgs;
+        @Expose
+        @SerializedName("img")
+        private String img;
+        @Expose
+        @SerializedName("name")
+        private String name;
+        @Expose
+        @SerializedName("id")
+        private int id;
     }
 
-    public Equipo load(){
-        Equipo e = new Equipo();
+    public List<PokemonsMinimal> getPokemons() {
+        return pokemons;
+    }
 
-        Thread[] t = new Thread[6];
-        int[] pokemons = new int[6];
-        pokemons[0] = pokemon1;
-        pokemons[1] = pokemon2;
-        pokemons[2] = pokemon3;
-        pokemons[3] = pokemon4;
-        pokemons[4] = pokemon5;
-        pokemons[5] = pokemon6;
-        e.setNombre(nombre);
-        e.setAutor(usuario.username);
-        e.setIdentificador(id);
+    public void setPokemons(List<PokemonsMinimal> pokemons) {
+        this.pokemons = pokemons;
+    }
 
-        for(int i = 0; i < 6; i++){
-            int finalI = i;
-            t[i] = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    e.setPokemon(ApiConexion.getInstance().getPokemon(pokemons[finalI]), finalI);
-                }
-            });
-            t[i].start();
-        }
+    public String getUsuario() {
+        return usuario;
+    }
 
-        try{
-            for (Thread tr:t) {
-                tr.join();
-            }
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
-        /*
-        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon1),0);
-        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon2),1);
-        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon3),2);
-        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon4),3);
-        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon5),4);
-        e.setPokemon(ApiConexion.getInstance().getPokemon(pokemon6),5);
+    public String getName() {
+        return name;
+    }
 
-         */
-        return e;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getUser() {
+        return usuario;
+    }
+
+    @Override
+    public String getPokImg(int pok) {
+        return pokemons.get(pok).img;
+    }
+
+    @Override
+    public String getPokSImg(int pok) {
+        return pokemons.get(pok).imgs;
+    }
+
+    @Override
+    public String getPokName(int pok) {
+        return pokemons.get(pok).name;
+    }
+
+    @Override
+    public int getPokId(int pok) {
+        return pokemons.get(pok).id;
+    }
+
+    @Override
+    public int getLikes() {
+        return 0;
+    }
+
+    @Override
+    public int getFavs() {
+        return 0;
+    }
+
+    @Override
+    public boolean isPokemon(int pok) {
+        return pokemons.get(pok) != null;
     }
 }

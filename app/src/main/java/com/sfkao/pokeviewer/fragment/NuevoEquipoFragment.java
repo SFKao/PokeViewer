@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
+import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
@@ -171,6 +172,7 @@ public class NuevoEquipoFragment extends DialogFragment {
             //Si estoy en modo añadir
             if(equipo==null) {
                 EquipoSingleton.getEquipos().add(e);
+                ((EquipoAdapter)((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter()).getEquipos().add(e);
                 ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemInserted(EquipoSingleton.getEquipos().indexOf(e));
             //Si estoy en modo editar
             }else {

@@ -25,6 +25,7 @@ import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 import com.sfkao.pokeviewer.modelo.Equipo;
+import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
 import com.sfkao.pokeviewer.utils.Login;
 
@@ -86,6 +87,7 @@ public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClic
                 //Izquierda borra
                 if(direction == ItemTouchHelper.LEFT){
                     EquipoSingleton.getEquipos().remove(pos);
+                    ((EquipoAdapter)adapterEquipos).getEquipos().remove(pos);
                     EquipoSingleton.guardarEquipos(context);
                     adapterEquipos.notifyItemRemoved(pos);
                 //Derecha edita
@@ -130,16 +132,18 @@ public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClic
                 anyadirEquipo.show(fm, "Añadir equipo");
             }
         });
+
         //Coloco los equipos del singleton
         Handler handler = new Handler();
         new Thread(){
             @Override
             public void run() {
                 ArrayList<Equipo> es = EquipoSingleton.cargarEquipos(context);
+                ArrayList<EquipoForAdapterInterface> in = new ArrayList<>(es);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        ((EquipoAdapter)adapterEquipos).setEquipos(es);
+                        ((EquipoAdapter)adapterEquipos).setEquipos(in);
                     }
                 });
             }
@@ -147,12 +151,12 @@ public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClic
     }
 
     @Override
-    public boolean onItemLongClicked(Equipo e) {
+    public boolean onItemLongClicked(EquipoForAdapterInterface e) {
         if(Login.isInvited()){
             Toast.makeText(context, getString(R.string.necesitas_estar_logueado), Toast.LENGTH_SHORT).show();
             return true;
         }
-        Equipo devuelto = PokeviewerConexion.getInstance().subirEquipo(e);
+        Equipo devuelto = PokeviewerConexion.getInstance().subirEquipo((Equipo) e);
         int pos = ((EquipoAdapter)adapterEquipos).getEquipos().indexOf(e);
         ((EquipoAdapter)adapterEquipos).getEquipos().set(pos,devuelto);
         adapterEquipos.notifyItemChanged(pos);
