@@ -69,4 +69,7 @@
     <string name="idHint">id</string>
     <string name="salir">Salir</string>
     <string name="equipo_no_encontrado">No se ha encontrado el equipo</string>
+    <string name="se_ha_borrado_el_equipo">Se ha borrado el equipo</string>
+    <string name="no_se_puede_borrar_un_equipo_subido">No se puede borrar un equipo subido</string>
+    <string name="no_se_puede_editar_un_equipo_subido">No se puede editar un equipo subido</string>
 </resources>

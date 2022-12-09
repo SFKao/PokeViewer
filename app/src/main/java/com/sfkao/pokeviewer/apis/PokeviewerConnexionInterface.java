@@ -52,5 +52,10 @@ public interface PokeviewerConnexionInterface {
             @Query("posInicial")int posInicial
     );
 
+    @GET("borrar_equipo")
+    Call<Boolean> borrarEquipoByID(
+            @Query("id")String id
+    );
+
 
 }

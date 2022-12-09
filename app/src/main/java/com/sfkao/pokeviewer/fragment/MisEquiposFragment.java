@@ -86,12 +86,22 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
                 int pos = viewHolder.getBindingAdapterPosition();
                 //Izquierda borra
                 if(direction == ItemTouchHelper.LEFT){
+                    if(EquipoSingleton.getEquipos().get(pos).getId()!=null){
+                        Toast.makeText(context, R.string.no_se_puede_borrar_un_equipo_subido, Toast.LENGTH_SHORT).show();
+                        adapterEquipos.notifyItemChanged(pos);
+                        return;
+                    }
                     EquipoSingleton.getEquipos().remove(pos);
                     ((EquipoAdapter)adapterEquipos).getEquipos().remove(pos);
                     EquipoSingleton.guardarEquipos(context);
                     adapterEquipos.notifyItemRemoved(pos);
                 //Derecha edita
                 }else if(direction == ItemTouchHelper.RIGHT){
+                    if(EquipoSingleton.getEquipos().get(pos).getId()!=null){
+                        Toast.makeText(context, R.string.no_se_puede_editar_un_equipo_subido, Toast.LENGTH_SHORT).show();
+                        adapterEquipos.notifyItemChanged(pos);
+                        return;
+                    }
                     DialogFragment anyadirEquipo = new NuevoEquipoFragment(EquipoSingleton.getEquipos().get(pos),pos);
                     FragmentManager fm = context.getSupportFragmentManager();
                     anyadirEquipo.show(fm, "Añadir equipo");
@@ -156,11 +166,24 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
             Toast.makeText(context, getString(R.string.necesitas_estar_logueado), Toast.LENGTH_SHORT).show();
             return true;
         }
-        Equipo devuelto = PokeviewerConexion.getInstance().subirEquipo((Equipo) e);
-        int pos = ((EquipoAdapter)adapterEquipos).getEquipos().indexOf(e);
-        ((EquipoAdapter)adapterEquipos).getEquipos().set(pos,devuelto);
-        adapterEquipos.notifyItemChanged(pos);
-        return true;
+        if(e.getId()==null){
+            Equipo devuelto = PokeviewerConexion.getInstance().subirEquipo((Equipo) e);
+            int pos = ((EquipoAdapter)adapterEquipos).getEquipos().indexOf(e);
+            ((EquipoAdapter)adapterEquipos).getEquipos().set(pos,devuelto);
+            adapterEquipos.notifyItemChanged(pos);
+            EquipoSingleton.guardarEquipos(context);
+            return true;
+        }else{
+            boolean borrado = PokeviewerConexion.getInstance().borrarEquipo(e.getId());
+            if(borrado) {
+                Toast.makeText(context, R.string.se_ha_borrado_el_equipo, Toast.LENGTH_SHORT).show();
+                int pos = ((EquipoAdapter)adapterEquipos).getEquipos().indexOf(e);
+                ((Equipo)((EquipoAdapter)adapterEquipos).getEquipos().get(pos)).setIdentificador(null);
+                adapterEquipos.notifyItemChanged(pos);
+                EquipoSingleton.guardarEquipos(context);
+            }
+            return borrado;
+        }
     }
 
     @Override

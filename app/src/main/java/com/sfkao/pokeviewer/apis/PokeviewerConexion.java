@@ -112,16 +112,18 @@ public class PokeviewerConexion {
                 e.getNombre(),
                 Login.getUsuario().getApi_key(),
                 e.getPokemon(0).getId(),
-                e.getPokemon(1).getId(),
-                e.getPokemon(2).getId(),
-                e.getPokemon(3).getId(),
-                e.getPokemon(4).getId(),
-                e.getPokemon(5).getId()
+                e.getPokemon(1) == null ? 0 : e.getPokemon(1).getId(),
+                e.getPokemon(2) == null ? 0 : e.getPokemon(2).getId(),
+                e.getPokemon(3) == null ? 0 : e.getPokemon(3).getId(),
+                e.getPokemon(4) == null ? 0 : e.getPokemon(4).getId(),
+                e.getPokemon(5) == null ? 0 : e.getPokemon(5).getId()
         );
+        Log.d("DEBUGGIN",Login.getUsuario().getApi_key());
         try{
             retrofit2.Response<EquipoApi> response = call.execute();
             EquipoApi equipoApi = response.body();
             e.setIdentificador(equipoApi.getId());
+            e.setAutor(equipoApi.getUser());
             return e;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -141,6 +143,21 @@ public class PokeviewerConexion {
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public boolean borrarEquipo(String id){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.borrarEquipoByID(id);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

@@ -166,7 +166,7 @@ public class NuevoEquipoFragment extends DialogFragment {
             //Coloco el nuevo nombre, autor a partir del usuario y local ya que este no se ha subido
             e.setNombre(String.valueOf(nombreEquipo.getText()));
             e.setAutor(Login.getUsername());
-            e.setIdentificador("Local");
+            e.setIdentificador(null);
             //Coloco los pokemons
             e.setPokemons(pokemons);
             //Si estoy en modo añadir
