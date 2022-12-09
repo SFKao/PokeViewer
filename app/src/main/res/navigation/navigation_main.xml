@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_buscador" />
     <fragment
         android:id="@+id/misEquipos"
-        android:name="com.sfkao.pokeviewer.fragment.MisEquipos"
+        android:name="com.sfkao.pokeviewer.fragment.MisEquiposFragment"
         android:label="fragment_mis_equipos"
         tools:layout="@layout/fragment_mis_equipos" />
 </navigation>

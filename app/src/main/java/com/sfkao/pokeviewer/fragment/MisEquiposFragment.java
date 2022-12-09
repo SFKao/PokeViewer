@@ -36,7 +36,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 /**
  * Fragmento que almacena mis equipos, se invoca desde el menu lateral
  */
-public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClickListener {
+public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItemLongClickListener {
 
     RecyclerView recyclerEquipos;
     RecyclerView.Adapter adapterEquipos;
@@ -45,7 +45,7 @@ public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClic
 
     MainActivity context;
 
-    public MisEquipos() {
+    public MisEquiposFragment() {
         // Required empty public constructor
     }
 

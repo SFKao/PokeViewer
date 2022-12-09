@@ -129,7 +129,20 @@ public class PokeviewerConexion {
         }
     }
 
-
+    public EquipoApi getEquipo(String id){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<EquipoApi> call = service.getEquipoByID(id);
+        try{
+            retrofit2.Response<EquipoApi> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
     private PublicKey loadPublicKey(Context loginActivity) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {

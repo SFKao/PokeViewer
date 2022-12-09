@@ -10,10 +10,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
@@ -28,6 +31,7 @@ public class EquiposOnlineFragment extends Fragment {
 
     RecyclerView recyclerEquipos;
     EquipoAdapter adapterEquipos;
+    FloatingActionButton buscadorButton;
 
     MainActivity context;
 
@@ -48,6 +52,7 @@ public class EquiposOnlineFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //Obtengo sus views
         recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_equipos_online);
+        buscadorButton = view.findViewById(R.id.buscador_button);
         adapterEquipos = new EquipoAdapter();
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
@@ -66,6 +71,17 @@ public class EquiposOnlineFragment extends Fragment {
                 }
             }
         });
+
+        buscadorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment buscadorEquipo = new BuscadorEquiposFragment();
+                FragmentManager fm = context.getSupportFragmentManager();
+                buscadorEquipo.show(fm, "Buscar equipo");
+            }
+        });
+
+
         cargandoElementos = true;
         cargarMas();
     }
