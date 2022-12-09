@@ -2,6 +2,9 @@ plugins {
     id 'com.android.application'
 }
 
+apply plugin: 'realm-android'
+
+
 android {
     namespace 'com.sfkao.pokeviewer'
     compileSdk 32
@@ -68,3 +71,4 @@ dependencies {
 
     implementation 'com.android.support:support-annotations:28.0.0'
 }
+

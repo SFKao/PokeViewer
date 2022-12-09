@@ -28,6 +28,9 @@ import com.sfkao.pokeviewer.utils.Util;
 import java.util.HashMap;
 import java.util.Objects;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
@@ -50,6 +53,18 @@ public class MainActivity extends AppCompatActivity {
 
         //Retrofit2 lo pide, no termino de entender que es pero aqui se queda.
         StrictMode.setThreadPolicy( new StrictMode.ThreadPolicy.Builder().permitAll().build());
+
+
+        Realm.init(this);
+        String realmName = "Pokeviewer";
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .name(realmName)
+                        .allowQueriesOnUiThread(true)
+                                .allowWritesOnUiThread(true)
+                                        .compactOnLaunch()
+                                                .build();
+        Realm.setDefaultConfiguration(configuration);
+
 
         //Mira si ya existe un usuario
         Login.autoLogin(this);
