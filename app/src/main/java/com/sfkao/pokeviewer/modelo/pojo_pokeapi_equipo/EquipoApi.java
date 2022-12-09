@@ -75,6 +75,34 @@ public class EquipoApi implements EquipoForAdapterInterface {
         this.name = name;
     }
 
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(int favoritos) {
+        this.favoritos = favoritos;
+    }
+
+    public boolean isDadoLike() {
+        return dadoLike;
+    }
+
+    public void setDadoLike(boolean dadoLike) {
+        this.dadoLike = dadoLike;
+    }
+
+    public boolean isDadoFavoritos() {
+        return dadoFavoritos;
+    }
+
+    public void setDadoFavoritos(boolean dadoFavoritos) {
+        this.dadoFavoritos = dadoFavoritos;
+    }
+
     public String getId() {
         return id;
     }

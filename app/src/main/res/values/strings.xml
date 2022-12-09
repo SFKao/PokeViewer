@@ -72,4 +72,5 @@
     <string name="se_ha_borrado_el_equipo">Se ha borrado el equipo</string>
     <string name="no_se_puede_borrar_un_equipo_subido">No se puede borrar un equipo subido</string>
     <string name="no_se_puede_editar_un_equipo_subido">No se puede editar un equipo subido</string>
+    <string name="hubo_un_error">Hubo un error en el servidor, pruebe mas tarde</string>
 </resources>

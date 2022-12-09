@@ -169,6 +169,66 @@ public class PokeviewerConexion {
         }
     }
 
+    public boolean darLike(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.darLike(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean quitarLike(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.quitarLike(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean darFavorito(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.darFavorito(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean quitarFavorito(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.quitarFavorito(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     private PublicKey loadPublicKey(Context loginActivity) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
         //byte[] keyBytes = Files.readAllBytes(Paths.get("/public_key.der"));

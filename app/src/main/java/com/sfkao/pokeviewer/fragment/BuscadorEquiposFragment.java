@@ -113,6 +113,8 @@ public class BuscadorEquiposFragment extends DialogFragment {
         for (int i = 0; i < pokemons.length; i++) {
             if (equipo.isPokemon(i)) {
                 Picasso.get().load(equipo.getPokImg(i)).into(pokemons[i]);
+            }else{
+                pokemons[i].setImageDrawable(context.getDrawable(R.drawable.pokeball));
             }
         }
         if(equipo.getDadoLike()){
