@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,6 +121,8 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
                         .addSwipeLeftActionIcon(R.drawable.delete)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(context, R.color.lime))
                         .addSwipeRightActionIcon(R.drawable.edit)
+                        .addSwipeLeftCornerRadius(TypedValue.COMPLEX_UNIT_DIP,50)
+                        .addSwipeRightCornerRadius(TypedValue.COMPLEX_UNIT_DIP,50)
                         .create()
                         .decorate();
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);

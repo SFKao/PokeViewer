@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,6 +164,8 @@ public class EquiposOnlineFragment extends Fragment {
                         .addSwipeLeftActionIcon(R.drawable.like_unpressed)
                         .addSwipeRightBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
                         .addSwipeRightActionIcon(R.drawable.star_unpressed)
+                        .addSwipeLeftCornerRadius(TypedValue.COMPLEX_UNIT_DIP,50)
+                        .addSwipeRightCornerRadius(TypedValue.COMPLEX_UNIT_DIP,50)
                         .create()
                         .decorate();
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
