@@ -12,5 +12,7 @@ public interface EquipoForAdapterInterface {
     public int getPokId(int pok);
     public int getLikes();
     public int getFavs();
+    public boolean getDadoLike();
+    public boolean getDadoFav();
 
 }

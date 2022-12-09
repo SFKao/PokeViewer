@@ -63,10 +63,10 @@
                 android:textStyle="bold"
                 android:textColor="@color/text"
                 />
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/equipo_like_button"
+                android:id="@+id/equipo_like_img"
                 android:src="@drawable/like_unpressed"
                 app:tint="@color/text"
                 android:background="@color/background"
@@ -84,10 +84,10 @@
                 android:textStyle="bold"
                 android:textColor="@color/text"/>
 
-            <ImageButton
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/equipo_favorito_button"
+                android:id="@+id/equipo_favorito_img"
                 android:src="@drawable/star_pressed"
                 app:tint="@color/yellow"
                 android:background="@color/background"

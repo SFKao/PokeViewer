@@ -45,11 +45,23 @@ public interface PokeviewerConnexionInterface {
     Call<EquipoApi> getEquipoByID(
             @Query("id")String id
     );
+    @GET("get_equipo")
+    Call<EquipoApi> getEquipoByID(
+            @Query("id")String id,
+            @Query("apikey")String apikey
+    );
 
     @GET("get_equipos")
     Call<List<EquipoApi>> getEquipos(
             @Query("cantidad")int cantidad,
             @Query("posInicial")int posInicial
+    );
+
+    @GET("get_equipos")
+    Call<List<EquipoApi>> getEquipos(
+            @Query("cantidad")int cantidad,
+            @Query("posInicial")int posInicial,
+            @Query("apikey")String apikey
     );
 
     @GET("borrar_equipo")

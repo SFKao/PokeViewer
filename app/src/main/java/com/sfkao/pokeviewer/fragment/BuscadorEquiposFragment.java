@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.sfkao.pokeviewer.R;
@@ -32,6 +33,8 @@ public class BuscadorEquiposFragment extends DialogFragment {
     private Button favoritosButton, likeButton, salirButton;
     private ImageButton buscarButton;
     private EditText idInput;
+
+    public ImageView likeImg, favImg;
 
     private EquipoApi equipo;
 
@@ -64,6 +67,9 @@ public class BuscadorEquiposFragment extends DialogFragment {
         codigo = view.findViewById(R.id.codigo_equipo);
         likes = view.findViewById(R.id.likes_equipo);
         favoritos = view.findViewById(R.id.favoritos_equipo);
+
+        likeImg = view.findViewById(R.id.equipo_like_img);
+        favImg = view.findViewById(R.id.equipo_favorito_img);
 
         favoritosButton = view.findViewById(R.id.favoritos_button);
         likeButton = view.findViewById(R.id.like_button);
@@ -108,6 +114,21 @@ public class BuscadorEquiposFragment extends DialogFragment {
             if (equipo.isPokemon(i)) {
                 Picasso.get().load(equipo.getPokImg(i)).into(pokemons[i]);
             }
+        }
+        if(equipo.getDadoLike()){
+            likeImg.setImageResource(R.drawable.like_presssed);
+            likeImg.setColorFilter(ContextCompat.getColor(context, R.color.lime), android.graphics.PorterDuff.Mode.SRC_IN);
+        }else{
+            likeImg.setImageResource(R.drawable.like_unpressed);
+            likeImg.setColorFilter(ContextCompat.getColor(context, R.color.text), android.graphics.PorterDuff.Mode.SRC_IN);
+        }
+
+        if(equipo.getDadoFav()){
+            favImg.setImageResource(R.drawable.star_pressed);
+            favImg.setColorFilter(ContextCompat.getColor(context, R.color.yellow), android.graphics.PorterDuff.Mode.SRC_IN);
+        }else{
+            favImg.setImageResource(R.drawable.star_unpressed);
+            favImg.setColorFilter(ContextCompat.getColor(context, R.color.text), android.graphics.PorterDuff.Mode.SRC_IN);
         }
     }
 }

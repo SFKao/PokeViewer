@@ -72,7 +72,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/equipo_like_button"
+                    android:id="@+id/equipo_like_img"
                     android:src="@drawable/like_unpressed"
                     app:tint="@color/text"
                     android:background="@color/background"
@@ -93,7 +93,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/equipo_favorito_button"
+                    android:id="@+id/equipo_favorito_img"
                     android:src="@drawable/star_pressed"
                     app:tint="@color/yellow"
                     android:background="@color/background"
@@ -176,6 +176,7 @@
             android:text="@string/like"
             android:layout_marginEnd="20dp"
             android:id="@+id/like_button"
+            android:textColor="@color/white"
             />
         <Button
             android:layout_width="150dp"
@@ -183,6 +184,7 @@
             android:text="@string/favoritos"
             android:layout_marginStart="20dp"
             android:id="@+id/favoritos_button"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 
@@ -231,5 +233,6 @@
         android:layout_marginTop="30dp"
         android:text="@string/salir"
         android:id="@+id/salir_button"
+        android:textColor="@color/white"
         />
 </LinearLayout>

@@ -1,5 +1,7 @@
 package com.sfkao.pokeviewer.adapters;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sfkao.pokeviewer.R;
@@ -28,6 +31,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     private ArrayList<EquipoForAdapterInterface> equipos;
 
     OnItemLongClickListener onItemLongClickListener;
+    Context c;
 
 
     public EquipoAdapter(ArrayList<EquipoForAdapterInterface> equipos) {
@@ -37,6 +41,11 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     public EquipoAdapter() {
         equipos = new ArrayList<>();
         equipos.add(null);
+    }
+
+    public EquipoAdapter(Context c){
+        this();
+        this.c = c;
     }
 
     public OnItemLongClickListener getOnItemLongClickListener() {
@@ -77,6 +86,22 @@ public class EquipoAdapter extends RecyclerView.Adapter {
                     Picasso.get().load(e.getPokImg(i)).into(((ViewHolder) holder).pokemons[i]);
                 }
             }
+            if(e.getDadoLike()){
+                ((ViewHolder) holder).likeImg.setImageResource(R.drawable.like_presssed);
+                ((ViewHolder) holder).likeImg.setColorFilter(ContextCompat.getColor(c, R.color.lime), PorterDuff.Mode.MULTIPLY);
+            }else{
+                ((ViewHolder) holder).likeImg.setImageResource(R.drawable.like_unpressed);
+                ((ViewHolder) holder).likeImg.setColorFilter(ContextCompat.getColor(c, R.color.text), android.graphics.PorterDuff.Mode.MULTIPLY);
+            }
+
+            if(e.getDadoFav()){
+                ((ViewHolder) holder).favImg.setImageResource(R.drawable.star_pressed);
+                ((ViewHolder) holder).favImg.setColorFilter(ContextCompat.getColor(c, R.color.yellow), android.graphics.PorterDuff.Mode.MULTIPLY);
+            }else{
+                ((ViewHolder) holder).favImg.setImageResource(R.drawable.star_unpressed);
+                ((ViewHolder) holder).favImg.setColorFilter(ContextCompat.getColor(c, R.color.text), android.graphics.PorterDuff.Mode.MULTIPLY);
+            }
+
             ((ViewHolder) holder).view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -133,6 +158,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
         public final View view;
         public final ImageView[] pokemons;
         public final TextView nombre, autor, codigo, likes, favoritos;
+        public final ImageView likeImg, favImg;
 
         public ViewHolder(View view) {
             super(view);
@@ -151,6 +177,9 @@ public class EquipoAdapter extends RecyclerView.Adapter {
             codigo = view.findViewById(R.id.codigo_equipo);
             likes = view.findViewById(R.id.likes_equipo);
             favoritos = view.findViewById(R.id.favoritos_equipo);
+
+            likeImg = view.findViewById(R.id.equipo_like_img);
+            favImg = view.findViewById(R.id.equipo_favorito_img);
         }
     }
     

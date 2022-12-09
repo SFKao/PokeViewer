@@ -9,6 +9,7 @@ import java.util.List;
 public class EquipoApi implements EquipoForAdapterInterface {
 
 
+
     @Expose
     @SerializedName("pokemons")
     private List<PokemonsMinimal> pokemons;
@@ -21,6 +22,19 @@ public class EquipoApi implements EquipoForAdapterInterface {
     @Expose
     @SerializedName("id")
     private String id;
+    @Expose
+    @SerializedName("likes")
+    private int likes;
+    @Expose
+    @SerializedName("favoritos")
+    private int favoritos;
+    @Expose
+    @SerializedName("dadoLike")
+    private boolean dadoLike;
+    @Expose
+    @SerializedName("dadoFavoritos")
+    private boolean dadoFavoritos;
+
 
     public static class PokemonsMinimal {
         @Expose
@@ -96,12 +110,22 @@ public class EquipoApi implements EquipoForAdapterInterface {
 
     @Override
     public int getLikes() {
-        return 0;
+        return likes;
     }
 
     @Override
     public int getFavs() {
-        return 0;
+        return favoritos;
+    }
+
+    @Override
+    public boolean getDadoLike() {
+        return dadoLike;
+    }
+
+    @Override
+    public boolean getDadoFav() {
+        return dadoFavoritos;
     }
 
     @Override

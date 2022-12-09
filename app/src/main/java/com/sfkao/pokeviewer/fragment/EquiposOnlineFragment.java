@@ -53,7 +53,7 @@ public class EquiposOnlineFragment extends Fragment {
         //Obtengo sus views
         recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_equipos_online);
         buscadorButton = view.findViewById(R.id.buscador_button);
-        adapterEquipos = new EquipoAdapter();
+        adapterEquipos = new EquipoAdapter(context);
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
         recyclerEquipos.setAdapter(adapterEquipos);

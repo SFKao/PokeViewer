@@ -68,7 +68,7 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
 
         //Obtengo sus views
         recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_mis_equipos);
-        adapterEquipos = new EquipoAdapter();
+        adapterEquipos = new EquipoAdapter(context);
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
         recyclerEquipos.setAdapter(adapterEquipos);

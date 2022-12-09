@@ -93,7 +93,11 @@ public class PokeviewerConexion {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
         PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
-        Call<List<EquipoApi>> call = service.getEquipos(cantidad,posInicial);
+        Call<List<EquipoApi>> call;
+        if(Login.isInvited())
+            call = service.getEquipos(cantidad,posInicial);
+        else
+            call = service.getEquipos(cantidad,posInicial,Login.getUsuario().getApi_key());
         try{
             retrofit2.Response<List<EquipoApi>> response = call.execute();
             return response.body();
@@ -136,7 +140,11 @@ public class PokeviewerConexion {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
         PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
-        Call<EquipoApi> call = service.getEquipoByID(id);
+        Call<EquipoApi> call;
+        if(Login.isInvited())
+            call = service.getEquipoByID(id);
+        else
+            call = service.getEquipoByID(id,Login.getUsuario().getApi_key());
         try{
             retrofit2.Response<EquipoApi> response = call.execute();
             return response.body();
