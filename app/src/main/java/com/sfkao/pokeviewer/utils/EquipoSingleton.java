@@ -2,15 +2,9 @@ package com.sfkao.pokeviewer.utils;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.sfkao.pokeviewer.modelo.Equipo;
+import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
+import com.sfkao.pokeviewer.realm.EquipoRealmOperaciones;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 /**
@@ -18,15 +12,21 @@ import java.util.ArrayList;
  */
 public class EquipoSingleton {
 
-    private static ArrayList<Equipo> equipos;
+
+
+
+
+    private static ArrayList<EquipoForAdapterInterface> equipos;
     private static final String FILENAME = "equipos.json";
 
-    public static ArrayList<Equipo> getEquipos(){
-        return equipos;
+    public static ArrayList<EquipoForAdapterInterface> getEquipos(){
+        return equipos = EquipoRealmOperaciones.getEquiposForAdapter();
     }
 
     //Almacena los equipos en json en el dispositivo
     public static void guardarEquipos(Context context){
+
+        /*
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, 0);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
@@ -37,11 +37,17 @@ public class EquipoSingleton {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+         */
     }
 
     //Carga los equipos de el archivo json si este existe
-    public static ArrayList<Equipo> cargarEquipos(Context context) {
+    public static ArrayList<EquipoForAdapterInterface> cargarEquipos(Context context) {
 
+        equipos = EquipoRealmOperaciones.getEquiposForAdapter();
+        return equipos;
+
+        /*
         try {
             FileInputStream fis = context.openFileInput(FILENAME);
             InputStreamReader isr = new InputStreamReader(fis);
@@ -52,6 +58,8 @@ public class EquipoSingleton {
             equipos = new ArrayList<Equipo>();
         }
         return equipos;
+
+         */
     }
 
 }

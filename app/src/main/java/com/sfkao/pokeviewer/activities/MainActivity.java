@@ -18,7 +18,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.sfkao.pokeviewer.R;
-import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
 import com.sfkao.pokeviewer.fragment.EquiposOnlineFragment;
 import com.sfkao.pokeviewer.fragment.MisEquipos;
@@ -34,8 +33,6 @@ import io.realm.RealmConfiguration;
 public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
-
-    ApiConexion apiConexion;
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;

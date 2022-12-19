@@ -2,20 +2,16 @@ package com.sfkao.pokeviewer.realm;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
 public class PokemonRealm extends RealmObject {
 
     @PrimaryKey
     private int id = 0;
 
-    @Required
     private String nombre = "";
 
-    @Required
     private String img = "";
 
-    @Required
     private String imgS = "";
 
     public PokemonRealm() {

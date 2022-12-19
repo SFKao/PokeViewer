@@ -1,5 +1,6 @@
 package com.sfkao.pokeviewer.modelo;
 
+import com.sfkao.pokeviewer.apis.ApiConexion;
 import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
 
 import java.util.Arrays;
@@ -124,7 +125,7 @@ public class Equipo implements EquipoForAdapterInterface{
     }
 
     @Override
-    public String getId() {
+    public String getApiId() {
         return identificador;
     }
 
@@ -156,5 +157,30 @@ public class Equipo implements EquipoForAdapterInterface{
     @Override
     public boolean isPokemon(int pok) {
         return pokemons[pok] != null;
+    }
+
+    @Override
+    public void setName(String s) {
+        nombre = s;
+    }
+
+    @Override
+    public void setUser(String s) {
+        autor = s;
+    }
+
+    @Override
+    public void setApiID(String s) {
+        identificador = s;
+    }
+
+    @Override
+    public void setPokemon(int pos, int id, String img, String imgS, String name) {
+        pokemons[pos] = ApiConexion.getInstance().getPokemon(id);
+    }
+
+    @Override
+    public void setFavs(int f) {
+        favoritos = f;
     }
 }

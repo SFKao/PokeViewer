@@ -121,7 +121,7 @@ public class PokeviewerConexion {
         try{
             retrofit2.Response<EquipoApi> response = call.execute();
             EquipoApi equipoApi = response.body();
-            e.setIdentificador(equipoApi.getId());
+            e.setIdentificador(equipoApi.getApiId());
             return e;
         } catch (IOException ex) {
             ex.printStackTrace();
