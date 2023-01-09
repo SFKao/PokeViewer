@@ -22,10 +22,8 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
-import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
+import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
-import com.sfkao.pokeviewer.realm.EquipoRealm;
-import com.sfkao.pokeviewer.realm.EquipoRealmOperaciones;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
 import com.sfkao.pokeviewer.utils.Login;
 import com.squareup.picasso.Picasso;
@@ -36,27 +34,21 @@ import com.squareup.picasso.Picasso;
 public class NuevoEquipoFragment extends DialogFragment {
 
     EditText nombreEquipo;
-    EditText[] pokemonText;
+    EditText[] pokemon;
     ImageView[] pokemonImages;
     ImageButton[] pokemonSearch;
 
     Button aceptarButton, cancelarButton;
+
+    Pokemon[] pokemons;
     MainActivity context;
 
-    EquipoRealm equipo;
-    int pos = -1;
+    Equipo equipo;
+    int pos;
 
     //Si se envia un equipo lo almacenara y lo usara para editarlo.
-    public NuevoEquipoFragment(EquipoRealm equipo, int pos) {
+    public NuevoEquipoFragment(Equipo equipo, int pos) {
         this.equipo = equipo;
-        this.pos = pos;
-    }
-
-    public NuevoEquipoFragment(EquipoForAdapterInterface equipo,int pos) {
-        if(equipo instanceof EquipoRealm)
-            this.equipo = (EquipoRealm) equipo;
-        else
-            this.equipo = new EquipoRealm(equipo);
         this.pos = pos;
     }
 
@@ -89,13 +81,13 @@ public class NuevoEquipoFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View rootView = inflater.inflate(R.layout.fragment_new_equipo_fragment,null);
         nombreEquipo = rootView.findViewById(R.id.nombreEquipoInput);
-        pokemonText = new EditText[6];
-        pokemonText[0] = rootView.findViewById(R.id.pokemon1Input);
-        pokemonText[1] = rootView.findViewById(R.id.pokemon2Input);
-        pokemonText[2] = rootView.findViewById(R.id.pokemon3Input);
-        pokemonText[3] = rootView.findViewById(R.id.pokemon4Input);
-        pokemonText[4] = rootView.findViewById(R.id.pokemon5Input);
-        pokemonText[5] = rootView.findViewById(R.id.pokemon6Input);
+        pokemon = new EditText[6];
+        pokemon[0] = rootView.findViewById(R.id.pokemon1Input);
+        pokemon[1] = rootView.findViewById(R.id.pokemon2Input);
+        pokemon[2] = rootView.findViewById(R.id.pokemon3Input);
+        pokemon[3] = rootView.findViewById(R.id.pokemon4Input);
+        pokemon[4] = rootView.findViewById(R.id.pokemon5Input);
+        pokemon[5] = rootView.findViewById(R.id.pokemon6Input);
 
         pokemonImages = new ImageView[6];
         pokemonImages[0] = rootView.findViewById(R.id.pokemon1Image);
@@ -118,37 +110,38 @@ public class NuevoEquipoFragment extends DialogFragment {
 
         //Si se envio un equipo por el constructor lo cargo
         if(equipo!=null){
-            equipo = new EquipoRealm(this.equipo);
-            nombreEquipo.setText(equipo.getName());
+            nombreEquipo.setText(equipo.getNombre());
+            pokemons = equipo.getPokemons();
             for (int i = 0; i < 6; i++) {
-                if(equipo.isPokemon(i)) {
-                    Picasso.get().load(equipo.getPokImg(i)).into(pokemonImages[i]);
-                    pokemonText[i].setText(equipo.getPokName(i));
+                if(pokemons[i]!=null) {
+                    Picasso.get().load(pokemons[i].getSprites().getFrontDefault()).into(pokemonImages[i]);
+                    pokemon[i].setText(pokemons[i].getName());
                 }
             }
         //En caso de que no, creo mi propio array de pokemons
         }else {
-            equipo = new EquipoRealm();
+            pokemons = new Pokemon[6];
         }
 
         //Añado un listener a cada boton de pokemon, estan colocados en fila
         for (int i = 0; i < pokemonSearch.length; i++) {
             int finalI = i;
             pokemonSearch[i].setOnClickListener(view -> {
-                if(pokemonText[finalI].getText().toString().equals(""))
+                if(pokemon[finalI].getText().toString().equals(""))
                     return;
-                Pokemon buscado = ApiConexion.getInstance().getPokemon(String.valueOf(pokemonText[finalI].getText()));
+                Pokemon buscado = ApiConexion.getInstance().getPokemon(String.valueOf(pokemon[finalI].getText()));
                 //Si el pokemon no existe
                 if(buscado == null){
-                    pokemonText[finalI].setHint(R.string.pokemonNotFound);
-                    pokemonText[finalI].setHintTextColor(getResources().getColor(R.color.dark_red,null));
-                    pokemonText[finalI].setText("");
+                    pokemon[finalI].setHint(R.string.pokemonNotFound);
+                    pokemon[finalI].setHintTextColor(getResources().getColor(R.color.dark_red,null));
+                    pokemon[finalI].setText("");
+                    pokemons[finalI] = null;
                     pokemonImages[finalI].setImageResource(R.drawable.pokeball);
                 }else{
-                    pokemonText[finalI].setHint(R.string.pokemonOrNumber);
-                    pokemonText[finalI].setHintTextColor(getResources().getColor(R.color.gray,null));
+                    pokemon[finalI].setHint(R.string.pokemonOrNumber);
+                    pokemon[finalI].setHintTextColor(getResources().getColor(R.color.gray,null));
                     Picasso.get().load(buscado.getSprites().getFrontDefault()).into(pokemonImages[finalI]);
-                    equipo.setPokemon(finalI, buscado.getId(), buscado.getName(), buscado.getSprites().getFrontDefault(),buscado.getSprites().getFrontShiny());
+                    pokemons[finalI] = buscado;
                 }
             });
         }
@@ -159,30 +152,34 @@ public class NuevoEquipoFragment extends DialogFragment {
         aceptarButton.setOnClickListener(view -> {
 
             //Si no hay un equipo para editar, croe uno nuevo, si no pongo el de editar
+            Equipo e;
+            if(equipo == null)
+                e = new Equipo();
+            else
+                e = equipo;
 
             //El nombre es obligatorio
             if(nombreEquipo.getText().toString().equals("")){
                 Toast.makeText(getContext(),R.string.stringRequired,Toast.LENGTH_SHORT).show();
                 return;
             }
-
             //Coloco el nuevo nombre, autor a partir del usuario y local ya que este no se ha subido
-            equipo.setName(nombreEquipo.getText().toString());
-            equipo.setUser(Login.getUsername());
-            equipo.setApiID("Local");
-            
+            e.setNombre(String.valueOf(nombreEquipo.getText()));
+            e.setAutor(Login.getUsername());
+            e.setIdentificador("Local");
+            //Coloco los pokemons
+            e.setPokemons(pokemons);
             //Si estoy en modo añadir
-            if(pos==-1) {
-                EquipoAdapter adapter = (EquipoAdapter) ((RecyclerView) (context.findViewById(R.id.recycler_mis_equipos))).getAdapter();
-                adapter.getEquipos().add(equipo);
-                adapter.notifyItemInserted(adapter.getEquipos().size()-1);
+            if(equipo==null) {
+                EquipoSingleton.getEquipos().add(e);
+                ((EquipoAdapter)((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter()).getEquipos().add(e);
+                ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemInserted(EquipoSingleton.getEquipos().indexOf(e));
             //Si estoy en modo editar
             }else {
-                EquipoSingleton.getEquipos().set(pos, equipo);
+                EquipoSingleton.getEquipos().set(pos, e);
                 ((RecyclerView)(context.findViewById(R.id.recycler_mis_equipos))).getAdapter().notifyItemChanged(pos);
             }
             //Guardo los cambios y salgo
-            EquipoRealmOperaciones.insertaOActualiza(equipo);
             EquipoSingleton.guardarEquipos(context);
             dismiss();
         });

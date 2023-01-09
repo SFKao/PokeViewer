@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RegisterActivity">
+    tools:context=".activities.RegisterActivity"
+    android:background="@color/background"
+    >
 
     <TextView
         android:id="@+id/textView10"
@@ -134,7 +136,9 @@
         android:text="@string/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextRepeatPass" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextRepeatPass"
+        android:textColor="@color/white"
+        />
 
     <ImageButton
         android:id="@+id/exitRegisterImageButton"

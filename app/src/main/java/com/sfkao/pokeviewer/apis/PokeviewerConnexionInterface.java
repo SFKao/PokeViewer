@@ -14,12 +14,6 @@ public interface PokeviewerConnexionInterface {
     //Endpoint
     String BASE_URL = "http://sfkao.bounceme.net:25577/";
 
-    //Obtener pokemon a partir del nombre (o numero)
-    //?usuario={username}&pass={pass}
-    @GET("login")
-    Call<LoginResponse> login(@Query("usuario") String username,
-                              @Query("pass") String pass);
-
     @GET("login")
     Call<LoginResponse> login(@Query("usuario") String username,
                               @Query("pass") byte[] pass);
@@ -45,6 +39,11 @@ public interface PokeviewerConnexionInterface {
     Call<EquipoApi> getEquipoByID(
             @Query("id")String id
     );
+    @GET("get_equipo")
+    Call<EquipoApi> getEquipoByID(
+            @Query("id")String id,
+            @Query("apikey")String apikey
+    );
 
     @GET("get_equipos")
     Call<List<EquipoApi>> getEquipos(
@@ -52,5 +51,40 @@ public interface PokeviewerConnexionInterface {
             @Query("posInicial")int posInicial
     );
 
+    @GET("get_equipos")
+    Call<List<EquipoApi>> getEquipos(
+            @Query("cantidad")int cantidad,
+            @Query("posInicial")int posInicial,
+            @Query("apikey")String apikey
+    );
+
+    @GET("borrar_equipo")
+    Call<Boolean> borrarEquipoByID(
+            @Query("id")String id
+    );
+
+    @GET("dar_like")
+    Call<Boolean> darLike(
+            @Query("id")String id,
+            @Query("apikey")String apikey
+    );
+
+    @GET("quitar_like")
+    Call<Boolean> quitarLike(
+            @Query("id")String id,
+            @Query("apikey")String apikey
+    );
+
+    @GET("dar_favorito")
+    Call<Boolean> darFavorito(
+            @Query("id")String id,
+            @Query("apikey")String apikey
+    );
+
+    @GET("quitar_favorito")
+    Call<Boolean> quitarFavorito(
+            @Query("id")String id,
+            @Query("apikey")String apikey
+    );
 
 }

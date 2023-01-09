@@ -1,17 +1,11 @@
 package com.sfkao.pokeviewer.utils;
 
-import com.sfkao.pokeviewer.apis.ApiConexion;
-import com.sfkao.pokeviewer.modelo.Equipo;
-import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
-
-import java.util.ArrayList;
-import java.util.Random;
-
 /**
  * Clase para pruebas, sin uso actual
  */
 public class TestingUtils {
 
+    /*
     public static ArrayList<Equipo> getEquipos(){
 
         ArrayList<Equipo> equipos = new ArrayList<>();
@@ -29,5 +23,7 @@ public class TestingUtils {
         return equipos;
 
     }
+
+     */
 
 }

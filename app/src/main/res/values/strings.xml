@@ -34,8 +34,8 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="stringRequired">Se requiere el nombre</string>
-    <string name="id">"ID: "</string>
-    <string name="autor">"Autor: "</string>
+    <string name="id">ID: </string>
+    <string name="autor">Autor: </string>
     <string name="iniciar_sesion">Iniciar sesion</string>
     <string name="cerrar_sesi_n">Cerrar sesión</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -64,4 +64,13 @@
     <string name="no_se_pudo_encriptar">No se pudo encriptar la contraseña, esto es un error de la aplicación</string>
     <string name="equipos_online">Equipos online</string>
     <string name="necesitas_estar_logueado">Necesitas estar logueado para ello</string>
+    <string name="like">Like</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="idHint">id</string>
+    <string name="salir">Salir</string>
+    <string name="equipo_no_encontrado">No se ha encontrado el equipo</string>
+    <string name="se_ha_borrado_el_equipo">Se ha borrado el equipo</string>
+    <string name="no_se_puede_borrar_un_equipo_subido">No se puede borrar un equipo subido</string>
+    <string name="no_se_puede_editar_un_equipo_subido">No se puede editar un equipo subido</string>
+    <string name="hubo_un_error">Hubo un error en el servidor, pruebe mas tarde</string>
 </resources>

@@ -20,7 +20,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
 import com.sfkao.pokeviewer.fragment.EquiposOnlineFragment;
-import com.sfkao.pokeviewer.fragment.MisEquipos;
+import com.sfkao.pokeviewer.fragment.MisEquiposFragment;
 import com.sfkao.pokeviewer.utils.Login;
 import com.sfkao.pokeviewer.utils.Util;
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                         changeFragment(new BuscadorFragment());
                         break;
                     case R.id.nav_mis_equipos:
-                        changeFragment(new MisEquipos());
+                        changeFragment(new MisEquiposFragment());
                         break;
                         //Al darle a iniciar sesion quiero cambiar a la activity
                     case R.id.iniciar_sesion_bar:

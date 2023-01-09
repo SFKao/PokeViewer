@@ -61,7 +61,7 @@ public class EquipoApi implements EquipoForAdapterInterface {
         this.name = name;
     }
 
-    public String getApiId() {
+    public String getId() {
         return id;
     }
 
@@ -107,33 +107,5 @@ public class EquipoApi implements EquipoForAdapterInterface {
     @Override
     public boolean isPokemon(int pok) {
         return pokemons.get(pok) != null;
-    }
-
-    @Override
-    public void setUser(String s) {
-        usuario = s;
-    }
-
-    @Override
-    public void setApiID(String s) {
-        id = s;
-    }
-
-    @Override
-    public void setPokemon(int pos, int id, String img, String imgS,String name) {
-        pokemons.get(pos).id = id;
-        pokemons.get(pos).img = img;
-        pokemons.get(pos).imgs = imgS;
-        pokemons.get(pos).name = name;
-    }
-
-    @Override
-    public void setLikes(int l) {
-        //TODO
-    }
-
-    @Override
-    public void setFavs(int f) {
-
     }
 }

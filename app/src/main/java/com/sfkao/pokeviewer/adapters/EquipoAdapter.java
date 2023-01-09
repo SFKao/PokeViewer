@@ -67,7 +67,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
             EquipoForAdapterInterface e = equipos.get(position);
             ((ViewHolder) holder).nombre.setText(e.getName());
             ((ViewHolder) holder).autor.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.autor), e.getUser()));
-            ((ViewHolder) holder).codigo.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.id), e.getApiId()));
+            ((ViewHolder) holder).codigo.setText(MessageFormat.format("{0}{1}", ((ViewHolder) holder).view.getResources().getString(R.string.id), e.getId()));
             ((ViewHolder) holder).likes.setText(String.valueOf(e.getLikes()));
             ((ViewHolder) holder).favoritos.setText(String.valueOf(e.getFavs()));
             //Coloco las 6 imagenes de los pokemon

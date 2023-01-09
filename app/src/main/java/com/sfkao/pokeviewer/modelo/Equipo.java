@@ -155,6 +155,16 @@ public class Equipo implements EquipoForAdapterInterface{
     }
 
     @Override
+    public boolean getDadoLike() {
+        return false;
+    }
+
+    @Override
+    public boolean getDadoFav() {
+        return false;
+    }
+
+    @Override
     public boolean isPokemon(int pok) {
         return pokemons[pok] != null;
     }

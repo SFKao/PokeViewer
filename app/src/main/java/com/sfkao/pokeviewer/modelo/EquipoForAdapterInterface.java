@@ -12,6 +12,8 @@ public interface EquipoForAdapterInterface {
     public int getPokId(int pok);
     public int getLikes();
     public int getFavs();
+    public boolean getDadoLike();
+    public boolean getDadoFav();
 
     public void setName(String s);
     public void setUser(String s);

@@ -1,8 +1,10 @@
 package com.sfkao.pokeviewer.fragment;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +12,33 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
+import com.sfkao.pokeviewer.utils.Login;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class EquiposOnlineFragment extends Fragment {
 
     RecyclerView recyclerEquipos;
     EquipoAdapter adapterEquipos;
+    FloatingActionButton buscadorButton;
 
     MainActivity context;
 
@@ -48,7 +59,8 @@ public class EquiposOnlineFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //Obtengo sus views
         recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_equipos_online);
-        adapterEquipos = new EquipoAdapter();
+        buscadorButton = view.findViewById(R.id.buscador_button);
+        adapterEquipos = new EquipoAdapter(context);
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
         recyclerEquipos.setAdapter(adapterEquipos);
@@ -66,6 +78,114 @@ public class EquiposOnlineFragment extends Fragment {
                 }
             }
         });
+
+        //Permite arrastrar los elementos del recycler para que este haga acciones.
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            //Al deslizarse izquierda o derecha
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getBindingAdapterPosition();
+                if(Login.isInvited()){
+                    Toast.makeText(context, R.string.necesitas_estar_logueado, Toast.LENGTH_SHORT).show();
+                    adapterEquipos.notifyItemChanged(pos);
+                    return;
+                }
+                boolean exito = false;
+                //Izquierda like
+                if(direction == ItemTouchHelper.LEFT){
+                    if(adapterEquipos.getEquipos().get(pos).getDadoLike()){
+                        exito = PokeviewerConexion.getInstance().quitarLike(adapterEquipos.getEquipos().get(pos).getId(), Login.getUsuario().getApi_key());
+                        if(exito){
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()-1);
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(false);
+                            if(adapterEquipos.getEquipos().get(pos).getDadoFav()) {
+                                exito = PokeviewerConexion.getInstance().quitarFavorito(adapterEquipos.getEquipos().get(pos).getId(), Login.getUsuario().getApi_key());
+                                if(exito){
+                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavoritos(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavoritos()-1);
+                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(false);
+                                }else
+                                    Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }else
+                            Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                        adapterEquipos.notifyItemChanged(pos);
+                    }else{
+                        exito = PokeviewerConexion.getInstance().darLike(adapterEquipos.getEquipos().get(pos).getId(), Login.getUsuario().getApi_key());
+                        if(exito){
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(true);
+                        }else
+                            Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                        adapterEquipos.notifyItemChanged(pos);
+                    }
+                //Derecha favorito
+                }else if(direction == ItemTouchHelper.RIGHT){
+                    if(adapterEquipos.getEquipos().get(pos).getDadoFav()){
+                        exito = PokeviewerConexion.getInstance().quitarFavorito(adapterEquipos.getEquipos().get(pos).getId(), Login.getUsuario().getApi_key());
+                        if(exito){
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavoritos(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavoritos()-1);
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(false);
+                        }else
+                            Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                        adapterEquipos.notifyItemChanged(pos);
+                    }else{
+                        exito = PokeviewerConexion.getInstance().darFavorito(adapterEquipos.getEquipos().get(pos).getId(), Login.getUsuario().getApi_key());
+                        if(exito){
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavoritos(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavoritos()+1);
+                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(true);
+                            if(!adapterEquipos.getEquipos().get(pos).getDadoLike()) {
+                                exito = PokeviewerConexion.getInstance().darLike(adapterEquipos.getEquipos().get(pos).getId(), Login.getUsuario().getApi_key());
+                                if(exito){
+                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
+                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(true);
+                                }else
+                                    Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }else
+                            Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                        adapterEquipos.notifyItemChanged(pos);
+                    }
+                }
+
+            }
+
+            //Parte de una libreria de terceros llamada RecyclerViewSwipeDecorator.
+            //Añade el fondo verde y rojo al desilizar junto a sus iconos
+            @Override
+            public void onChildDraw (Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive){
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(context, R.color.lime))
+                        .addSwipeLeftActionIcon(R.drawable.like_unpressed)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
+                        .addSwipeRightActionIcon(R.drawable.star_unpressed)
+                        .addSwipeLeftCornerRadius(TypedValue.COMPLEX_UNIT_DIP,50)
+                        .addSwipeRightCornerRadius(TypedValue.COMPLEX_UNIT_DIP,50)
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+
+        //Se lo acoplo al recycler
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerEquipos);
+
+        buscadorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment buscadorEquipo = new BuscadorEquiposFragment();
+                FragmentManager fm = context.getSupportFragmentManager();
+                buscadorEquipo.show(fm, "Buscar equipo");
+            }
+        });
+
+
         cargandoElementos = true;
         cargarMas();
     }

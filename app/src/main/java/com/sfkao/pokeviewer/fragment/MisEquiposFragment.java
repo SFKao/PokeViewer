@@ -3,6 +3,7 @@ package com.sfkao.pokeviewer.fragment;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +26,6 @@ import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
-import com.sfkao.pokeviewer.realm.EquipoRealm;
-import com.sfkao.pokeviewer.realm.EquipoRealmOperaciones;
 import com.sfkao.pokeviewer.utils.EquipoSingleton;
 import com.sfkao.pokeviewer.utils.Login;
 
@@ -87,8 +86,9 @@ public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClic
                 int pos = viewHolder.getBindingAdapterPosition();
                 //Izquierda borra
                 if(direction == ItemTouchHelper.LEFT){
-                    EquipoRealmOperaciones.borrarEquipo((EquipoRealm) ((EquipoAdapter)adapterEquipos).getEquipos().get(pos));
+                    EquipoSingleton.getEquipos().remove(pos);
                     ((EquipoAdapter)adapterEquipos).getEquipos().remove(pos);
+                    EquipoSingleton.guardarEquipos(context);
                     adapterEquipos.notifyItemRemoved(pos);
                 //Derecha edita
                 }else if(direction == ItemTouchHelper.RIGHT){
@@ -134,8 +134,20 @@ public class MisEquipos extends Fragment implements EquipoAdapter.OnItemLongClic
         });
 
         //Coloco los equipos del singleton
-        ArrayList<EquipoForAdapterInterface> in = EquipoSingleton.cargarEquipos(context);
-        ((EquipoAdapter)adapterEquipos).setEquipos(in);
+        Handler handler = new Handler();
+        new Thread(){
+            @Override
+            public void run() {
+                ArrayList<Equipo> es = EquipoSingleton.cargarEquipos(context);
+                ArrayList<EquipoForAdapterInterface> in = new ArrayList<>(es);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((EquipoAdapter)adapterEquipos).setEquipos(in);
+                    }
+                });
+            }
+        }.start();
     }
 
     @Override
