@@ -14,6 +14,8 @@ public interface EquipoForAdapterInterface {
     public int getFavs();
     public boolean getDadoLike();
     public boolean getDadoFav();
+    public void setDadoLike(boolean b);
+    public void setDadoFavoritos(boolean b);
 
     public void setName(String s);
     public void setUser(String s);

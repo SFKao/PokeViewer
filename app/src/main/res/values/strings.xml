@@ -73,4 +73,6 @@
     <string name="no_se_puede_borrar_un_equipo_subido">No se puede borrar un equipo subido</string>
     <string name="no_se_puede_editar_un_equipo_subido">No se puede editar un equipo subido</string>
     <string name="hubo_un_error">Hubo un error en el servidor, pruebe mas tarde</string>
+    <string name="mis_amigos">Mis amigos</string>
+    <string name="no_se_pudo_ejecutar_la_llamada">No se pudo ejecutar la llamada a la api, esta el servidor online?</string>
 </resources>

@@ -35,7 +35,7 @@ public class EquipoRealmOperaciones {
         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RealmResults<EquipoRealm> all = realm.where(EquipoRealm.class).findAll();
+                RealmResults<EquipoRealm> all = realm.where(EquipoRealm.class).findAll().sort("localId");
                 equipoRealms[0] = new ArrayList<>();
                 equipoRealms[0].addAll(all);
             }

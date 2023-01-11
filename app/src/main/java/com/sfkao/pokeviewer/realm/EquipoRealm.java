@@ -373,4 +373,24 @@ public class EquipoRealm extends RealmObject implements EquipoForAdapterInterfac
     public void setFavs(int f) {
 
     }
+
+    @Override
+    public boolean getDadoLike() {
+        return false;
+    }
+
+    @Override
+    public boolean getDadoFav() {
+        return false;
+    }
+
+    @Override
+    public void setDadoLike(boolean b) {
+
+    }
+
+    @Override
+    public void setDadoFavoritos(boolean b) {
+
+    }
 }

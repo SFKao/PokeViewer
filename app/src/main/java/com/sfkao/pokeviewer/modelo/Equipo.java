@@ -155,16 +155,6 @@ public class Equipo implements EquipoForAdapterInterface{
     }
 
     @Override
-    public boolean getDadoLike() {
-        return false;
-    }
-
-    @Override
-    public boolean getDadoFav() {
-        return false;
-    }
-
-    @Override
     public boolean isPokemon(int pok) {
         return pokemons[pok] != null;
     }
@@ -192,5 +182,25 @@ public class Equipo implements EquipoForAdapterInterface{
     @Override
     public void setFavs(int f) {
         favoritos = f;
+    }
+
+    @Override
+    public boolean getDadoLike() {
+        return false;
+    }
+
+    @Override
+    public boolean getDadoFav() {
+        return false;
+    }
+
+    @Override
+    public void setDadoLike(boolean b) {
+
+    }
+
+    @Override
+    public void setDadoFavoritos(boolean b) {
+
     }
 }

@@ -1,16 +1,15 @@
 package com.sfkao.pokeviewer.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKeys;
+
 import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.security.GeneralSecurityException;
 
 import javax.security.auth.login.LoginException;
 
@@ -36,7 +35,31 @@ public class Login {
         User login = PokeviewerConexion.getInstance().login(username,password,context);
         if(login!=null){
             usuario = login;
-            saveUser(context);
+            String masterKeyAlias = null;
+            try {
+                masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+            } catch (GeneralSecurityException | IOException e) {
+                return true;
+            }
+            SharedPreferences sharedPreferences = null;
+            try {
+                sharedPreferences = EncryptedSharedPreferences.create(
+                        "secret_shared_prefs_file",
+                        masterKeyAlias,
+                        context,
+                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                );
+            } catch (GeneralSecurityException | IOException e) {
+                e.printStackTrace();
+            }
+
+            SharedPreferences.Editor editor =  sharedPreferences.edit();
+            editor.putString("user",usuario.username);
+            editor.putString("api",usuario.api_key);
+            editor.putString("email",usuario.mail);
+            editor.putString("pass",password);
+            editor.apply();
             return true;
         }
         return false;
@@ -46,7 +69,31 @@ public class Login {
         User login = PokeviewerConexion.getInstance().register(username,pass,email,context);
         if(login!=null){
             usuario = login;
-            saveUser(context);
+            String masterKeyAlias = null;
+            try {
+                masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+            } catch (GeneralSecurityException | IOException e) {
+                return true;
+            }
+            SharedPreferences sharedPreferences = null;
+            try {
+                sharedPreferences = EncryptedSharedPreferences.create(
+                        "secret_shared_prefs_file",
+                        masterKeyAlias,
+                        context,
+                        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+                );
+            } catch (GeneralSecurityException | IOException e) {
+                e.printStackTrace();
+            }
+
+            SharedPreferences.Editor editor =  sharedPreferences.edit();
+            editor.putString("user",usuario.username);
+            editor.putString("api",usuario.api_key);
+            editor.putString("email",usuario.mail);
+            editor.putString("pass",pass);
+            editor.apply();
             return true;
         }
         return false;
@@ -54,6 +101,10 @@ public class Login {
 
     //Cuando inicio sesion guardo el usuario.
     private static void saveUser(Context context) {
+
+
+
+        /*
         try {
             FileOutputStream fos = context.openFileOutput(FILENAME, 0);
             OutputStreamWriter osw = new OutputStreamWriter(fos);
@@ -64,6 +115,7 @@ public class Login {
         } catch (IOException e) {
             e.printStackTrace();
         }
+         */
     }
 
     public static String getUsername () {
@@ -76,6 +128,43 @@ public class Login {
 
     //Cuando inicio la aplicacion llamo a este metodo para ver si existe un usuario almacenado
     public static User autoLogin (Context context) {
+
+        String masterKeyAlias = null;
+        try {
+            masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        } catch (GeneralSecurityException | IOException e) {
+            return logout(context);
+        }
+        SharedPreferences sharedPreferences = null;
+        try {
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "secret_shared_prefs_file",
+                    masterKeyAlias,
+                    context,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
+        }
+
+        String username = sharedPreferences.getString("user","");
+        if(username.equals("")){
+            logout(context);
+            return usuario;
+        }
+        String email = sharedPreferences.getString("email","");
+        String pass = sharedPreferences.getString("pass","");
+        String api = sharedPreferences.getString("api","");
+
+        if(checkApikey(context,api)){
+            User usuario = new User(username, email, api);
+            setUsuario(usuario);
+            usuario.invitado = false;
+            return usuario;
+        }
+        return logout(context);
+        /*
         if(usuario!=null)
             return usuario;
         try {
@@ -91,12 +180,42 @@ public class Login {
         if(usuario==null)
             return logout(context);
         return usuario;
+
+         */
+    }
+
+    public static boolean checkApikey(Context context, String apikey){
+        return true;
+        //TODO: realizar esto en backend
     }
 
     //Cambia a invitado
     public static User logout (Context context) {
         usuario = new User();
-        saveUser(context);
+
+        String masterKeyAlias = null;
+        try {
+            masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        } catch (GeneralSecurityException | IOException e) {
+            return null;
+        }
+        SharedPreferences sharedPreferences = null;
+        try {
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "secret_shared_prefs_file",
+                    masterKeyAlias,
+                    context,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
+        usuario.invitado = true;
         return usuario;
     }
 

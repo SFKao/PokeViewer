@@ -61,7 +61,7 @@ public class PokeviewerConexion {
             }
             throw new LoginException(loginResponse.getResponse());
         } catch (IOException e) {
-            throw new SecurityException(loginActivity.getString(R.string.no_se_pudo_encriptar));
+            throw new SecurityException(loginActivity.getString(R.string.no_se_pudo_ejecutar_la_llamada));
         }
     }
 
@@ -93,7 +93,11 @@ public class PokeviewerConexion {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson)).build();
         PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
-        Call<List<EquipoApi>> call = service.getEquipos(cantidad,posInicial);
+        Call<List<EquipoApi>> call;
+        if(Login.isInvited())
+            call = service.getEquipos(cantidad,posInicial);
+        else
+            call = service.getEquipos(cantidad,posInicial,Login.getUsuario().getApi_key());
         try{
             retrofit2.Response<List<EquipoApi>> response = call.execute();
             return response.body();
@@ -112,16 +116,17 @@ public class PokeviewerConexion {
                 e.getNombre(),
                 Login.getUsuario().getApi_key(),
                 e.getPokemon(0).getId(),
-                e.getPokemon(1).getId(),
-                e.getPokemon(2).getId(),
-                e.getPokemon(3).getId(),
-                e.getPokemon(4).getId(),
-                e.getPokemon(5).getId()
+                e.getPokemon(1) == null ? 0 : e.getPokemon(1).getId(),
+                e.getPokemon(2) == null ? 0 : e.getPokemon(2).getId(),
+                e.getPokemon(3) == null ? 0 : e.getPokemon(3).getId(),
+                e.getPokemon(4) == null ? 0 : e.getPokemon(4).getId(),
+                e.getPokemon(5) == null ? 0 : e.getPokemon(5).getId()
         );
         try{
             retrofit2.Response<EquipoApi> response = call.execute();
             EquipoApi equipoApi = response.body();
-            e.setIdentificador(equipoApi.getId());
+            e.setIdentificador(equipoApi.getApiId());
+            e.setAutor(equipoApi.getUser());
             return e;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -129,7 +134,99 @@ public class PokeviewerConexion {
         }
     }
 
+    public EquipoApi getEquipo(String id){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<EquipoApi> call;
+        if(Login.isInvited())
+            call = service.getEquipoByID(id);
+        else
+            call = service.getEquipoByID(id,Login.getUsuario().getApi_key());
+        try{
+            retrofit2.Response<EquipoApi> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    public boolean borrarEquipo(String id){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.borrarEquipoByID(id);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean darLike(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.darLike(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean quitarLike(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.quitarLike(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean darFavorito(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.darFavorito(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean quitarFavorito(String id, String apikey){
+        Gson gson = new GsonBuilder().setLenient().create();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.quitarFavorito(id,apikey);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
     private PublicKey loadPublicKey(Context loginActivity) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {

@@ -106,7 +106,7 @@ public class BuscadorEquiposFragment extends DialogFragment {
     private void imprimirEquipo(){
         nombre.setText(equipo.getName());
         autor.setText(MessageFormat.format("{0}{1}", view.getResources().getString(R.string.autor), equipo.getUser()));
-        codigo.setText(MessageFormat.format("{0}{1}", view.getResources().getString(R.string.id), equipo.getId()));
+        codigo.setText(MessageFormat.format("{0}{1}", view.getResources().getString(R.string.id), equipo.getApiId()));
         likes.setText(String.valueOf(equipo.getLikes()));
         favoritos.setText(String.valueOf(equipo.getFavs()));
         //Coloco las 6 imagenes de los pokemon

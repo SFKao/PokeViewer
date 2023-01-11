@@ -21,6 +21,19 @@ public class EquipoApi implements EquipoForAdapterInterface {
     @Expose
     @SerializedName("id")
     private String id;
+    @Expose
+    @SerializedName("likes")
+    private int likes;
+    @Expose
+    @SerializedName("favoritos")
+    private int favoritos;
+    @Expose
+    @SerializedName("dadoLike")
+    private boolean dadoLike;
+    @Expose
+    @SerializedName("dadoFavoritos")
+    private boolean dadoFavoritos;
+
 
     public static class PokemonsMinimal {
         @Expose
@@ -61,7 +74,35 @@ public class EquipoApi implements EquipoForAdapterInterface {
         this.name = name;
     }
 
-    public String getId() {
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+
+    public int getFavoritos() {
+        return favoritos;
+    }
+
+    public void setFavoritos(int favoritos) {
+        this.favoritos = favoritos;
+    }
+
+    public boolean isDadoLike() {
+        return dadoLike;
+    }
+
+    public void setDadoLike(boolean dadoLike) {
+        this.dadoLike = dadoLike;
+    }
+
+    public boolean isDadoFavoritos() {
+        return dadoFavoritos;
+    }
+
+    public void setDadoFavoritos(boolean dadoFavoritos) {
+        this.dadoFavoritos = dadoFavoritos;
+    }
+
+    public String getApiId() {
         return id;
     }
 
@@ -96,16 +137,51 @@ public class EquipoApi implements EquipoForAdapterInterface {
 
     @Override
     public int getLikes() {
-        return 0;
+        return likes;
     }
 
     @Override
     public int getFavs() {
-        return 0;
+        return favoritos;
+    }
+
+    @Override
+    public boolean getDadoLike() {
+        return dadoLike;
+    }
+
+    @Override
+    public boolean getDadoFav() {
+        return dadoFavoritos;
     }
 
     @Override
     public boolean isPokemon(int pok) {
         return pokemons.get(pok) != null;
     }
+
+    @Override
+    public void setUser(String s) {
+        usuario = s;
+    }
+
+    @Override
+    public void setApiID(String s) {
+        id = s;
+    }
+
+    @Override
+    public void setPokemon(int pos, int id, String img, String imgS,String name) {
+        pokemons.get(pos).id = id;
+        pokemons.get(pos).img = img;
+        pokemons.get(pos).imgs = imgS;
+        pokemons.get(pos).name = name;
+    }
+
+
+    @Override
+    public void setFavs(int f) {
+        favoritos = f;
+    }
+
 }
