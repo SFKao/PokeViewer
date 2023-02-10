@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -25,7 +27,9 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.SearchPokemonPagerAdapter;
 import com.sfkao.pokeviewer.apis.ApiConexion;
+import com.sfkao.pokeviewer.apis.PokeviewerConexion;
 import com.sfkao.pokeviewer.modelo.pojo_pokemon.Pokemon;
+import com.sfkao.pokeviewer.utils.Login;
 import com.sfkao.pokeviewer.utils.PokemonSingleton;
 import com.sfkao.pokeviewer.utils.Util;
 import com.squareup.picasso.Picasso;
@@ -48,6 +52,8 @@ public class BuscadorFragment extends Fragment {
     ViewPager2 buscadorDatos;
     SearchPokemonPagerAdapter buscadorDatosAdapter;
     TabLayout tabBuscadorDatos;
+
+    ImageButton pkFavorito1, pkFavorito2, pkFavorito3;
 
     public BuscadorFragment() {
         // Required empty public constructor
@@ -145,6 +151,10 @@ public class BuscadorFragment extends Fragment {
 
         tabBuscadorDatos = requireView().findViewById(R.id.tabMainActivity);
 
+        pkFavorito1 = requireView().findViewById(R.id.pokFav1Button);
+        pkFavorito2 = requireView().findViewById(R.id.pokFav2Button);
+        pkFavorito3 = requireView().findViewById(R.id.pokFav3Button);
+
         //Guardo el pager y coloco su adaptador
         buscadorDatos = requireView().findViewById(R.id.datosPokemonPager);
         buscadorDatosAdapter = new SearchPokemonPagerAdapter(context);
@@ -168,6 +178,148 @@ public class BuscadorFragment extends Fragment {
                 return false;
             }
         });
-        
+
+        pkFavorito1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Login.isInvited()){
+                    Toast.makeText(context, R.string.necesitas_estar_logueado, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(textoPokemon.getText().toString().equals("")){
+                    boolean b = PokeviewerConexion.getInstance().setPokemonFavorito(Login.getUsuario().getApi_key(), 1, 0);
+                    if(b){
+                        Toast.makeText(context, R.string.quitado_pokemon_en_favoritos_correctamente, Toast.LENGTH_SHORT).show();
+                        Login.getUsuario().setPk1(0);
+                        Login.getUsuario().setPk1Image(null);
+                        pkFavorito1.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.star_unpressed,null));
+                    }else{
+                        Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(PokemonSingleton.getPokemon()==null){
+                    Toast.makeText(context, R.string.pokemonNotFound, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                boolean b = PokeviewerConexion.getInstance().setPokemonFavorito(Login.getUsuario().getApi_key(), 1, PokemonSingleton.getPokemon().getId());
+                if(b){
+                    Toast.makeText(context, R.string.pokemon_en_favoritos_correctamente, Toast.LENGTH_SHORT).show();
+                    Login.getUsuario().setPk1(PokemonSingleton.getPokemon().getId());
+                    Login.getUsuario().setPk1Image(PokemonSingleton.getPokemon().getSprites().getFrontDefault());
+                    Picasso.get().load(Login.getUsuario().getPk1Image()).into(pkFavorito1);
+
+
+                }else{
+                    Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        pkFavorito2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Login.isInvited()){
+                    Toast.makeText(context, R.string.necesitas_estar_logueado, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(textoPokemon.getText().toString().equals("")){
+                    boolean b = PokeviewerConexion.getInstance().setPokemonFavorito(Login.getUsuario().getApi_key(), 2, 0);
+                    if(b){
+                        Toast.makeText(context, R.string.quitado_pokemon_en_favoritos_correctamente, Toast.LENGTH_SHORT).show();
+                        Login.getUsuario().setPk2(0);
+                        Login.getUsuario().setPk2Image(null);
+                        pkFavorito2.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.star_unpressed,null));
+                    }else{
+                        Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(PokemonSingleton.getPokemon()==null){
+                    Toast.makeText(context, R.string.pokemonNotFound, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                boolean b = PokeviewerConexion.getInstance().setPokemonFavorito(Login.getUsuario().getApi_key(), 2, PokemonSingleton.getPokemon().getId());
+                if(b){
+                    Toast.makeText(context, R.string.pokemon_en_favoritos_correctamente, Toast.LENGTH_SHORT).show();
+                    Login.getUsuario().setPk2(PokemonSingleton.getPokemon().getId());
+                    Login.getUsuario().setPk2Image(PokemonSingleton.getPokemon().getSprites().getFrontDefault());
+                    Picasso.get().load(Login.getUsuario().getPk2Image()).into(pkFavorito2);
+                }else{
+                    Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        pkFavorito3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Login.isInvited()){
+                    Toast.makeText(context, R.string.necesitas_estar_logueado, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(textoPokemon.getText().toString().equals("")){
+                    boolean b = PokeviewerConexion.getInstance().setPokemonFavorito(Login.getUsuario().getApi_key(), 3, 0);
+                    if(b){
+                        Toast.makeText(context, R.string.quitado_pokemon_en_favoritos_correctamente, Toast.LENGTH_SHORT).show();
+                        Login.getUsuario().setPk3Image(null);
+                        Login.getUsuario().setPk3(0);
+                        pkFavorito3.setImageDrawable(ResourcesCompat.getDrawable(getResources(),R.drawable.star_unpressed,null));
+                    }else{
+                        Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(PokemonSingleton.getPokemon()==null){
+                    Toast.makeText(context, R.string.pokemonNotFound, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                boolean b = PokeviewerConexion.getInstance().setPokemonFavorito(Login.getUsuario().getApi_key(), 3, PokemonSingleton.getPokemon().getId());
+                if(b){
+                    Toast.makeText(context, R.string.pokemon_en_favoritos_correctamente, Toast.LENGTH_SHORT).show();
+                    Login.getUsuario().setPk3Image(PokemonSingleton.getPokemon().getSprites().getFrontDefault());
+                    Login.getUsuario().setPk3(PokemonSingleton.getPokemon().getId());
+                    Picasso.get().load(Login.getUsuario().getPk3Image()).into(pkFavorito3);
+                }else{
+                    Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+                }
+                Login.saveUser(context);
+            }
+        });
+
+
+        boolean actualizar = false;
+        if(Login.getUsuario().getPk1()!=0) {
+            if (Login.getUsuario().getPk1Image() == null) {
+                Pokemon pokemon = ApiConexion.getInstance().getPokemon(Login.getUsuario().getPk1());
+                if(pokemon!=null) {
+                    Login.getUsuario().setPk1Image(pokemon.getSprites().getFrontDefault());
+                    actualizar = true;
+                    Picasso.get().load(Login.getUsuario().getPk1Image()).into(pkFavorito1);                    
+                }
+            }else
+                Picasso.get().load(Login.getUsuario().getPk1Image()).into(pkFavorito1);
+        }
+        if(Login.getUsuario().getPk2()!=0) {
+            if (Login.getUsuario().getPk2Image() == null) {
+                Pokemon pokemon = ApiConexion.getInstance().getPokemon(Login.getUsuario().getPk2());
+                if(pokemon!=null) {
+                    Login.getUsuario().setPk2Image(pokemon.getSprites().getFrontDefault());
+                    actualizar = true;
+                    Picasso.get().load(Login.getUsuario().getPk2Image()).into(pkFavorito2);
+                }
+            }else
+                Picasso.get().load(Login.getUsuario().getPk2Image()).into(pkFavorito2);
+        }
+        if(Login.getUsuario().getPk3()!=0) {
+            if (Login.getUsuario().getPk3Image() == null) {
+                Pokemon pokemon = ApiConexion.getInstance().getPokemon(Login.getUsuario().getPk3());
+                if(pokemon!=null) {
+                    Login.getUsuario().setPk3Image(pokemon.getSprites().getFrontDefault());
+                    actualizar = true;
+                    Picasso.get().load(Login.getUsuario().getPk3Image()).into(pkFavorito3);
+                }
+            }else
+                Picasso.get().load(Login.getUsuario().getPk3Image()).into(pkFavorito3);
+        }
+        if(actualizar)
+            Login.saveUser(context);
     }
 }

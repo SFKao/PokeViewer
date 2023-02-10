@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sfkao.pokeviewer.R;
@@ -88,18 +87,18 @@ public class EquipoAdapter extends RecyclerView.Adapter {
             }
             if(e.getDadoLike()){
                 ((ViewHolder) holder).likeImg.setImageResource(R.drawable.like_presssed);
-                ((ViewHolder) holder).likeImg.setColorFilter(ContextCompat.getColor(c, R.color.lime), PorterDuff.Mode.MULTIPLY);
+                ((ViewHolder) holder).likeImg.setColorFilter(c.getColor(R.color.lime), PorterDuff.Mode.MULTIPLY);
             }else{
                 ((ViewHolder) holder).likeImg.setImageResource(R.drawable.like_unpressed);
-                ((ViewHolder) holder).likeImg.setColorFilter(ContextCompat.getColor(c, R.color.text), android.graphics.PorterDuff.Mode.MULTIPLY);
+                ((ViewHolder) holder).likeImg.setColorFilter(c.getColor(R.color.text), android.graphics.PorterDuff.Mode.MULTIPLY);
             }
 
             if(e.getDadoFav()){
                 ((ViewHolder) holder).favImg.setImageResource(R.drawable.star_pressed);
-                ((ViewHolder) holder).favImg.setColorFilter(ContextCompat.getColor(c, R.color.yellow), android.graphics.PorterDuff.Mode.MULTIPLY);
+                ((ViewHolder) holder).favImg.setColorFilter(c.getColor( R.color.yellow), android.graphics.PorterDuff.Mode.MULTIPLY);
             }else{
                 ((ViewHolder) holder).favImg.setImageResource(R.drawable.star_unpressed);
-                ((ViewHolder) holder).favImg.setColorFilter(ContextCompat.getColor(c, R.color.text), android.graphics.PorterDuff.Mode.MULTIPLY);
+                ((ViewHolder) holder).favImg.setColorFilter(c.getColor(R.color.text), android.graphics.PorterDuff.Mode.MULTIPLY);
             }
 
             ((ViewHolder) holder).view.setOnLongClickListener(new View.OnLongClickListener() {
@@ -111,9 +110,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
                 }
             });
 
-        }//else if (holder instanceof ViewHolderLoading){
-
-        //}
+        }
     }
 
 

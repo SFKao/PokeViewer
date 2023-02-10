@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.navigation.NavigationView;
 import com.sfkao.pokeviewer.R;
+import com.sfkao.pokeviewer.fragment.AmigosFragment;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
 import com.sfkao.pokeviewer.fragment.EquiposOnlineFragment;
 import com.sfkao.pokeviewer.fragment.MisEquiposFragment;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        changeFragment(new BuscadorFragment());
 
         //Retrofit2 lo pide, no termino de entender que es pero aqui se queda.
         StrictMode.setThreadPolicy( new StrictMode.ThreadPolicy.Builder().permitAll().build());
@@ -138,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_equipos_online:
                         changeFragment(new EquiposOnlineFragment());
                         break;
+                    case R.id.nav_mis_amigos:
+                        changeFragment(new AmigosFragment());
+                        break;
                 }
                 //Cierra el drawer
                 drawerLayout.close();
@@ -175,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //Al iniciar cambia al fragmento de buscar, tal vez innecesario
-        changeFragment(new BuscadorFragment());
+
     }
 
 

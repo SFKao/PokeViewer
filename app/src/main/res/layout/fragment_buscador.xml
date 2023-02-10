@@ -7,6 +7,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
+
+
     <ImageView
         android:id="@+id/imageTypeMiddle"
         android:layout_width="115dp"
@@ -83,6 +85,7 @@
         android:layout_width="0dp"
         android:layout_height="16dp"
         android:background="@color/background"
+        android:contentDescription="@string/poner_pokemon_en_favoritos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/datosPokemonPager"
@@ -102,5 +105,54 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagePokemon" />
+
+    <ImageButton
+        android:id="@+id/pokFav1Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/poner_pokemon_en_favoritos"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:maxHeight="50dp"
+        android:maxWidth="50dp"
+        android:src="@drawable/star_unpressed"
+        android:backgroundTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/pokFav2Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/poner_pokemon_en_favoritos"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:maxHeight="50dp"
+        android:maxWidth="50dp"
+        android:src="@drawable/star_unpressed"
+        android:backgroundTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@+id/pokFav1Button"
+        app:layout_constraintTop_toBottomOf="@+id/pokFav1Button" />
+
+
+    <ImageButton
+        android:id="@+id/pokFav3Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/poner_pokemon_en_favoritos"
+        android:minHeight="50dp"
+        android:minWidth="50dp"
+        android:maxHeight="50dp"
+        android:maxWidth="50dp"
+        android:src="@drawable/star_unpressed"
+        android:backgroundTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="@+id/pokFav2Button"
+        app:layout_constraintTop_toBottomOf="@+id/pokFav2Button" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

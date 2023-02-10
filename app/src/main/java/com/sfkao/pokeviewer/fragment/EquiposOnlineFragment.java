@@ -50,11 +50,6 @@ public class EquiposOnlineFragment extends Fragment {
     public EquiposOnlineFragment() {
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static EquiposOnlineFragment newInstance(String param1, String param2) {
-        return new EquiposOnlineFragment();
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //Obtengo sus views

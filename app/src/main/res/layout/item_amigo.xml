@@ -17,34 +17,27 @@
         android:layout_margin="5dp"
         >
 
-        <TextView
-            android:id="@+id/nombre_equipo"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/friend_status"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="TextView"
-            android:textStyle="bold"
             android:layout_weight="1"
-            android:textColor="@color/text"/>
+            android:src="@drawable/equipos"
+            app:tint="@color/text" />
 
         <TextView
-            android:id="@+id/autor_equipo"
+            android:id="@+id/friend_username"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="TextView"
             android:textStyle="bold"
             android:layout_weight="1"
             android:textColor="@color/text"
+            android:gravity="center"
             />
 
-        <TextView
-            android:id="@+id/codigo_equipo"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:text="TextView"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:textColor="@color/text"
-            />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +46,7 @@
             android:gravity="center_vertical|center_horizontal"
             >
             <TextView
-                android:id="@+id/likes_equipo"
+                android:id="@+id/friend_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
@@ -66,15 +59,15 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/equipo_like_img"
-                android:src="@drawable/like_unpressed"
-                app:tint="@color/text"
+                android:id="@+id/friend_likes_img"
+                android:src="@drawable/like_presssed"
+                app:tint="@color/lime"
                 android:background="@color/background"
                 android:layout_marginRight="20dp"
                 />
 
             <TextView
-                android:id="@+id/favoritos_equipo"
+                android:id="@+id/friend_favs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
@@ -87,7 +80,6 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/equipo_favorito_img"
                 android:src="@drawable/star_pressed"
                 app:tint="@color/yellow"
                 android:background="@color/background"
@@ -102,25 +94,27 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginRight="20dp"
+        >
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/pokeball"
-            android:id="@+id/imagenPokemon1"/>
+            android:id="@+id/friend_pok1"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/pokeball"
-            android:id="@+id/imagenPokemon2"/>
+            android:id="@+id/friend_pok2"/>
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@drawable/pokeball"
-            android:id="@+id/imagenPokemon3"/>
+            android:id="@+id/friend_pok3"/>
     </LinearLayout>
 
 

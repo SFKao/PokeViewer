@@ -2,6 +2,7 @@ package com.sfkao.pokeviewer.apis;
 
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_login.LoginResponse;
+import com.sfkao.pokeviewer.modelo.pojo_pokeapi_usuario.AmigoApi;
 
 import java.util.List;
 
@@ -86,5 +87,35 @@ public interface PokeviewerConnexionInterface {
             @Query("id")String id,
             @Query("apikey")String apikey
     );
+
+    @GET("set_favorito")
+    Call<Boolean> setPokemonFavorito(
+            @Query("apikey") String apikey,
+            @Query("pos") int pos,
+            @Query("id") int id
+    );
+
+    @GET("get_amigos")
+    Call<List<AmigoApi>> getAmigos(
+            @Query("apikey")String apikey
+    );
+
+    @GET("get_solicitudes_de_amistad")
+    Call<List<AmigoApi>> getSolicitudes(
+            @Query("apikey")String apikey
+    );
+
+    @GET("buscar_usuario")
+    Call<AmigoApi> buscarUsuario(
+            @Query("apikey")String apikey,
+            @Query("username")String username
+    );
+
+    @GET("enviar_solicitud_de_amistad")
+    Call<String> enviarSolicitud(
+            @Query("apikey")String apikey,
+            @Query("username")String username
+    );
+
 
 }

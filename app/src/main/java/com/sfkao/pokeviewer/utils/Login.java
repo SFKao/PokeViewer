@@ -18,9 +18,6 @@ import javax.security.auth.login.LoginException;
  */
 public class Login {
 
-    private static final String FILENAME = "user.json";
-
-
     private static User usuario;
 
     public static User getUsuario() {
@@ -59,6 +56,12 @@ public class Login {
             editor.putString("api",usuario.api_key);
             editor.putString("email",usuario.mail);
             editor.putString("pass",password);
+            editor.putInt("pk1",usuario.pk1);
+            editor.putInt("pk2",usuario.pk2);
+            editor.putInt("pk3",usuario.pk3);
+            editor.putString("pk1Image",usuario.pk1Image);
+            editor.putString("pk2Image",usuario.pk2Image);
+            editor.putString("pk3Image",usuario.pk3Image);
             editor.apply();
             return true;
         }
@@ -100,22 +103,37 @@ public class Login {
     }
 
     //Cuando inicio sesion guardo el usuario.
-    private static void saveUser(Context context) {
-
-
-
-        /*
+    public static void saveUser(Context context) {
+        String masterKeyAlias = null;
         try {
-            FileOutputStream fos = context.openFileOutput(FILENAME, 0);
-            OutputStreamWriter osw = new OutputStreamWriter(fos);
-            Gson gson = new Gson();
-            gson.toJson(usuario, osw);
-            osw.flush();
-            fos.close();
-        } catch (IOException e) {
+            masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        } catch (GeneralSecurityException | IOException e) {
+            return;
+        }
+        SharedPreferences sharedPreferences = null;
+        try {
+            sharedPreferences = EncryptedSharedPreferences.create(
+                    "secret_shared_prefs_file",
+                    masterKeyAlias,
+                    context,
+                    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            );
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         }
-         */
+
+        SharedPreferences.Editor editor =  sharedPreferences.edit();
+        editor.putString("user",usuario.username);
+        editor.putString("api",usuario.api_key);
+        editor.putString("email",usuario.mail);
+        editor.putInt("pk1",usuario.pk1);
+        editor.putInt("pk2",usuario.pk2);
+        editor.putInt("pk3",usuario.pk3);
+        editor.putString("pk1Image",usuario.pk1Image);
+        editor.putString("pk2Image",usuario.pk2Image);
+        editor.putString("pk3Image",usuario.pk3Image);
+        editor.apply();
     }
 
     public static String getUsername () {
@@ -146,6 +164,7 @@ public class Login {
             );
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
+            return logout(context);
         }
 
         String username = sharedPreferences.getString("user","");
@@ -156,12 +175,32 @@ public class Login {
         String email = sharedPreferences.getString("email","");
         String pass = sharedPreferences.getString("pass","");
         String api = sharedPreferences.getString("api","");
+        int pk1 = sharedPreferences.getInt("pk1", 0);
+        int pk2 = sharedPreferences.getInt("pk2", 0);
+        int pk3 = sharedPreferences.getInt("pk3", 0);
+        String pk1Image = sharedPreferences.getString("pk1Image", null);
+        String pk2Image = sharedPreferences.getString("pk2Image", null);
+        String pk3Image = sharedPreferences.getString("pk3Image", null);
 
         if(checkApikey(context,api)){
             User usuario = new User(username, email, api);
+            usuario.setPk1(pk1);
+            usuario.setPk2(pk2);
+            usuario.setPk3(pk3);
+            usuario.setPk1Image(pk1Image);
+            usuario.setPk2Image(pk2Image);
+            usuario.setPk3Image(pk3Image);
             setUsuario(usuario);
             usuario.invitado = false;
             return usuario;
+        }else{
+            try {
+                if(tryLogin(username,pass,context)){
+                    sharedPreferences.edit().putString("api",usuario.api_key).apply();
+                }
+            } catch (LoginException ignored) {
+
+            }
         }
         return logout(context);
         /*
@@ -225,6 +264,8 @@ public class Login {
         private String mail;
         private String api_key;
         private boolean invitado;
+        private int pk1,pk2,pk3;
+        private String pk1Image, pk2Image, pk3Image;
 
         public User(String username, String mail, String api_key) {
             this.username = username;
@@ -273,6 +314,54 @@ public class Login {
 
         public void setInvitado(boolean invitado) {
             this.invitado = invitado;
+        }
+
+        public int getPk1() {
+            return pk1;
+        }
+
+        public void setPk1(int pk1) {
+            this.pk1 = pk1;
+        }
+
+        public int getPk2() {
+            return pk2;
+        }
+
+        public void setPk2(int pk2) {
+            this.pk2 = pk2;
+        }
+
+        public int getPk3() {
+            return pk3;
+        }
+
+        public void setPk3(int pk3) {
+            this.pk3 = pk3;
+        }
+
+        public String getPk1Image() {
+            return pk1Image;
+        }
+
+        public void setPk1Image(String pk1Image) {
+            this.pk1Image = pk1Image;
+        }
+
+        public String getPk2Image() {
+            return pk2Image;
+        }
+
+        public void setPk2Image(String pk2Image) {
+            this.pk2Image = pk2Image;
+        }
+
+        public String getPk3Image() {
+            return pk3Image;
+        }
+
+        public void setPk3Image(String pk3Image) {
+            this.pk3Image = pk3Image;
         }
 
         @Override

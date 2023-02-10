@@ -1,22 +1,24 @@
 package com.sfkao.pokeviewer.modelo.pojo_pokeapi_login;
 
+import com.sfkao.pokeviewer.modelo.pojo_pokeapi_usuario.AmigoApi;
+
 public class LoginResponse {
 
-    private UsuarioApi usuario;
+    private AmigoApi usuario;
     private int code;
     private String response;
 
-    public LoginResponse(UsuarioApi usuario, int code, String response) {
+    public LoginResponse(AmigoApi usuario, int code, String response) {
         this.usuario = usuario;
         this.code = code;
         this.response = response;
     }
 
-    public UsuarioApi getUsuario() {
+    public AmigoApi getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(UsuarioApi usuario) {
+    public void setUsuario(AmigoApi usuario) {
         this.usuario = usuario;
     }
 

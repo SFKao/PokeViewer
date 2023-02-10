@@ -9,6 +9,7 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_login.LoginResponse;
+import com.sfkao.pokeviewer.modelo.pojo_pokeapi_usuario.AmigoApi;
 import com.sfkao.pokeviewer.utils.Login;
 
 import java.io.IOException;
@@ -36,21 +37,27 @@ public class PokeviewerConexion {
     public static PokeviewerConexion getInstance(){
         return api;
     }
+    
+    private static Retrofit retrofit;
+    private static Retrofit getRetrofit(){
+        if(retrofit==null) {
+            Gson gson = new GsonBuilder().setLenient().create();
+            retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        }
+        return retrofit;
+    }
 
     //Obtener login
     public Login.User login(String nombre, String pass, Context loginActivity) throws LoginException, SecurityException {
-
-        //Uso gson para insertar los datos en mi POJO
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
+        
         byte[] codigicada;
         try {
             codigicada = encode(pass,loginActivity);
         } catch (Exception e) {
             throw new SecurityException(loginActivity.getString(R.string.no_se_pudo_encriptar));
         }
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<LoginResponse> callSync = service.login(nombre, codigicada);
         //Hago la llamada
         try{
@@ -66,16 +73,13 @@ public class PokeviewerConexion {
     }
 
     public Login.User register(String nombre, String pass, String email, Context registerActivity) throws LoginException, SecurityException {
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
         byte[] codigicada;
         try {
             codigicada = encode(pass,registerActivity);
         } catch (Exception e) {
             throw new SecurityException(registerActivity.getString(R.string.no_se_pudo_encriptar));
         }
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<LoginResponse> callSync = service.register(nombre, codigicada,email);
         try{
             retrofit2.Response<LoginResponse> responde = callSync.execute();
@@ -89,10 +93,8 @@ public class PokeviewerConexion {
     }
 
     public List<EquipoApi> getEquipos(int cantidad, int posInicial){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<List<EquipoApi>> call;
         if(Login.isInvited())
             call = service.getEquipos(cantidad,posInicial);
@@ -108,10 +110,8 @@ public class PokeviewerConexion {
     }
 
     public Equipo subirEquipo(Equipo e){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+        
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<EquipoApi> call = service.saveEquipo(
                 e.getNombre(),
                 Login.getUsuario().getApi_key(),
@@ -135,10 +135,8 @@ public class PokeviewerConexion {
     }
 
     public EquipoApi getEquipo(String id){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<EquipoApi> call;
         if(Login.isInvited())
             call = service.getEquipoByID(id);
@@ -154,10 +152,8 @@ public class PokeviewerConexion {
     }
 
     public boolean borrarEquipo(String id){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<Boolean> call = service.borrarEquipoByID(id);
         try{
             retrofit2.Response<Boolean> response = call.execute();
@@ -169,10 +165,8 @@ public class PokeviewerConexion {
     }
 
     public boolean darLike(String id, String apikey){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<Boolean> call = service.darLike(id,apikey);
         try{
             retrofit2.Response<Boolean> response = call.execute();
@@ -184,10 +178,8 @@ public class PokeviewerConexion {
     }
 
     public boolean quitarLike(String id, String apikey){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<Boolean> call = service.quitarLike(id,apikey);
         try{
             retrofit2.Response<Boolean> response = call.execute();
@@ -199,10 +191,8 @@ public class PokeviewerConexion {
     }
 
     public boolean darFavorito(String id, String apikey){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<Boolean> call = service.darFavorito(id,apikey);
         try{
             retrofit2.Response<Boolean> response = call.execute();
@@ -214,10 +204,8 @@ public class PokeviewerConexion {
     }
 
     public boolean quitarFavorito(String id, String apikey){
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(PokeviewerConnexionInterface.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson)).build();
-        PokeviewerConnexionInterface service = retrofit.create(PokeviewerConnexionInterface.class);
+
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<Boolean> call = service.quitarFavorito(id,apikey);
         try{
             retrofit2.Response<Boolean> response = call.execute();
@@ -225,6 +213,66 @@ public class PokeviewerConexion {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public boolean setPokemonFavorito(String apikey, int pos, int id){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.setPokemonFavorito(apikey,pos,id);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<AmigoApi> getAmigos(String apikey){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<List<AmigoApi>> call = service.getAmigos(apikey);
+        try{
+            retrofit2.Response<List<AmigoApi>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<AmigoApi> getSolicitudesDeAmistad(String apikey){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<List<AmigoApi>> call = service.getSolicitudes(apikey);
+        try{
+            retrofit2.Response<List<AmigoApi>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public AmigoApi buscarUsuario(String apikey,String username){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<AmigoApi> call = service.buscarUsuario(apikey,username);
+        try{
+            retrofit2.Response<AmigoApi> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public String enviarPeticion(String apikey, String username){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<String> call = service.enviarSolicitud(apikey,username);
+        try{
+            retrofit2.Response<String> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

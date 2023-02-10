@@ -75,4 +75,13 @@
     <string name="hubo_un_error">Hubo un error en el servidor, pruebe mas tarde</string>
     <string name="mis_amigos">Mis amigos</string>
     <string name="no_se_pudo_ejecutar_la_llamada">No se pudo ejecutar la llamada a la api, esta el servidor online?</string>
+    <string name="poner_pokemon_en_favoritos">Poner el pokemon en favoritos</string>
+    <string name="pokemon_en_favoritos_correctamente">El pokemon se ha colocado en favoritos correctamente</string>
+    <string name="quitado_pokemon_en_favoritos_correctamente">Quitado pokemon de favoritos correctamente</string>
+    <string name="enviar_peticion_de_amistad">Enviar petición</string>
+    <string name="hay_solicitudes_de_amistad_pentientes">Tienes solicitudes de amistad pendientes</string>
+    <string name="la_solicitud_se_envio_correctamente">Solicitud de amistad enviada</string>
+    <string name="el_usuario_ya_es_amigo">Ya eres amigo de ese usuario</string>
+    <string name="el_usuario_ya_tiene_la_peticion_de_amistad">Ya hay una peticion de amistad</string>
+    <string name="no_tienes_solicitudes">No tienes solicitudes pendientes</string>
 </resources>

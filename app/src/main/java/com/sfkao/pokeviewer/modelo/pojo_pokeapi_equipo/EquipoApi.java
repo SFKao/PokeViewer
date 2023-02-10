@@ -3,6 +3,7 @@ package com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
+import com.sfkao.pokeviewer.modelo.pojo_pokeapi_pokemon.PokemonsMinimal;
 
 import java.util.List;
 
@@ -34,21 +35,6 @@ public class EquipoApi implements EquipoForAdapterInterface {
     @SerializedName("dadoFavoritos")
     private boolean dadoFavoritos;
 
-
-    public static class PokemonsMinimal {
-        @Expose
-        @SerializedName("imgS")
-        private String imgs;
-        @Expose
-        @SerializedName("img")
-        private String img;
-        @Expose
-        @SerializedName("name")
-        private String name;
-        @Expose
-        @SerializedName("id")
-        private int id;
-    }
 
     public List<PokemonsMinimal> getPokemons() {
         return pokemons;
