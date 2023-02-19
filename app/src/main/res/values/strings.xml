@@ -84,4 +84,8 @@
     <string name="el_usuario_ya_es_amigo">Ya eres amigo de ese usuario</string>
     <string name="el_usuario_ya_tiene_la_peticion_de_amistad">Ya hay una peticion de amistad</string>
     <string name="no_tienes_solicitudes">No tienes solicitudes pendientes</string>
+    <string name="borrar_amigo">Borrar amigo</string>
+    <string name="volver_atras">Volver atras</string>
+    <string name="solo_puedes_ver_la_informacion_de_tus_amigos">Solo puedes ver la información de tus amigos</string>
+    <string name="estas_seguro_de_ello">Se va a borrar el amigo, pulsa de nuevo para confirmar.</string>
 </resources>

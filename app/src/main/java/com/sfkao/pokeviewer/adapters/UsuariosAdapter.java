@@ -72,6 +72,9 @@ public class UsuariosAdapter extends RecyclerView.Adapter {
                 case "aceptada":
                     viewHolder.estadoAmistad.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(),R.drawable.equipos,null));
                     break;
+                case "recibida":
+                    viewHolder.estadoAmistad.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(),R.drawable.ic_baseline_arrow_back_24,null));
+                    break;
                 default:
                     viewHolder.estadoAmistad.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(),R.drawable.bug,null));
             }

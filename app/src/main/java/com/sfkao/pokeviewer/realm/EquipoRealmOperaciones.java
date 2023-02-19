@@ -14,6 +14,16 @@ public class EquipoRealmOperaciones {
             @Override
             public void execute(Realm realm) {
                 PokemonRealmOperaciones.insertarPokemon(equipoRealm.pk1);
+                if (equipoRealm.pk2!=null)
+                PokemonRealmOperaciones.insertarPokemon(equipoRealm.pk2);
+                if (equipoRealm.pk3!=null)
+                PokemonRealmOperaciones.insertarPokemon(equipoRealm.pk3);
+                if (equipoRealm.pk4!=null)
+                PokemonRealmOperaciones.insertarPokemon(equipoRealm.pk4);
+                if (equipoRealm.pk5!=null)
+                PokemonRealmOperaciones.insertarPokemon(equipoRealm.pk5);
+                if (equipoRealm.pk6!=null)
+                PokemonRealmOperaciones.insertarPokemon(equipoRealm.pk6);
                 realm.insertOrUpdate(equipoRealm);
             }
         });
@@ -67,6 +77,14 @@ public class EquipoRealmOperaciones {
         return e[0];
     }
 
-
+    public static void actualizaSubeEquipo(EquipoRealm e, String id, String user){
+        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                e.setApiID(id);
+                e.setUser(user);
+            }
+        });
+    }
 
 }

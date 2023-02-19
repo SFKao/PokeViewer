@@ -303,14 +303,19 @@ public class EquipoRealm extends RealmObject implements EquipoForAdapterInterfac
             case 0:
                 return pk1.getId();
             case 1:
-                return pk2.getId();
+                if(pk2!=null)
+                    return pk2.getId();
             case 2:
+                if(pk3!=null)
                 return pk3.getId();
             case 3:
+                if(pk4!=null)
                 return pk4.getId();
             case 4:
+                if(pk5!=null)
                 return pk5.getId();
             case 5:
+                if(pk6!=null)
                 return pk6.getId();
         }
         return 0;

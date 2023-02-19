@@ -6,10 +6,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sfkao.pokeviewer.R;
-import com.sfkao.pokeviewer.modelo.Equipo;
+import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_login.LoginResponse;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_usuario.AmigoApi;
+import com.sfkao.pokeviewer.realm.EquipoRealm;
+import com.sfkao.pokeviewer.realm.EquipoRealmOperaciones;
 import com.sfkao.pokeviewer.utils.Login;
 
 import java.io.IOException;
@@ -109,24 +111,23 @@ public class PokeviewerConexion {
         }
     }
 
-    public Equipo subirEquipo(Equipo e){
+    public EquipoForAdapterInterface subirEquipo(EquipoForAdapterInterface e){
         
         PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
         Call<EquipoApi> call = service.saveEquipo(
-                e.getNombre(),
+                e.getName(),
                 Login.getUsuario().getApi_key(),
-                e.getPokemon(0).getId(),
-                e.getPokemon(1) == null ? 0 : e.getPokemon(1).getId(),
-                e.getPokemon(2) == null ? 0 : e.getPokemon(2).getId(),
-                e.getPokemon(3) == null ? 0 : e.getPokemon(3).getId(),
-                e.getPokemon(4) == null ? 0 : e.getPokemon(4).getId(),
-                e.getPokemon(5) == null ? 0 : e.getPokemon(5).getId()
+                e.getPokId(0),
+                e.getPokId(1),
+                e.getPokId(2),
+                e.getPokId(3),
+                e.getPokId(4),
+                e.getPokId(5)
         );
         try{
             retrofit2.Response<EquipoApi> response = call.execute();
             EquipoApi equipoApi = response.body();
-            e.setIdentificador(equipoApi.getApiId());
-            e.setAutor(equipoApi.getUser());
+            EquipoRealmOperaciones.actualizaSubeEquipo((EquipoRealm) e,equipoApi.getApiId(),equipoApi.getUser());
             return e;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -264,15 +265,39 @@ public class PokeviewerConexion {
         }
     }
 
-    public String enviarPeticion(String apikey, String username){
+    public Boolean enviarPeticion(String apikey, String username){
         PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
-        Call<String> call = service.enviarSolicitud(apikey,username);
+        Call<Boolean> call = service.enviarSolicitud(apikey,username);
         try{
-            retrofit2.Response<String> response = call.execute();
+            retrofit2.Response<Boolean> response = call.execute();
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public List<EquipoApi> verEquiposDeAmigo(String apikey, String usernameamigo){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<List<EquipoApi>> call = service.verEquiposDeAmigo(apikey,usernameamigo);
+        try{
+            retrofit2.Response<List<EquipoApi>> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean borrarAmigo(String apikey, String username){
+        PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
+        Call<Boolean> call = service.borrarAmigo(apikey,username);
+        try{
+            retrofit2.Response<Boolean> response = call.execute();
+            return response.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

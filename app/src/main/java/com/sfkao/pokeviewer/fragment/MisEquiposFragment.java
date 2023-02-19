@@ -23,7 +23,6 @@ import com.sfkao.pokeviewer.R;
 import com.sfkao.pokeviewer.activities.MainActivity;
 import com.sfkao.pokeviewer.adapters.EquipoAdapter;
 import com.sfkao.pokeviewer.apis.PokeviewerConexion;
-import com.sfkao.pokeviewer.modelo.Equipo;
 import com.sfkao.pokeviewer.modelo.EquipoForAdapterInterface;
 import com.sfkao.pokeviewer.realm.EquipoRealm;
 import com.sfkao.pokeviewer.realm.EquipoRealmOperaciones;
@@ -140,10 +139,21 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
             Toast.makeText(context, getString(R.string.necesitas_estar_logueado), Toast.LENGTH_SHORT).show();
             return true;
         }
-        Equipo devuelto = PokeviewerConexion.getInstance().subirEquipo((Equipo) e);
-        int pos = ((EquipoAdapter)adapterEquipos).getEquipos().indexOf(e);
-        ((EquipoAdapter)adapterEquipos).getEquipos().set(pos,devuelto);
-        adapterEquipos.notifyItemChanged(pos);
+        if(e.getApiId()==null) {
+            EquipoForAdapterInterface devuelto = PokeviewerConexion.getInstance().subirEquipo(e);
+            int pos = ((EquipoAdapter) adapterEquipos).getEquipos().indexOf(e);
+            ((EquipoAdapter) adapterEquipos).getEquipos().set(pos, devuelto);
+            adapterEquipos.notifyItemChanged(pos);
+        }else{
+            boolean borrado = PokeviewerConexion.getInstance().borrarEquipo(e.getApiId());
+            if(borrado) {
+                int pos = ((EquipoAdapter) adapterEquipos).getEquipos().indexOf(e);
+                EquipoRealmOperaciones.actualizaSubeEquipo((EquipoRealm) e,null, e.getUser());
+                adapterEquipos.notifyItemChanged(pos);
+            }else{
+                Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
+            }
+        }
         return true;
     }
 

@@ -148,25 +148,9 @@ public class BuscarAmigoDialog extends DialogFragment {
                     return;
                 }
 
-                String newStatus = PokeviewerConexion.getInstance().enviarPeticion(Login.getUsuario().getApi_key(),a.getUsername());
-                a.setEstadoAmistad(newStatus);
-                if(newStatus!=null){
-                    switch (a.getEstadoAmistad()){
-                        case "pendiente":
-                            friendStatus.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_baseline_email_24,null));
-                            break;
-                        case "aceptada":
-                            friendStatus.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.equipos,null));
-                            break;
-                        case "recibida":
-                            friendStatus.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.ic_baseline_mark_email_unread_24,null));
-                            break;
-                        case "desconocido":
-                            friendStatus.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.lupa,null));
-                            break;
-                        default:
-                            friendStatus.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),R.drawable.bug,null));
-                    }
+                boolean newStatus = PokeviewerConexion.getInstance().enviarPeticion(Login.getUsuario().getApi_key(),a.getUsername());
+                a.setEstadoAmistad("enviada");
+                if(newStatus){
                     Toast.makeText(context, R.string.la_solicitud_se_envio_correctamente, Toast.LENGTH_SHORT).show();
                 }else
                     Toast.makeText(context, R.string.hubo_un_error,Toast.LENGTH_SHORT).show();

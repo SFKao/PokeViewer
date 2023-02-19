@@ -7,9 +7,10 @@ import com.sfkao.pokeviewer.modelo.pojo_pokeapi_equipo.EquipoApi;
 import com.sfkao.pokeviewer.modelo.pojo_pokeapi_pokemon.PokemonsMinimal;
 import com.sfkao.pokeviewer.utils.Login;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AmigoApi {
+public class AmigoApi implements Serializable {
 
     @SerializedName("username")
     @Expose
