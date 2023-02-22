@@ -81,6 +81,11 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getBindingAdapterPosition();
+                if(((EquipoAdapter)adapterEquipos).getEquipos().get(pos).getApiId()!=null){
+                    adapterEquipos.notifyItemChanged(pos);
+                    Toast.makeText(context, R.string.no_se_puede_editar_un_equipo_subido, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //Izquierda borra
                 if(direction == ItemTouchHelper.LEFT){
                     EquipoRealmOperaciones.borrarEquipo((EquipoRealm) ((EquipoAdapter)adapterEquipos).getEquipos().get(pos));

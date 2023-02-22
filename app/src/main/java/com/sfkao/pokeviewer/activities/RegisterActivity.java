@@ -57,12 +57,16 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 //TODO: Mirar que el correo sea un correo
-                if(email.getText().toString().equals("")){
+                if(email.getText().toString().equals("") || !email.getText().toString().matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
                     Toast.makeText(RegisterActivity.this,R.string.email_obligatorio,Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(pass.getText().toString().equals("")){
                     Toast.makeText(RegisterActivity.this,R.string.pass_obligatorio,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(pass.getText().toString().length()<8){
+                    Toast.makeText(RegisterActivity.this,R.string.pass_minimo_caracteres,Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(repeatPass.getText().toString().equals("")){
@@ -78,7 +82,7 @@ public class RegisterActivity extends AppCompatActivity {
                         irAMain();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(RegisterActivity.this,e.getMessage(),Toast.LENGTH_LONG);
+                    Toast.makeText(RegisterActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
                 }
             }
         });

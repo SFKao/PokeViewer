@@ -163,7 +163,6 @@ public class NuevoEquipoFragment extends DialogFragment {
             //Coloco el nuevo nombre, autor a partir del usuario y local ya que este no se ha subido
             equipo.setName(nombreEquipo.getText().toString());
             equipo.setUser(Login.getUsername());
-            equipo.setApiID("Local");
 
             //Si estoy en modo añadir
             if(pos==-1) {

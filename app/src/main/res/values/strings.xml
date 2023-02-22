@@ -88,4 +88,5 @@
     <string name="volver_atras">Volver atras</string>
     <string name="solo_puedes_ver_la_informacion_de_tus_amigos">Solo puedes ver la información de tus amigos</string>
     <string name="estas_seguro_de_ello">Se va a borrar el amigo, pulsa de nuevo para confirmar.</string>
+    <string name="pass_minimo_caracteres">La contraseña ha de tener al menos 8 caracteres</string>
 </resources>
