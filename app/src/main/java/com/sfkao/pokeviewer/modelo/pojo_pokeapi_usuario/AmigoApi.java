@@ -174,11 +174,11 @@ public class AmigoApi implements Serializable {
         u.setApi_key(apikey);
         u.setInvitado(false);
         u.setPk1(pk1 != null ? pk1.id : 0);
-        u.setPk1(pk2 != null ? pk2.id : 0);
-        u.setPk1(pk3 != null ? pk3.id : 0);
+        u.setPk2(pk2 != null ? pk2.id : 0);
+        u.setPk3(pk3 != null ? pk3.id : 0);
         u.setPk1Image(pk1!=null ? pk1.img : null);
-        u.setPk1Image(pk2!=null ? pk2.img : null);
-        u.setPk1Image(pk3!=null ? pk3.img : null);
+        u.setPk2Image(pk2!=null ? pk2.img : null);
+        u.setPk3Image(pk3!=null ? pk3.img : null);
         return u;
     }
 }
