@@ -43,10 +43,10 @@ public class RubySapphire implements Serializable, Parcelable
     private final static long serialVersionUID = -9019456370725671230L;
 
     protected RubySapphire(android.os.Parcel in) {
-        this.backDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShiny = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backDefault = in.readValue((Object.class.getClassLoader()));
+        this.backShiny = in.readValue((Object.class.getClassLoader()));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontShiny = in.readValue((Object.class.getClassLoader()));
     }
 
     public RubySapphire() {

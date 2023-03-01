@@ -64,7 +64,7 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
         super.onViewCreated(view, savedInstanceState);
 
         //Obtengo sus views
-        recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_mis_equipos);
+        recyclerEquipos = view.findViewById(R.id.recycler_mis_equipos);
         adapterEquipos = new EquipoAdapter(context);
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
         recyclerEquipos.setLayoutManager(layoutManagerDebilidades);
@@ -90,7 +90,7 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
                 if(direction == ItemTouchHelper.LEFT){
                     EquipoRealmOperaciones.borrarEquipo((EquipoRealm) ((EquipoAdapter)adapterEquipos).getEquipos().get(pos));
                     ((EquipoAdapter)adapterEquipos).getEquipos().remove(pos);
-                    ((EquipoAdapter)adapterEquipos).notifyItemRemoved(pos);
+                    adapterEquipos.notifyItemRemoved(pos);
                 //Derecha edita
                 }else if(direction == ItemTouchHelper.RIGHT){
                     DialogFragment anyadirEquipo = new NuevoEquipoFragment(EquipoRealmOperaciones.getEquipos().get(pos),pos);

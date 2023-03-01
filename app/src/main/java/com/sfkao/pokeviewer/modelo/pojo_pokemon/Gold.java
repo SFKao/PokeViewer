@@ -46,11 +46,11 @@ public class Gold implements Serializable, Parcelable
     private final static long serialVersionUID = -6322918012866468995L;
 
     protected Gold(android.os.Parcel in) {
-        this.backDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backDefault = in.readValue((Object.class.getClassLoader()));
+        this.backShiny = in.readValue((Object.class.getClassLoader()));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontShiny = in.readValue((Object.class.getClassLoader()));
+        this.frontTransparent = in.readValue((Object.class.getClassLoader()));
     }
 
     public Gold() {

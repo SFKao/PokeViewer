@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         //Mira si ya existe un usuario
         Login.autoLogin(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
 
         //Almacena las distitnas imagenes de los tipos junto a sus nombres para poder buscarlos facilmente
         Util.diccionarioNombreAID = new HashMap<>();

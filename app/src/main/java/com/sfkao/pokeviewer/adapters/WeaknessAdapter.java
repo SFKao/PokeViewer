@@ -32,7 +32,7 @@ public class WeaknessAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_weakness, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_weakness, parent, false);
         return new ViewHolder(v);
     }
 

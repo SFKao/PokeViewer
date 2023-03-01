@@ -44,9 +44,9 @@ public class Home implements Serializable, Parcelable
 
     protected Home(android.os.Parcel in) {
         this.frontDefault = ((String) in.readValue((String.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
         this.frontShiny = ((String) in.readValue((String.class.getClassLoader())));
-        this.frontShinyFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontShinyFemale = in.readValue((Object.class.getClassLoader()));
     }
 
     public Home() {

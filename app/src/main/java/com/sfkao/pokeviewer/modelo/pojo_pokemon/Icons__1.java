@@ -38,7 +38,7 @@ public class Icons__1 implements Serializable, Parcelable
 
     protected Icons__1(android.os.Parcel in) {
         this.frontDefault = ((String) in.readValue((String.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
     }
 
     public Icons__1() {

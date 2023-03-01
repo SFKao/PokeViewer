@@ -37,8 +37,8 @@ public class Emerald implements Serializable, Parcelable
     private final static long serialVersionUID = 3109704206056881486L;
 
     protected Emerald(android.os.Parcel in) {
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShiny = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontShiny = in.readValue((Object.class.getClassLoader()));
     }
 
     public Emerald() {

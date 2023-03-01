@@ -55,7 +55,7 @@ public class VisualizarAmigoFragment extends Fragment {
     private Button borrarAmistadButton;
     private  boolean estasSeguroBorrar = false;
 
-    private ArrayList<EquipoForAdapterInterface> equipoDeAmigoApiList = new ArrayList<>();
+    private final ArrayList<EquipoForAdapterInterface> equipoDeAmigoApiList = new ArrayList<>();
     AmigoApi amigoApi;
 
     public VisualizarAmigoFragment() {
@@ -142,13 +142,13 @@ public class VisualizarAmigoFragment extends Fragment {
                     if(adapterEquipos.getEquipos().get(pos).getDadoLike()){
                         exito = PokeviewerConexion.getInstance().quitarLike(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()-1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(false);
+                            adapterEquipos.getEquipos().get(pos).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()-1);
+                            adapterEquipos.getEquipos().get(pos).setDadoLike(false);
                             if(adapterEquipos.getEquipos().get(pos).getDadoFav()) {
                                 exito = PokeviewerConexion.getInstance().quitarFavorito(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                                 if(exito){
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavs(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavs()-1);
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(false);
+                                    adapterEquipos.getEquipos().get(pos).setFavs(adapterEquipos.getEquipos().get(pos).getFavs()-1);
+                                    adapterEquipos.getEquipos().get(pos).setDadoFavoritos(false);
                                 }else
                                     Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                             }
@@ -158,8 +158,8 @@ public class VisualizarAmigoFragment extends Fragment {
                     }else{
                         exito = PokeviewerConexion.getInstance().darLike(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(true);
+                            adapterEquipos.getEquipos().get(pos).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
+                            adapterEquipos.getEquipos().get(pos).setDadoLike(true);
                         }else
                             Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                         adapterEquipos.notifyItemChanged(pos);
@@ -169,21 +169,21 @@ public class VisualizarAmigoFragment extends Fragment {
                     if(adapterEquipos.getEquipos().get(pos).getDadoFav()){
                         exito = PokeviewerConexion.getInstance().quitarFavorito(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavs(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavs()-1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(false);
+                            adapterEquipos.getEquipos().get(pos).setFavs(adapterEquipos.getEquipos().get(pos).getFavs()-1);
+                            adapterEquipos.getEquipos().get(pos).setDadoFavoritos(false);
                         }else
                             Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                         adapterEquipos.notifyItemChanged(pos);
                     }else{
                         exito = PokeviewerConexion.getInstance().darFavorito(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavs(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavs()+1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(true);
+                            adapterEquipos.getEquipos().get(pos).setFavs(adapterEquipos.getEquipos().get(pos).getFavs()+1);
+                            adapterEquipos.getEquipos().get(pos).setDadoFavoritos(true);
                             if(!adapterEquipos.getEquipos().get(pos).getDadoLike()) {
                                 exito = PokeviewerConexion.getInstance().darLike(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                                 if(exito){
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(true);
+                                    adapterEquipos.getEquipos().get(pos).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
+                                    adapterEquipos.getEquipos().get(pos).setDadoLike(true);
                                 }else
                                     Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                             }
@@ -243,16 +243,16 @@ public class VisualizarAmigoFragment extends Fragment {
     }
 
     private void initView(MainActivity context) {
-        friendStatus = (ImageView) context.findViewById(R.id.friend_status_info);
-        friendUsername = (TextView) context.findViewById(R.id.friend_username_info);
-        friendLikes = (TextView) context.findViewById(R.id.friend_likes_info);
-        friendFavs = (TextView) context.findViewById(R.id.friend_favs_info);
-        friendPok1 = (ImageView) context.findViewById(R.id.friend_pok1_info);
-        friendPok2 = (ImageView) context.findViewById(R.id.friend_pok2_info);
-        friendPok3 = (ImageView) context.findViewById(R.id.friend_pok3_info);
-        recyclerEquiposAmigo = (RecyclerView) context.findViewById(R.id.recycler_equipos_amigo_info);
-        volverButton = (Button) context.findViewById(R.id.volver_button_info);
-        borrarAmistadButton = (Button) context.findViewById(R.id.borrar_amistad_button_info);
+        friendStatus = context.findViewById(R.id.friend_status_info);
+        friendUsername = context.findViewById(R.id.friend_username_info);
+        friendLikes = context.findViewById(R.id.friend_likes_info);
+        friendFavs = context.findViewById(R.id.friend_favs_info);
+        friendPok1 = context.findViewById(R.id.friend_pok1_info);
+        friendPok2 = context.findViewById(R.id.friend_pok2_info);
+        friendPok3 = context.findViewById(R.id.friend_pok3_info);
+        recyclerEquiposAmigo = context.findViewById(R.id.recycler_equipos_amigo_info);
+        volverButton = context.findViewById(R.id.volver_button_info);
+        borrarAmistadButton = context.findViewById(R.id.borrar_amistad_button_info);
     }
 
     private void cargar(){

@@ -53,7 +53,7 @@ public class EquiposOnlineFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //Obtengo sus views
-        recyclerEquipos = (RecyclerView) view.findViewById(R.id.recycler_equipos_online);
+        recyclerEquipos = view.findViewById(R.id.recycler_equipos_online);
         buscadorButton = view.findViewById(R.id.buscador_button);
         adapterEquipos = new EquipoAdapter(context);
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(getContext());
@@ -96,13 +96,13 @@ public class EquiposOnlineFragment extends Fragment {
                     if(adapterEquipos.getEquipos().get(pos).getDadoLike()){
                         exito = PokeviewerConexion.getInstance().quitarLike(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()-1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(false);
+                            adapterEquipos.getEquipos().get(pos).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()-1);
+                            adapterEquipos.getEquipos().get(pos).setDadoLike(false);
                             if(adapterEquipos.getEquipos().get(pos).getDadoFav()) {
                                 exito = PokeviewerConexion.getInstance().quitarFavorito(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                                 if(exito){
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavs(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavs()-1);
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(false);
+                                    adapterEquipos.getEquipos().get(pos).setFavs(adapterEquipos.getEquipos().get(pos).getFavs()-1);
+                                    adapterEquipos.getEquipos().get(pos).setDadoFavoritos(false);
                                 }else
                                     Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                             }
@@ -112,8 +112,8 @@ public class EquiposOnlineFragment extends Fragment {
                     }else{
                         exito = PokeviewerConexion.getInstance().darLike(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(true);
+                            adapterEquipos.getEquipos().get(pos).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
+                            adapterEquipos.getEquipos().get(pos).setDadoLike(true);
                         }else
                             Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                         adapterEquipos.notifyItemChanged(pos);
@@ -123,21 +123,21 @@ public class EquiposOnlineFragment extends Fragment {
                     if(adapterEquipos.getEquipos().get(pos).getDadoFav()){
                         exito = PokeviewerConexion.getInstance().quitarFavorito(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavs(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavs()-1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(false);
+                            adapterEquipos.getEquipos().get(pos).setFavs(adapterEquipos.getEquipos().get(pos).getFavs()-1);
+                            adapterEquipos.getEquipos().get(pos).setDadoFavoritos(false);
                         }else
                             Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                         adapterEquipos.notifyItemChanged(pos);
                     }else{
                         exito = PokeviewerConexion.getInstance().darFavorito(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                         if(exito){
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setFavs(((EquipoApi) adapterEquipos.getEquipos().get(pos)).getFavs()+1);
-                            ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoFavoritos(true);
+                            adapterEquipos.getEquipos().get(pos).setFavs(adapterEquipos.getEquipos().get(pos).getFavs()+1);
+                            adapterEquipos.getEquipos().get(pos).setDadoFavoritos(true);
                             if(!adapterEquipos.getEquipos().get(pos).getDadoLike()) {
                                 exito = PokeviewerConexion.getInstance().darLike(adapterEquipos.getEquipos().get(pos).getApiId(), Login.getUsuario().getApi_key());
                                 if(exito){
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
-                                    ((EquipoApi)adapterEquipos.getEquipos().get(pos)).setDadoLike(true);
+                                    adapterEquipos.getEquipos().get(pos).setLikes(adapterEquipos.getEquipos().get(pos).getLikes()+1);
+                                    adapterEquipos.getEquipos().get(pos).setDadoLike(true);
                                 }else
                                     Toast.makeText(context, R.string.hubo_un_error, Toast.LENGTH_SHORT).show();
                             }

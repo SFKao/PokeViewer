@@ -110,19 +110,19 @@ public class DebilidadesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Recojo los recyclers y les coloco sus recyclers
-        recyclerDebilidades = (RecyclerView) requireView().findViewById(R.id.recyclerDebilidades);
+        recyclerDebilidades = requireView().findViewById(R.id.recyclerDebilidades);
         recyclerDebilidadesAdapter = new WeaknessAdapter();
         RecyclerView.LayoutManager layoutManagerDebilidades = new LinearLayoutManager(context);
         recyclerDebilidades.setLayoutManager(layoutManagerDebilidades);
         recyclerDebilidades.setAdapter(recyclerDebilidadesAdapter);
 
-        recyclerInmunidades = (RecyclerView) requireView().findViewById(R.id.recyclerInmunidades);
+        recyclerInmunidades = requireView().findViewById(R.id.recyclerInmunidades);
         recyclerInmunidadesAdapter = new WeaknessAdapter();
         RecyclerView.LayoutManager layoutManagerInmunidades = new LinearLayoutManager(context);
         recyclerInmunidades.setLayoutManager(layoutManagerInmunidades);
         recyclerInmunidades.setAdapter(recyclerInmunidadesAdapter);
 
-        recyclerResistencias = (RecyclerView) requireView().findViewById(R.id.recyclerResistencias);
+        recyclerResistencias = requireView().findViewById(R.id.recyclerResistencias);
         recyclerResistenciasAdapter = new WeaknessAdapter();
         RecyclerView.LayoutManager layoutManagerResistencias = new LinearLayoutManager(context);
         recyclerResistencias.setLayoutManager(layoutManagerResistencias);

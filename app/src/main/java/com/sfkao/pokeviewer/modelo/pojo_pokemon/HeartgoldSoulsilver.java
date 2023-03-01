@@ -55,14 +55,14 @@ public class HeartgoldSoulsilver implements Serializable, Parcelable
     private final static long serialVersionUID = 4366150744020143691L;
 
     protected HeartgoldSoulsilver(android.os.Parcel in) {
-        this.backDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backFemale = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backShinyFemale = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShinyFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backDefault = in.readValue((Object.class.getClassLoader()));
+        this.backFemale = in.readValue((Object.class.getClassLoader()));
+        this.backShiny = in.readValue((Object.class.getClassLoader()));
+        this.backShinyFemale = in.readValue((Object.class.getClassLoader()));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
+        this.frontShiny = in.readValue((Object.class.getClassLoader()));
+        this.frontShinyFemale = in.readValue((Object.class.getClassLoader()));
     }
 
     public HeartgoldSoulsilver() {

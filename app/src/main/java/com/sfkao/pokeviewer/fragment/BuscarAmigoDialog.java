@@ -61,18 +61,18 @@ public class BuscarAmigoDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         view = inflater.inflate(R.layout.fragment_buscar_amigo,null);
 
-        friendStatus = (ImageView) view.findViewById(R.id.friend_status);
-        friendUsername = (TextView) view.findViewById(R.id.friend_username);
-        friendLikes = (TextView) view.findViewById(R.id.friend_likes);
-        friendLikesImg = (ImageView) view.findViewById(R.id.friend_likes_img);
-        friendFavs = (TextView) view.findViewById(R.id.friend_favs);
-        friendPok1 = (ImageView) view.findViewById(R.id.friend_pok1);
-        friendPok2 = (ImageView) view.findViewById(R.id.friend_pok2);
-        friendPok3 = (ImageView) view.findViewById(R.id.friend_pok3);
-        nombreUsuarioInput = (EditText) view.findViewById(R.id.nombreUsuarioText);
-        buscarUsuario = (ImageButton) view.findViewById(R.id.buscar_usuario);
-        enviarSolicitudButton = (Button) view.findViewById(R.id.enviar_solicitud_button);
-        salirButton = (Button) view.findViewById(R.id.salir_button);
+        friendStatus = view.findViewById(R.id.friend_status);
+        friendUsername = view.findViewById(R.id.friend_username);
+        friendLikes = view.findViewById(R.id.friend_likes);
+        friendLikesImg = view.findViewById(R.id.friend_likes_img);
+        friendFavs = view.findViewById(R.id.friend_favs);
+        friendPok1 = view.findViewById(R.id.friend_pok1);
+        friendPok2 = view.findViewById(R.id.friend_pok2);
+        friendPok3 = view.findViewById(R.id.friend_pok3);
+        nombreUsuarioInput = view.findViewById(R.id.nombreUsuarioText);
+        buscarUsuario = view.findViewById(R.id.buscar_usuario);
+        enviarSolicitudButton = view.findViewById(R.id.enviar_solicitud_button);
+        salirButton = view.findViewById(R.id.salir_button);
 
         salirButton.setOnClickListener(new View.OnClickListener() {
             @Override

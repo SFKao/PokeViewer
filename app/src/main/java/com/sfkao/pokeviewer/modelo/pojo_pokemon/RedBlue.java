@@ -49,12 +49,12 @@ public class RedBlue implements Serializable, Parcelable
     private final static long serialVersionUID = 8156673723950496839L;
 
     protected RedBlue(android.os.Parcel in) {
-        this.backDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backGray = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontGray = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backDefault = in.readValue((Object.class.getClassLoader()));
+        this.backGray = in.readValue((Object.class.getClassLoader()));
+        this.backTransparent = in.readValue((Object.class.getClassLoader()));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontGray = in.readValue((Object.class.getClassLoader()));
+        this.frontTransparent = in.readValue((Object.class.getClassLoader()));
     }
 
     public RedBlue() {

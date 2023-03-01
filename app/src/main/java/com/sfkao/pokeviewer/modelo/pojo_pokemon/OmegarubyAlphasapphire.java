@@ -43,10 +43,10 @@ public class OmegarubyAlphasapphire implements Serializable, Parcelable
     private final static long serialVersionUID = 4119311538103637416L;
 
     protected OmegarubyAlphasapphire(android.os.Parcel in) {
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShinyFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
+        this.frontShiny = in.readValue((Object.class.getClassLoader()));
+        this.frontShinyFemale = in.readValue((Object.class.getClassLoader()));
     }
 
     public OmegarubyAlphasapphire() {

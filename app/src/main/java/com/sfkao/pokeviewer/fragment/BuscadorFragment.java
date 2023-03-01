@@ -135,19 +135,19 @@ public class BuscadorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Recojo los views
-        botonBuscar = (Button) requireView().findViewById(R.id.buttonSearchPokemon);
-        imagePokemon = (ImageView) requireView().findViewById(R.id.imagePokemon);
+        botonBuscar = requireView().findViewById(R.id.buttonSearchPokemon);
+        imagePokemon = requireView().findViewById(R.id.imagePokemon);
 
-        textoPokemon = (AutoCompleteTextView) requireView().findViewById(R.id.textfieldPokemonNameOrNumber);
+        textoPokemon = requireView().findViewById(R.id.textfieldPokemonNameOrNumber);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,Util.POKEMONS);
         textoPokemon.setAdapter(adapter);
 
 
-        imageTipoIzquierda = (ImageView) requireView().findViewById(R.id.imageTypeLeft);
-        imageTipoMedio = (ImageView) requireView().findViewById(R.id.imageTypeMiddle);
-        imageTipoDerecha = (ImageView) requireView().findViewById(R.id.imageTypeRight);
+        imageTipoIzquierda = requireView().findViewById(R.id.imageTypeLeft);
+        imageTipoMedio = requireView().findViewById(R.id.imageTypeMiddle);
+        imageTipoDerecha = requireView().findViewById(R.id.imageTypeRight);
 
-        textError = (TextView) requireView().findViewById(R.id.textError);
+        textError = requireView().findViewById(R.id.textError);
 
         tabBuscadorDatos = requireView().findViewById(R.id.tabMainActivity);
 

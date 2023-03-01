@@ -61,7 +61,7 @@ public class AmigosFragment extends Fragment implements UsuariosAdapter.OnItemLo
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         //Obtengo sus views
-        recyclerAmigos = (RecyclerView) view.findViewById(R.id.recycler_mis_amigos);
+        recyclerAmigos = view.findViewById(R.id.recycler_mis_amigos);
         buscadorButton = view.findViewById(R.id.buscador_button);
         solicitudesButton = view.findViewById(R.id.peticiones_button);
         adapterAmigos = new UsuariosAdapter(context);

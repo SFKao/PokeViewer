@@ -59,10 +59,10 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if( viewType == VIEW_ITEM) {
-            View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_equipo, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_equipo, parent, false);
             return new ViewHolder(v);
         }else{
-            View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading,parent,false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading,parent,false);
             return new ViewHolderLoading(v);
         }
     }
@@ -145,7 +145,7 @@ public class EquipoAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnItemLongClickListener{
-        public boolean onItemLongClicked(EquipoForAdapterInterface e);
+        boolean onItemLongClicked(EquipoForAdapterInterface e);
     }
 
     /**

@@ -43,10 +43,10 @@ public class UsuariosAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if( viewType == VIEW_ITEM) {
-            View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_amigo, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_amigo, parent, false);
             return new UsuariosAdapter.ViewHolder(v);
         }else{
-            View v = (View) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading,parent,false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading,parent,false);
             return new UsuariosAdapter.ViewHolderLoading(v);
         }
     }
@@ -127,7 +127,7 @@ public class UsuariosAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnItemLongClickListener{
-        public boolean onItemLongClicked(AmigoApi e);
+        boolean onItemLongClicked(AmigoApi e);
     }
 
     public Context getContext() {

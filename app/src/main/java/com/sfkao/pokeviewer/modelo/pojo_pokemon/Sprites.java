@@ -62,13 +62,13 @@ public class Sprites implements Serializable, Parcelable
 
     protected Sprites(android.os.Parcel in) {
         this.backDefault = ((String) in.readValue((String.class.getClassLoader())));
-        this.backFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backFemale = in.readValue((Object.class.getClassLoader()));
         this.backShiny = ((String) in.readValue((String.class.getClassLoader())));
-        this.backShinyFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backShinyFemale = in.readValue((Object.class.getClassLoader()));
         this.frontDefault = ((String) in.readValue((String.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
         this.frontShiny = ((String) in.readValue((String.class.getClassLoader())));
-        this.frontShinyFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontShinyFemale = in.readValue((Object.class.getClassLoader()));
         this.other = ((Other) in.readValue((Other.class.getClassLoader())));
         this.versions = ((Versions) in.readValue((Versions.class.getClassLoader())));
     }

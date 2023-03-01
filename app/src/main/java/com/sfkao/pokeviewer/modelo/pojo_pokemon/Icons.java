@@ -37,8 +37,8 @@ public class Icons implements Serializable, Parcelable
     private final static long serialVersionUID = 8430962881552581951L;
 
     protected Icons(android.os.Parcel in) {
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
     }
 
     public Icons() {

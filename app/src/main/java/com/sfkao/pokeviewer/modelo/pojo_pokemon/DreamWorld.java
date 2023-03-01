@@ -37,8 +37,8 @@ public class DreamWorld implements Serializable, Parcelable
     private final static long serialVersionUID = 6353514955548117755L;
 
     protected DreamWorld(android.os.Parcel in) {
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontFemale = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontFemale = in.readValue((Object.class.getClassLoader()));
     }
 
     public DreamWorld() {

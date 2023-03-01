@@ -55,14 +55,14 @@ public class Crystal implements Serializable, Parcelable
     private final static long serialVersionUID = -7092363349758359255L;
 
     protected Crystal(android.os.Parcel in) {
-        this.backDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backShinyTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.backTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontDefault = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShiny = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontShinyTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.frontTransparent = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.backDefault = in.readValue((Object.class.getClassLoader()));
+        this.backShiny = in.readValue((Object.class.getClassLoader()));
+        this.backShinyTransparent = in.readValue((Object.class.getClassLoader()));
+        this.backTransparent = in.readValue((Object.class.getClassLoader()));
+        this.frontDefault = in.readValue((Object.class.getClassLoader()));
+        this.frontShiny = in.readValue((Object.class.getClassLoader()));
+        this.frontShinyTransparent = in.readValue((Object.class.getClassLoader()));
+        this.frontTransparent = in.readValue((Object.class.getClassLoader()));
     }
 
     public Crystal() {
