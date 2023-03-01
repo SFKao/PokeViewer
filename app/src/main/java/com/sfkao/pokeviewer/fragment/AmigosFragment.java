@@ -117,8 +117,8 @@ public class AmigosFragment extends Fragment implements UsuariosAdapter.OnItemLo
                 int pos = viewHolder.getBindingAdapterPosition();
                 //Izquierda acepta
                 if(direction == ItemTouchHelper.LEFT){
-                    boolean exito = PokeviewerConexion.getInstance().enviarPeticion(Login.getUsuario().getApi_key(),adapterAmigos.getAmigos().get(pos).getUsername());
-                    if(exito){
+                    String exito = PokeviewerConexion.getInstance().enviarPeticion(Login.getUsuario().getApi_key(),adapterAmigos.getAmigos().get(pos).getUsername());
+                    if(exito.equals("aceptada")){
                         AmigoApi a = adapterAmigos.getAmigos().remove(pos);
                         amigos.add(a);
                         adapterAmigos.notifyItemRemoved(pos);

@@ -22,14 +22,12 @@ import com.sfkao.pokeviewer.fragment.AmigosFragment;
 import com.sfkao.pokeviewer.fragment.BuscadorFragment;
 import com.sfkao.pokeviewer.fragment.EquiposOnlineFragment;
 import com.sfkao.pokeviewer.fragment.MisEquiposFragment;
+import com.sfkao.pokeviewer.realm.RealmHelper;
 import com.sfkao.pokeviewer.utils.Login;
 import com.sfkao.pokeviewer.utils.Util;
 
 import java.util.HashMap;
 import java.util.Objects;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,17 +52,7 @@ public class MainActivity extends AppCompatActivity {
         //Retrofit2 lo pide, no termino de entender que es pero aqui se queda.
         StrictMode.setThreadPolicy( new StrictMode.ThreadPolicy.Builder().permitAll().build());
 
-
-        Realm.init(this);
-        String realmName = "Pokeviewer";
-        RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name(realmName)
-                        .allowQueriesOnUiThread(true)
-                                .allowWritesOnUiThread(true)
-                                        .compactOnLaunch()
-                                                .build();
-        Realm.setDefaultConfiguration(configuration);
-
+        RealmHelper.initRealm(this);
 
         //Mira si ya existe un usuario
         Login.autoLogin(this);

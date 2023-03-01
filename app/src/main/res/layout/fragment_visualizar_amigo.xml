@@ -157,7 +157,9 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="@string/volver_atras" />
+            android:text="@string/volver_atras"
+            android:textColor="@color/white"
+            />
 
         <Button
             android:id="@+id/borrar_amistad_button_info"
@@ -165,6 +167,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:text="@string/borrar_amigo"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 

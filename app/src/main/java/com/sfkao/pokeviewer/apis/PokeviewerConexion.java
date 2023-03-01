@@ -265,11 +265,11 @@ public class PokeviewerConexion {
         }
     }
 
-    public Boolean enviarPeticion(String apikey, String username){
+    public String enviarPeticion(String apikey, String username){
         PokeviewerConnexionInterface service = getRetrofit().create(PokeviewerConnexionInterface.class);
-        Call<Boolean> call = service.enviarSolicitud(apikey,username);
+        Call<String> call = service.enviarSolicitud(apikey,username);
         try{
-            retrofit2.Response<Boolean> response = call.execute();
+            retrofit2.Response<String> response = call.execute();
             return response.body();
         } catch (IOException e) {
             e.printStackTrace();

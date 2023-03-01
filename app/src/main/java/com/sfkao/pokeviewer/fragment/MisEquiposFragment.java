@@ -147,7 +147,7 @@ public class MisEquiposFragment extends Fragment implements EquipoAdapter.OnItem
         if(e.getApiId()==null) {
             EquipoForAdapterInterface devuelto = PokeviewerConexion.getInstance().subirEquipo(e);
             int pos = ((EquipoAdapter) adapterEquipos).getEquipos().indexOf(e);
-            ((EquipoAdapter) adapterEquipos).getEquipos().set(pos, devuelto);
+            EquipoRealmOperaciones.actualizaSubeEquipo((EquipoRealm) e, devuelto.getApiId(), Login.getUsername());
             adapterEquipos.notifyItemChanged(pos);
         }else{
             boolean borrado = PokeviewerConexion.getInstance().borrarEquipo(e.getApiId());

@@ -61,10 +61,16 @@ public class UsuariosAdapter extends RecyclerView.Adapter {
             viewHolder.favs.setText(String.valueOf(a.getFavoritos()));
             if(a.getPk1()!=null)
                 Picasso.get().load(a.getPk1().img).into(viewHolder.pk1);
+            else
+                viewHolder.pk1.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(),R.drawable.pokeball,null));
             if(a.getPk2()!=null)
                 Picasso.get().load(a.getPk2().img).into(viewHolder.pk2);
+            else
+                viewHolder.pk2.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(),R.drawable.pokeball,null));
             if(a.getPk3()!=null)
                 Picasso.get().load(a.getPk3().img).into(viewHolder.pk3);
+            else
+                viewHolder.pk3.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(),R.drawable.pokeball,null));
             switch (a.getEstadoAmistad()){
                 case "pendiente":
                     viewHolder.estadoAmistad.setImageDrawable(ResourcesCompat.getDrawable(getContext().getResources(), R.drawable.ic_baseline_email_24,null));

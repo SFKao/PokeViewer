@@ -8,7 +8,7 @@ import io.realm.RealmResults;
 public class PokemonRealmOperaciones {
 
     public static void insertarPokemon(int id, String nombre, String img, String imgS){
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+        RealmHelper.realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 PokemonRealm pokemonRealm = realm.createObject(PokemonRealm.class,id);
@@ -20,11 +20,11 @@ public class PokemonRealmOperaciones {
     }
 
     public static void insertarPokemon(PokemonRealm pokemonRealm){
-        Realm.getDefaultInstance().insertOrUpdate(pokemonRealm);
+        RealmHelper.realm.insertOrUpdate(pokemonRealm);
     }
 
     public static void actualizarPokemon(int id, String nombre, String img, String imgS){
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+        RealmHelper.realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 PokemonRealm pokemonRealm = realm.where(PokemonRealm.class).equalTo("id",id).findFirst();
@@ -37,7 +37,7 @@ public class PokemonRealmOperaciones {
 
     public static ArrayList<PokemonRealm> getPokemons(){
         final ArrayList[] pokemonRealms = new ArrayList[]{null};
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+        RealmHelper.realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 RealmResults<PokemonRealm> all = realm.where(PokemonRealm.class).findAll();
@@ -50,7 +50,7 @@ public class PokemonRealmOperaciones {
 
 
     public static void borrarPokemon(int id){
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+        RealmHelper.realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 PokemonRealm pk= realm.where(PokemonRealm.class).equalTo("id", id).findFirst();
@@ -61,7 +61,7 @@ public class PokemonRealmOperaciones {
     }
 
     public static void isNecesario(int id){
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+        RealmHelper.realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 PokemonRealm pk= realm.where(PokemonRealm.class).equalTo("id", id).findFirst();

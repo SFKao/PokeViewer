@@ -112,7 +112,7 @@ public interface PokeviewerConnexionInterface {
     );
 
     @GET("enviar_solicitud_de_amistad")
-    Call<Boolean> enviarSolicitud(
+    Call<String> enviarSolicitud(
             @Query("apikey")String apikey,
             @Query("username")String username
     );
